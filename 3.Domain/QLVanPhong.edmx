@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="QLVanPhongModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="QLVanPhongModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ChiTietHoaDon">
           <Key>
             <PropertyRef Name="MaHD" />
@@ -549,7 +549,8 @@
             <End Role="Kho" EntitySet="Kho" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLVanPhongModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -903,6 +904,7 @@
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="PhieuNhapXuat" EntitySet="PhieuNhapXuats" />
           </AssociationSet>
+          <FunctionImport Name="CheckConnection" />
           <FunctionImport Name="Delete_ChiTietHD">
             <Parameter Name="MaHD" Mode="In" Type="String" />
             <Parameter Name="MaSP" Mode="In" Type="String" />
@@ -912,41 +914,41 @@
             <Parameter Name="MaSP" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_DanhMucSP">
-          <Parameter Name="MaDM" Mode="In" Type="String" />
+            <Parameter Name="MaDM" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_HoaDon">
-          <Parameter Name="MaHD" Mode="In" Type="String" />
+            <Parameter Name="MaHD" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_kho">
             <Parameter Name="MaSP" Mode="In" Type="String" />
             <Parameter Name="MaPhieu" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_MaKM">
-          <Parameter Name="MaKM" Mode="In" Type="String" />
+            <Parameter Name="MaKM" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_NguoiDung">
-          <Parameter Name="ID" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_NhaCungCap">
-          <Parameter Name="MaNCC" Mode="In" Type="String" />
+            <Parameter Name="MaNCC" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_NhanVien">
-          <Parameter Name="Manv" Mode="In" Type="String" />
+            <Parameter Name="Manv" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_PhieuNhapXuat">
-          <Parameter Name="MaPhieu" Mode="In" Type="String" />
+            <Parameter Name="MaPhieu" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Delete_SanPham">
-          <Parameter Name="MaSP" Mode="In" Type="String" />
+            <Parameter Name="MaSP" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteAll_ChiTietHD">
-          <Parameter Name="MaHD" Mode="In" Type="String" />
+            <Parameter Name="MaHD" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteAll_ChiTietPhieu">
-          <Parameter Name="MaPhieu" Mode="In" Type="String" />
+            <Parameter Name="MaPhieu" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteKhachHang">
-          <Parameter Name="MaKH" Mode="In" Type="String" />
+            <Parameter Name="MaKH" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="InSert_ChiTietHD">
             <Parameter Name="MaHD" Mode="In" Type="String" />
@@ -1030,6 +1032,10 @@
             <Parameter Name="KichThuoc" Mode="In" Type="Double" />
             <Parameter Name="DonVi" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ThanhToan">
+            <Parameter Name="soluong" Mode="In" Type="Int32" />
+            <Parameter Name="masp" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="Update_ChiTietHD">
             <Parameter Name="MaHD" Mode="In" Type="String" />
             <Parameter Name="MaSP" Mode="In" Type="String" />
@@ -1112,23 +1118,10 @@
             <Parameter Name="KichThuoc" Mode="In" Type="Double" />
             <Parameter Name="DonVi" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="ThanhToan">
-            <Parameter Name="soluong" Mode="In" Type="Int32" />
-            <Parameter Name="masp" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CheckConnection">
-            </FunctionImport>
           <FunctionImport Name="UpdateLuong">
-          <Parameter Name="MaNV" Mode="In" Type="String" />
+            <Parameter Name="MaNV" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="CheckConnection_Result">
-          <Property Type="String" Name="ID" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="Pass" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Mail" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
-        </ComplexType>
-        <ComplexType Name="CheckConnection_Result1" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1265,6 +1258,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CheckConnection" FunctionName="QLVanPhongModel.Store.CheckConnection" />
           <FunctionImportMapping FunctionImportName="Delete_ChiTietHD" FunctionName="QLVanPhongModel.Store.Delete_ChiTietHD" />
           <FunctionImportMapping FunctionImportName="Delete_ChiTietPhieu" FunctionName="QLVanPhongModel.Store.Delete_ChiTietPhieu" />
           <FunctionImportMapping FunctionImportName="Delete_DanhMucSP" FunctionName="QLVanPhongModel.Store.Delete_DanhMucSP" />
@@ -1291,6 +1285,7 @@
           <FunctionImportMapping FunctionImportName="Insert_NhanVien" FunctionName="QLVanPhongModel.Store.Insert_NhanVien" />
           <FunctionImportMapping FunctionImportName="Insert_PhieuNhapXuat" FunctionName="QLVanPhongModel.Store.Insert_PhieuNhapXuat" />
           <FunctionImportMapping FunctionImportName="Insert_SanPham" FunctionName="QLVanPhongModel.Store.Insert_SanPham" />
+          <FunctionImportMapping FunctionImportName="ThanhToan" FunctionName="QLVanPhongModel.Store.ThanhToan" />
           <FunctionImportMapping FunctionImportName="Update_ChiTietHD" FunctionName="QLVanPhongModel.Store.Update_ChiTietHD" />
           <FunctionImportMapping FunctionImportName="Update_ChiTietPhieu" FunctionName="QLVanPhongModel.Store.Update_ChiTietPhieu" />
           <FunctionImportMapping FunctionImportName="Update_DanhMucSP" FunctionName="QLVanPhongModel.Store.Update_DanhMucSP" />
@@ -1303,9 +1298,6 @@
           <FunctionImportMapping FunctionImportName="Update_NhanVien" FunctionName="QLVanPhongModel.Store.Update_NhanVien" />
           <FunctionImportMapping FunctionImportName="Update_PhieuNhapXuat" FunctionName="QLVanPhongModel.Store.Update_PhieuNhapXuat" />
           <FunctionImportMapping FunctionImportName="Update_SanPham" FunctionName="QLVanPhongModel.Store.Update_SanPham" />
-          <FunctionImportMapping FunctionImportName="ThanhToan" FunctionName="QLVanPhongModel.Store.ThanhToan" />
-          <FunctionImportMapping FunctionImportName="CheckConnection" FunctionName="QLVanPhongModel.Store.CheckConnection">
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateLuong" FunctionName="QLVanPhongModel.Store.UpdateLuong" />
         </EntityContainerMapping>
       </Mapping>
@@ -1315,7 +1307,7 @@
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
-        <DesignerProperty Name="MetadataArtifactProcessing" Value="CopyToOutputDirectory" />
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
       </DesignerInfoPropertySet>
     </Connection>
     <Options>
@@ -1328,33 +1320,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams>
-      <Diagram DiagramId="7e7327f297ab4cfc90129a59700c7e8c" Name="Diagram1">
-        <EntityTypeShape EntityType="QLVanPhongModel.ChiTietHoaDon" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.ChiTietPhieu" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.DanhMucSP" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.HoaDon" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.KhachHang" Width="1.5" PointX="0.75" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.Kho" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.MaKhuyenMai" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.NguoiDung" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.NhaCungCap" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.NhanVien" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.PhieuNhapXuat" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLVanPhongModel.SanPham" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_HD" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_SP" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_PXN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_SP1" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_DMSP" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_KH" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_NV" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_PXN1" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_SP2" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_NV1" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_NCC" ManuallyRouted="false" />
-        <AssociationConnector Association="QLVanPhongModel.Fk_NV2" ManuallyRouted="false" />
-      </Diagram>
-    </Diagrams>
+    <Diagrams></Diagrams>
   </Designer>
 </edmx:Edmx>

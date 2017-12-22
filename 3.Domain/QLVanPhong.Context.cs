@@ -40,6 +40,11 @@ namespace MyProject.Domain
         public virtual DbSet<PhieuNhapXuat> PhieuNhapXuats { get; set; }
         public virtual DbSet<SanPham> SanPhams { get; set; }
     
+        public virtual int CheckConnection()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CheckConnection");
+        }
+    
         public virtual int Delete_ChiTietHD(string maHD, string maSP)
         {
             var maHDParameter = maHD != null ?
@@ -470,6 +475,19 @@ namespace MyProject.Domain
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_SanPham", maSPParameter, maNCCParameter, maDMParameter, tenSPParameter, donGiaParameter, soLuongParameter, xuatXuParameter, trongLuongParameter, kichThuocParameter, donViParameter);
         }
     
+        public virtual int ThanhToan(Nullable<int> soluong, string masp)
+        {
+            var soluongParameter = soluong.HasValue ?
+                new ObjectParameter("soluong", soluong) :
+                new ObjectParameter("soluong", typeof(int));
+    
+            var maspParameter = masp != null ?
+                new ObjectParameter("masp", masp) :
+                new ObjectParameter("masp", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ThanhToan", soluongParameter, maspParameter);
+        }
+    
         public virtual int Update_ChiTietHD(string maHD, string maSP, Nullable<decimal> donGia, Nullable<int> soLuong)
         {
             var maHDParameter = maHD != null ?
@@ -760,24 +778,6 @@ namespace MyProject.Domain
                 new ObjectParameter("DonVi", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_SanPham", maSPParameter, maNCCParameter, maDMParameter, tenSPParameter, donGiaParameter, soLuongParameter, xuatXuParameter, trongLuongParameter, kichThuocParameter, donViParameter);
-        }
-    
-        public virtual int ThanhToan(Nullable<int> soluong, string masp)
-        {
-            var soluongParameter = soluong.HasValue ?
-                new ObjectParameter("soluong", soluong) :
-                new ObjectParameter("soluong", typeof(int));
-    
-            var maspParameter = masp != null ?
-                new ObjectParameter("masp", masp) :
-                new ObjectParameter("masp", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ThanhToan", soluongParameter, maspParameter);
-        }
-    
-        public virtual int CheckConnection()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CheckConnection");
         }
     
         public virtual int UpdateLuong(string maNV)

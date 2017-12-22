@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\DoAnHQT-CNPM\MyProject\MyProject\NewProject\MyProject\Domain\QLVanPhong.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\MyProject\3.Domain\QLVanPhong.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
