@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D21734C-3040-4BF7-BDE4-90B05A99362F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyProject</RootNamespace>
+    <AssemblyName>MyProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.9.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account_UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Account_UI.Designer.cs">
+      <DependentUpon>Account_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CodeSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CodeSales.Designer.cs">
+      <DependentUpon>CodeSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Coupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Coupon.Designer.cs">
+      <DependentUpon>Coupon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager_Customer.Designer.cs">
+      <DependentUpon>Manager_Customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_Employee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager_Employee.Designer.cs">
+      <DependentUpon>Manager_Employee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_Category.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager_Category.Designer.cs">
+      <DependentUpon>Manager_Category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_Supplier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager_Supplier.Designer.cs">
+      <DependentUpon>Manager_Supplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuAdmin.Designer.cs">
+      <DependentUpon>MenuAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuStatistical.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuStatistical.Designer.cs">
+      <DependentUpon>MenuStatistical.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WareHouse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WareHouse.Designer.cs">
+      <DependentUpon>WareHouse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login_UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login_UI.Designer.cs">
+      <DependentUpon>Login_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Seller_UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seller_UI.Designer.cs">
+      <DependentUpon>Seller_UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager_Product.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager_Product.Designer.cs">
+      <DependentUpon>Manager_Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistical_Bill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Statistical_Bill.Designer.cs">
+      <DependentUpon>Statistical_Bill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Statistical_Product.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Statistical_Product.Designer.cs">
+      <DependentUpon>Statistical_Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Statistical_WareHouse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Statistical_WareHouse.Designer.cs">
+      <DependentUpon>Statistical_WareHouse.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Account_UI.resx">
+      <DependentUpon>Account_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CodeSales.resx">
+      <DependentUpon>CodeSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coupon.resx">
+      <DependentUpon>Coupon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login_UI.resx">
+      <DependentUpon>Login_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager_Customer.resx">
+      <DependentUpon>Manager_Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager_Employee.resx">
+      <DependentUpon>Manager_Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager_Product.resx">
+      <DependentUpon>Manager_Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager_Category.resx">
+      <DependentUpon>Manager_Category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager_Supplier.resx">
+      <DependentUpon>Manager_Supplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuAdmin.resx">
+      <DependentUpon>MenuAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuStatistical.resx">
+      <DependentUpon>MenuStatistical.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WareHouse.resx">
+      <DependentUpon>WareHouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seller_UI.resx">
+      <DependentUpon>Seller_UI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Statistical_Bill.resx">
+      <DependentUpon>Statistical_Bill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Statistical_Product.resx">
+      <DependentUpon>Statistical_Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Statistical_WareHouse.resx">
+      <DependentUpon>Statistical_WareHouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="QLVanPhong.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="QLVanPhong_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>QLVanPhong.mdf</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\2.Service\2.Service.csproj">
+      <Project>{9c622ea5-197f-476d-b777-919741fe95fd}</Project>
+      <Name>2.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\3.Domain\3.Domain.csproj">
+      <Project>{f1305259-474c-4e36-8cf8-462c919569b8}</Project>
+      <Name>3.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\5.Infrastructure\5.Infrastructure.csproj">
+      <Project>{e1203bd5-34b6-483d-a4f6-a41f20fd476b}</Project>
+      <Name>5.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

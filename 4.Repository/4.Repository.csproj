@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3E9F89CF-23AF-450D-BFC9-0DA4919B225B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>_4.Repository</RootNamespace>
+    <AssemblyName>4.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADONET\BillDetailRepositoryADONET.cs" />
+    <Compile Include="ADONET\BillRepositoryADONET.cs" />
+    <Compile Include="ADONET\CategoryRepositoryADONET.cs" />
+    <Compile Include="ADONET\CodesRepositoryADONET.cs" />
+    <Compile Include="ADONET\ConnectionADONET.cs" />
+    <Compile Include="ADONET\CouponRepositoryADONET.cs" />
+    <Compile Include="ADONET\CustomerRepositoryADONET.cs" />
+    <Compile Include="ADONET\DetailCouponRepositoryADONET.cs" />
+    <Compile Include="ADONET\EmployeeRepositoryADONET.cs" />
+    <Compile Include="ADONET\LoginRepositoryADONET.cs" />
+    <Compile Include="ADONET\ProductRepositoryADONET.cs" />
+    <Compile Include="ADONET\SupplierRepositoryADONET.cs" />
+    <Compile Include="ADONET\UserRepositoryADONET.cs" />
+    <Compile Include="ADONET\WareHouseRepositoryADONET.cs" />
+    <Compile Include="EF\BillDetailRepository.cs" />
+    <Compile Include="EF\BillRepository.cs" />
+    <Compile Include="EF\CategoryRepository.cs" />
+    <Compile Include="EF\CodeSalesRepository.cs" />
+    <Compile Include="EF\CouponRepository.cs" />
+    <Compile Include="EF\CustomerRepository.cs" />
+    <Compile Include="EF\DetailCouponRepository.cs" />
+    <Compile Include="EF\EmployeeRepository.cs" />
+    <Compile Include="EF\LoginRepository.cs" />
+    <Compile Include="EF\ProductRepository.cs" />
+    <Compile Include="EF\SupplierRepository.cs" />
+    <Compile Include="EF\UserRepository.cs" />
+    <Compile Include="EF\WareHouseRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RAW\BillDetailRepositoryRAW.cs" />
+    <Compile Include="RAW\BillRepositoryRAW.cs" />
+    <Compile Include="RAW\CategoryRepositoryRAW.cs" />
+    <Compile Include="RAW\CodesRepositoryRAW.cs" />
+    <Compile Include="RAW\CouponRepositoryRAW.cs" />
+    <Compile Include="RAW\CustomerRepositoryRAW.cs" />
+    <Compile Include="RAW\DetailCouponRepositoryRAW.cs" />
+    <Compile Include="RAW\EmployeeRepositoryRAW.cs" />
+    <Compile Include="RAW\LoginRepositoryRAW.cs" />
+    <Compile Include="RAW\ProductRepositoryRAW.cs" />
+    <Compile Include="RAW\QLVanPhong_Context.cs" />
+    <Compile Include="RAW\SupplierRepositoryRAW.cs" />
+    <Compile Include="RAW\UserRepositoryRAW.cs" />
+    <Compile Include="RAW\WareHouseRepositoryRAW.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\3.Domain\3.Domain.csproj">
+      <Project>{f1305259-474c-4e36-8cf8-462c919569b8}</Project>
+      <Name>3.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\5.Infrastructure\5.Infrastructure.csproj">
+      <Project>{e1203bd5-34b6-483d-a4f6-a41f20fd476b}</Project>
+      <Name>5.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
