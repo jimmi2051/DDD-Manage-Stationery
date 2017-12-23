@@ -5,6 +5,7 @@ using MyProject.Domain;
 using MyProject.Service;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections;
 
 namespace MyProject.UI
 {
@@ -12,6 +13,7 @@ namespace MyProject.UI
     {
         private ModelStateDictionary ModelState;
         private IManagerService _service;
+        IEnumerable listproduct;
         public Manager_Product()
         {
             if (_service == null)
@@ -39,14 +41,12 @@ namespace MyProject.UI
             cboDM.SelectedIndex = 0;
             cboNCC.SelectedIndex = 0;
         }
-
         private void btnSua_Click(object sender, EventArgs e)
         {
             btnThem.Enabled = false;
             btnXoa.Enabled = false;
             HienChiTiet(true);
         }
-
         private void btnXoa_Click(object sender, EventArgs e)
         {
             btnThem.Enabled = false;
@@ -161,13 +161,11 @@ namespace MyProject.UI
             cboLoaisp.AutoCompleteMode = AutoCompleteMode.Suggest;
             cboLoaisp.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
-
         private void cboNCC_SelectedIndexChanged(object sender, EventArgs e)
         {
             cboNCC.AutoCompleteMode = AutoCompleteMode.Suggest;
             cboNCC.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
-
         private void cboDM_SelectedIndexChanged(object sender, EventArgs e)
         {
             cboDM.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -201,7 +199,6 @@ namespace MyProject.UI
             UI.Show();
             this.Hide();
         }
-
         private void label16_Click(object sender, EventArgs e)
         {
             Manager_Employee UI = new Manager_Employee();
@@ -231,35 +228,33 @@ namespace MyProject.UI
             CodeSales UI = new CodeSales();
             UI.ShowDialog();
         }
-
+        //Progess-bar
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             for (int i = 1; i <= 100; i++)
             {
                 // Wait 100 milliseconds.
-                Thread.Sleep(30);
+                Thread.Sleep(10);
                 // Report progress.
                 bgdWorker1.ReportProgress(i);
             }
         }
-
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
         }
-
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
+            dgvSanPham.DataSource = listproduct;
             progressBar1.Visible = false;
         }
         #endregion
         #region View
         public void View()
         {
-            try
-            {
+        
                 bgdWorker1.RunWorkerAsync();
-                dgvSanPham.DataSource = _service.ListProducts();
+                listproduct = _service.ListProducts();
                 cboDM.Items.Clear();
                 cboNCC.Items.Clear();
                 foreach (NhaCungCap item in _service.ListSuppliers())
@@ -270,11 +265,7 @@ namespace MyProject.UI
                 {
                     cboDM.Items.Add(item.MaDM);
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Vui lòng chờ hệ thống đang cập nhập");
-            }
+            
         }
         private void HienChiTiet(Boolean hien)
         {
@@ -356,22 +347,22 @@ namespace MyProject.UI
             int flag = 0;
             if (txtDonGia.Text.Length == 0 || txtDonGia.Text.Length > 0 && !Regex.IsMatch(txtDonGia.Text, @"\d"))
             {
-                errProdive.SetError(txtDonGia, "Vui lòng nhập giá hợp lệ");
+                errProdive.SetError(txtDonGia, "Vui lòng nhập đơn giá hợp lệ");
                 flag = 1;
             }
             if (txtSL.Text.Length == 0 || txtSL.Text.Length > 0 && !Regex.IsMatch(txtSL.Text, @"\d"))
             {
-                errProdive.SetError(txtSL, "Vui lòng nhập giá hợp lệ");
+                errProdive.SetError(txtSL, "Vui lòng nhập số lượng hợp lệ");
                 flag = 1;
             }
             if (txtTrongLuong.Text.Length == 0 || txtTrongLuong.Text.Length > 0 && !Regex.IsMatch(txtTrongLuong.Text, @"\d"))
             {
-                errProdive.SetError(txtTrongLuong, "Vui lòng nhập giá hợp lệ");
+                errProdive.SetError(txtTrongLuong, "Vui lòng nhập trọng lượng hợp lệ");
                 flag = 1;
             }
             if ( txtKichThuoc.Text.Length == 0 || txtKichThuoc.Text.Length > 0 && !Regex.IsMatch(txtKichThuoc.Text, @"\d"))
             {
-                errProdive.SetError(txtKichThuoc, "Vui lòng nhập giá hợp lệ");
+                errProdive.SetError(txtKichThuoc, "Vui lòng nhập kích thước hợp lệ");
                 flag = 1;
             }
             if (flag == 1)

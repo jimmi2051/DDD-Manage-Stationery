@@ -4,13 +4,6 @@ using System.Linq;
 using MyProject.Domain;
 namespace MyProject.Repository.RAW
 {
-    public class SanPhamCompare : IComparer<SanPham>
-    {
-        public int Compare(SanPham a, SanPham b)
-        {
-            return a.MaSP.CompareTo(b.MaSP);
-        }
-    }
     public class ProductRepositoryRAW : IProductRepository 
     {
         QLVanPhong_Context _entities = QLVanPhong_Context.Instance;
@@ -29,25 +22,27 @@ namespace MyProject.Repository.RAW
             _entities.SaveChanges();
         }
         public SanPham EditProduct(SanPham productToEdit)
-        {
-            //_entities.UpdateProduct(productToEdit.MaSP, productToEdit.MaNCC, productToEdit.MaDM, productToEdit.TenSP, productToEdit.DonGia, productToEdit.SoLuong, productToEdit.XuatXu, productToEdit.TrongLuong, productToEdit.KichThuoc, productToEdit.DonVi);
-            var originalProduct = GetProduct(productToEdit.MaSP);
-            _entities.SanPhams.Remove(originalProduct);
-            _entities.SanPhams.Add(productToEdit);
+        {           
+            SanPham originalProduct = GetProduct(productToEdit.MaSP);
+            if (!originalProduct.Equals(productToEdit))
+            {
+                originalProduct.MaDM = productToEdit.MaDM;
+                originalProduct.MaNCC = productToEdit.MaNCC;
+                originalProduct.TenSP = productToEdit.TenSP;
+                originalProduct.SoLuong = productToEdit.SoLuong;
+                originalProduct.DonGia = productToEdit.DonGia;
+                originalProduct.XuatXu = productToEdit.XuatXu;
+                originalProduct.TrongLuong = productToEdit.TrongLuong;
+                originalProduct.KichThuoc = productToEdit.KichThuoc;
+                originalProduct.DonVi = productToEdit.DonVi;
+            }
             _entities.SaveChanges();
             return productToEdit;
         }
         
         public IEnumerable<SanPham> ListProducts()
         {
-            List<SanPham> Sanpham=_entities.SanPhams.ToList();
-            foreach (SanPham item in Sanpham)
-            {
-                item.DanhMucSP = _entities.DanhMucSPs.Where(c => c.MaDM.Equals(item.MaDM)).FirstOrDefault();
-                item.NhaCungCap = _entities.NhaCungCaps.Where(c => c.MaNCC.Equals(item.MaNCC)).FirstOrDefault();
-            }
-            Sanpham.Sort(new SanPhamCompare());
-            return Sanpham;
+            return _entities.SanPhams.ToList();
         }
         public SanPham GetProduct(String Key)
         {
@@ -80,7 +75,6 @@ public IEnumerable<SanPham> SearchProductsbyNCC(String Key)
                     select c).ToList();
 
         }
-
         public IEnumerable<SanPham> SearchProductsbyTypeName(string key)
         {
             throw new NotImplementedException();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 namespace MyProject.Domain
 {
     public class QLVanPhong_Context 
@@ -75,6 +76,12 @@ namespace MyProject.Domain
             
            
         }
+
+        internal void SaveChanges()
+        {
+            //DoSomething
+        }
+
         private static QLVanPhong_Context instance;
 
         internal static QLVanPhong_Context Instance
@@ -88,7 +95,6 @@ namespace MyProject.Domain
                 return instance;
             }
         }
-
         public virtual IList<ChiTietHoaDon> ChiTietHoaDons { get { return Chitiethoadon; } }
         public virtual IList<ChiTietPhieu> ChiTietPhieux { get { return Chitietphieu; } set { } }
         public virtual IList<DanhMucSP> DanhMucSPs { get { return DanhmucSP; } set { } }
@@ -101,9 +107,6 @@ namespace MyProject.Domain
         public virtual IList<NhanVien> NhanViens { get { return Nhanvien; } }
         public virtual IList<PhieuNhapXuat> PhieuNhapXuats { get { return Phieunhapxuat; } set { } }
         public virtual IList<SanPham> SanPhams { get { return Sanpham; } }
-        internal void SaveChanges()
-        {
-            //TO DO: Persisting objects
-        }
+
     }
 }

@@ -33,7 +33,9 @@ namespace MyProject.Repository.ADONET
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "InSert_SanPham";
             cmd = setData(cmd, productToCreate);
-            cmd.ExecuteNonQuery();
+            cmd.Connection = connection;
+            cmd.ExecuteNonQuery();        
+            connection.Close();
             return productToCreate;
         }
 
@@ -47,7 +49,9 @@ namespace MyProject.Repository.ADONET
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "Delete_SanPham";
             cmd.Parameters.Add("@MaSP", SqlDbType.VarChar).Value = productToDelete.MaSP;
+            cmd.Connection = connection;
             cmd.ExecuteNonQuery();
+            connection.Close();
         }
 
         public SanPham EditProduct(SanPham productToEdit)
@@ -60,7 +64,9 @@ namespace MyProject.Repository.ADONET
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "Update_SanPham";
             cmd = setData(cmd, productToEdit);
+            cmd.Connection = connection;
             cmd.ExecuteNonQuery();
+            connection.Close();
             return productToEdit;
         }
 
@@ -75,18 +81,24 @@ namespace MyProject.Repository.ADONET
             SqlCommand myCommand = new SqlCommand(cmdsql, connection);
             DataTable dataTable = new DataTable();
             try
-            {
-                
+            {              
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
                 dataTable.Load(sqlDataReader);
                 SanPham Target = Infrastructure.Encode.ConvertToNumberale<SanPham>(dataTable).FirstOrDefault();
-                //Lấy thông tin nhân viên sau khi đăng nhập thành công
-                string cmdsql2 = "SELECT * FROM NhanVien WHERE MaNV='" + Target.MaNV + "' ";
+                //Lấy thông tin danh muc của san pham
+                string cmdsql2 = "SELECT * FROM DanhMucSP WHERE MaDM='" + Target.MaDM + "' ";
                 SqlCommand myCommand2 = new SqlCommand(cmdsql2, connection);
                 DataTable dataTable2 = new DataTable();
                 SqlDataReader sqlDataReader2 = myCommand2.ExecuteReader();
                 dataTable2.Load(sqlDataReader2);
-                Target.NhanVien = Infrastructure.Encode.ConvertToNumberale<NhanVien>(dataTable2).FirstOrDefault();
+                Target.DanhMucSP = Infrastructure.Encode.ConvertToNumberale<DanhMucSP>(dataTable2).FirstOrDefault();
+                //Lấy thông tin của nhà cung cấp
+                string cmdsql3 = "SELECT * FROM NhaCungCap WHERE MaNCC='" + Target.MaNCC + "' ";
+                SqlCommand myCommand3 = new SqlCommand(cmdsql3, connection);
+                DataTable dataTable3 = new DataTable();
+                SqlDataReader sqlDataReader3 = myCommand3.ExecuteReader();
+                dataTable3.Load(sqlDataReader3);
+                Target.NhaCungCap = Infrastructure.Encode.ConvertToNumberale<NhaCungCap>(dataTable3).FirstOrDefault();
                 return Target;
             }
             catch
@@ -101,7 +113,47 @@ namespace MyProject.Repository.ADONET
 
         public IEnumerable<SanPham> ListProducts()
         {
-            throw new NotImplementedException();
+            if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
+            {
+                connection.Open();
+            }
+            //Kiểm tra thông tin đăng nhập
+            string cmdsql = "SELECT * FROM SanPham,DanhMucSP,NhaCungCap Where SanPham.MaDM=DanhMucSP.MaDM AND SanPham.MaNCC=NhaCungCap.MaNCC ";
+            SqlCommand myCommand = new SqlCommand(cmdsql, connection);
+            DataTable dataTable = new DataTable();
+            using (SqlDataReader reader = myCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    // Create a Favorites instance
+                    SanPham target = new SanPham();
+                    target.MaSP = reader["MaSP"].ToString();
+                    target.MaNCC = reader["MaNCC"].ToString();
+                    target.MaDM = reader["MaDM"].ToString();
+                    target.TenSP = reader["TenSP"].ToString();
+                    target.XuatXu = reader["XuatXu"].ToString();
+                    target.DonGia = Convert.ToDecimal(reader["DonGia"]);
+                    target.SoLuong = Convert.ToInt32(reader["SoLuong"]);
+                    target.TrongLuong = Convert.ToDouble(reader["TrongLuong"]);
+                    target.KichThuoc = Convert.ToDouble(reader["KichThuoc"]);
+                    target.DonVi = reader["DonVi"].ToString();
+                    target.NhaCungCap = new NhaCungCap()
+                    {
+                        MaNCC = reader["MaNCC"].ToString(),
+                        Ten = reader["Ten"].ToString(),
+                        DiaChi = reader["DiaChi"].ToString(),
+                        sdt = reader["Sdt"].ToString(),
+                    };
+                    target.DanhMucSP = new DanhMucSP()
+                    {
+                        MaDM = reader["MaDM"].ToString(),
+                        TenDM = reader["TenDM"].ToString(),
+                    };
+                    // ... etc ...
+                    yield return target;
+                }
+            }                 
+           connection.Close();         
         }
 
         public IEnumerable<SanPham> ListProductsSQLCMD()

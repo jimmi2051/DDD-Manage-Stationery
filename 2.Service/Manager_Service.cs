@@ -177,7 +177,7 @@ namespace MyProject.Service
         }
         public IEnumerable ListProducts()
         {
-            return _productrepository.ListProducts();
+            return _productrepository.ListProducts().ToList();
         }
         public IEnumerable SearchProducts(String Key, String Type)
         {

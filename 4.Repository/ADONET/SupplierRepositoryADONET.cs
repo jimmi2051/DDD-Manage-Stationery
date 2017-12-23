@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using MyProject.Domain;
 namespace MyProject.Repository.ADONET
 {
     public class SupplierRepositoryADONET : ISupplierRepository
     {
+        private SqlConnection connection = ConnectionADONET.Connection;
         public NhaCungCap CreateSupplier(NhaCungCap supplierToCreate)
         {
             throw new NotImplementedException();
@@ -27,7 +31,28 @@ namespace MyProject.Repository.ADONET
 
         public IEnumerable<NhaCungCap> ListSuppliers()
         {
-            throw new NotImplementedException();
+            if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
+            {
+                connection.Open();
+            }
+            //Kiểm tra thông tin đăng nhập
+            string cmdsql = "SELECT * FROM NhaCungCap ";
+            SqlCommand myCommand = new SqlCommand(cmdsql, connection);
+            DataTable dataTable = new DataTable();
+            try
+            {
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                dataTable.Load(sqlDataReader);
+                return Infrastructure.Encode.ConvertToNumberale<NhaCungCap>(dataTable).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public IEnumerable<NhaCungCap> SearchSuppliers(string Key)
