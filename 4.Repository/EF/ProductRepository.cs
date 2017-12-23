@@ -10,18 +10,17 @@ namespace MyProject.Repository
         #region Commands
         public SanPham CreateProduct(SanPham target)
         {
-            _entities.Insert_SanPham(target.MaSP, target.MaNCC, target.MaDM, target.TenSP, target.DonGia, target.SoLuong, target.XuatXu, target.TrongLuong, target.KichThuoc, target.DonVi);
+            _entities.SanPhams.Add(target);
             _entities.SaveChanges();
             return target;
         }
         public void DeleteProduct(SanPham productToDelete)
         {
-            _entities.Delete_SanPham(productToDelete.MaSP);
+            _entities.SanPhams.Remove(productToDelete);
             _entities.SaveChanges();
         }
         public SanPham EditProduct(SanPham productToEdit)
-        {
-            //_entities.Update_SanPham(productToEdit.MaSP, productToEdit.MaNCC, productToEdit.MaDM, productToEdit.TenSP, productToEdit.DonGia, productToEdit.SoLuong, productToEdit.XuatXu, productToEdit.TrongLuong, productToEdit.KichThuoc, productToEdit.DonVi);
+        {          
             var originalProduct = GetProduct(productToEdit.MaSP);
             _entities.Entry(originalProduct).CurrentValues.SetValues(productToEdit);
             _entities.SaveChanges(); 
@@ -31,13 +30,7 @@ namespace MyProject.Repository
         #region Queries
         public IEnumerable<SanPham> ListProducts()
         {
-            IEnumerable<SanPham> list = _entities.Database.SqlQuery<SanPham>("SELECT * FROM SanPham").ToList();
-            foreach (SanPham item in list)
-            {
-                item.DanhMucSP = (_entities.DanhMucSPs.Where(c => c.MaDM.Equals(item.MaDM)).FirstOrDefault());
-                item.NhaCungCap = (_entities.NhaCungCaps.Where(c => c.MaNCC.Equals(item.MaNCC)).FirstOrDefault());
-            }
-            return list;
+            return _entities.SanPhams.ToList();
         }
         public SanPham GetProduct(String Key)
         {

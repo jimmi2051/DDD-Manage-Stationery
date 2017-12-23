@@ -6,11 +6,11 @@ using System.Collections;
 using MyProject.Domain;
 using MyProject.Repository;
 using System.Collections.Generic;
-
 namespace MyProject.Service
 {
     public class Manager_Service : IManagerService
     {
+        #region Set-Manager-Service
         private IValidationDictionary _validationDictionary;
         private IProductRepository _productrepository;
         private ISupplierRepository _supplierrepository;
@@ -33,6 +33,7 @@ namespace MyProject.Service
             _categoryrepository = categoryRepository;
             _userrepository = userrepository;
         }
+        #endregion
         #region Validate
         public bool ValidateDate(String DateStart, String DateEnd)
         {
@@ -50,6 +51,7 @@ namespace MyProject.Service
                 _validationDictionary.AddError("Timkiem", "Vui lòng nhập từ khóa hợp lệ");
             return _validationDictionary.IsValid;
         }
+        //Đã check part 1
         public bool ValidateProduct(SanPham productToValidate)
         {
             _validationDictionary.Clear();
@@ -61,6 +63,14 @@ namespace MyProject.Service
                 _validationDictionary.AddError("MaDM", "Mã danh mục không được để trống");
             if (productToValidate.TenSP.Trim().Length == 0)
                 _validationDictionary.AddError("TenSP", "Tên sản phẩm không được để trống");
+            if (productToValidate.DonGia < 0)
+                _validationDictionary.AddError("DonGia", "Vui lòng nhập giá trị hợp lệ");
+            if (productToValidate.KichThuoc < 0)
+                _validationDictionary.AddError("KichThuoc", "Vui lòng nhập giá trị hợp lệ");
+            if (productToValidate.TrongLuong < 0)
+                _validationDictionary.AddError("TrongLuong", "Vui lòng nhập giá trị hợp lệ");
+            if (productToValidate.SoLuong < 0)
+                _validationDictionary.AddError("SoLuong", "Vui lòng nhập giá trị hợp lệ");
             return _validationDictionary.IsValid;
         }
         public bool ValidateSupplier(NhaCungCap supplierToValidate)
@@ -178,8 +188,8 @@ namespace MyProject.Service
                 return _productrepository.SearchProductsbyType(Key);
             if (Type == "Tên sản phẩm")
                 return _productrepository.SearchProductsbyName(Key);
-            if (Type == "Loại sản phẩm")
-                return _productrepository.SearchProductsbyTypeName(Key);
+            //if (Type == "Loại sản phẩm")
+            //    return _productrepository.SearchProductsbyTypeName(Key);
             return _productrepository.SearchProducts(Key);
         }
         public String getNewIDProduct()

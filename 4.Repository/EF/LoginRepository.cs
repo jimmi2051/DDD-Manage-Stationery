@@ -10,14 +10,12 @@ namespace MyProject.Repository
         private QLVanPhongEntities _entities = QLVanPhongEntities.Instance;
         public NguoiDung getUser(NguoiDung ND)
         {
-
-            Infrastructure.Information.Result = _entities.CheckConnection();
             return _entities.NguoiDungs.Where(c => c.ID.Equals(ND.ID) && c.Pass.Equals(ND.Pass)).FirstOrDefault();
-           // return _entities.NguoiDungs.Where(c => c.ID.Equals(ND.ID) && c.Pass.Equals(ND.Pass)).FirstOrDefault();
         }
-        public IEnumerable<NguoiDung> listUser()
+
+        public NguoiDung getUserbyName(NguoiDung Target)
         {
-            return _entities.NguoiDungs.ToList();
-        }        
+            return _entities.NguoiDungs.Where(c => c.ID.Equals(Target.ID) && c.Mail.Equals(Target.Mail)).FirstOrDefault();
+        }       
     }
 }

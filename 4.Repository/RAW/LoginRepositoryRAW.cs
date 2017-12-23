@@ -14,18 +14,9 @@ namespace MyProject.Repository.RAW
             target.NhanVien = db.NhanViens.Where(c => c.MaNV.Equals(target.MaNV)).FirstOrDefault();
             return target;
         }
-        public void getNhanvien(string key)
+        public NguoiDung getUserbyName(NguoiDung Target)
         {
-            List<NhanVien> list = db.NhanViens.ToList();
-            foreach (var c in list)
-            {
-                if (c.MaNV.Equals(key))
-                    Information.Nhanvien = c;
-            }
-        }
-        public IEnumerable<NguoiDung> listUser()
-        {
-            return db.NguoiDungs.ToList();
+            return db.NguoiDungs.Where(c => c.ID.Equals(Target) && c.Mail.Equals(Target.Mail)).FirstOrDefault();
         }
     }
 }

@@ -38,7 +38,18 @@ namespace MyProject.UI
         }
         #endregion
         #region Event-handler
-        
+
+        private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            errProdive.Clear();
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            Statistical_WareHouse UI = new Statistical_WareHouse();
+            UI.Show();
+            this.Visible = false;
+        }
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (txtMaPhieu.Text.Equals(""))
@@ -197,16 +208,5 @@ namespace MyProject.UI
         }
         #endregion
 
-        private void txtSoLuong_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            errProdive.Clear();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Statistical_WareHouse UI = new Statistical_WareHouse();
-            UI.Show();
-            this.Visible = false;
-        }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using MyProject.Domain;
 using System.Collections.Generic;
-
 namespace MyProject.Service
 {
     public interface IManagerService:IDisposable
@@ -33,7 +32,6 @@ namespace MyProject.Service
         IEnumerable ListEmployees();
         IEnumerable SearchEmployees(String Key, String Type);
         String getNewIDEmployee();
-
         //Product category
         bool CreateCategory(DanhMucSP categoryToCreate);
         bool DeleteCategory(DanhMucSP categoryToDelete);

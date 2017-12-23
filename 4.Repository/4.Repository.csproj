@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,9 +97,6 @@
     <Compile Include="RAW\WareHouseRepositoryRAW.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\3.Domain\3.Domain.csproj">
       <Project>{f1305259-474c-4e36-8cf8-462c919569b8}</Project>
       <Name>3.Domain</Name>
@@ -107,6 +105,9 @@
       <Project>{e1203bd5-34b6-483d-a4f6-a41f20fd476b}</Project>
       <Name>5.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

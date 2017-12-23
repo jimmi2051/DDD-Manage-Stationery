@@ -3,9 +3,6 @@ using System.Windows.Forms;
 using MyProject.Domain;
 using MyProject.Infrastructure;
 using MyProject.Service;
-using System.Data.SqlClient;
-using System.Data;
-
 namespace MyProject.UI
 {
     public partial class Login_UI : Form
@@ -62,7 +59,7 @@ namespace MyProject.UI
         {
             if (_service.getUser(getND()))
             {
-                backgroundWorker1.RunWorkerAsync();
+                bgdWorker.RunWorkerAsync();
                 switch (Information.Nhanvien.ChucVu)
                 {
                     case "Quản lý":
@@ -82,10 +79,8 @@ namespace MyProject.UI
                 Information.frmLogin = this;
                 txtpassword.Text = "";
             }
-            else
-                if (Information.Result == 0)
-                MessageBox.Show("Lỗi: Hệ thống đang bận vui lòng quay lại sau 5p", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else MessageBox.Show("Lỗi: Vui lòng kiểm tra lại thông tin ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else            
+                 MessageBox.Show("Lỗi: Vui lòng kiểm tra lại thông tin ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             ViewErrors();       
        }
             
@@ -124,7 +119,12 @@ namespace MyProject.UI
                 label4.Text = "Mật khẩu sẽ được gửi tới Email: \n" + txtEmail.Text + "\ntrong thời gian sớm nhất";
                 btnSend.Enabled = false;
             }
-            ViewErrors();
+            else
+            {
+                ViewErrors();
+                errProdive.SetError(txtTenTK, "Vui lòng kiểm tra lại thông tin ");
+                errProdive.SetError(txtEmail, "Vui lòng kiểm tra lại thông tin ");
+            }
         }
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -133,6 +133,33 @@ namespace MyProject.UI
             btnSend.Enabled = true;
             VisibleTxt(true);
             ClearTxt();
+        }
+        //Progess-bar
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                // Wait 100 milliseconds.
+                System.Threading.Thread.Sleep(10);
+                // Report progress.
+                bgdWorker.ReportProgress(i);
+            }
+        }
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            this.Hide();
+            UI.Show();
+            progressBar1.Visible = false;
+        }
+        private void Login_UI_Load(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = 100;
+            progressBar1.Step = 1;
+            progressBar1.Value = 0;
         }
         #endregion
         #region view
@@ -160,34 +187,8 @@ namespace MyProject.UI
         }
         #endregion
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {          
-            for (int i = 1; i <= 100; i++)
-            {
-                // Wait 100 milliseconds.
-                System.Threading.Thread.Sleep(10);
-                // Report progress.
-                backgroundWorker1.ReportProgress(i);
-            }
-        }
-        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            this.Hide();
-            UI.Show();
-            progressBar1.Visible = false;
-        }
-
-        private void Login_UI_Load(object sender, EventArgs e)
-        {
-            progressBar1.Maximum = 100;
-            progressBar1.Step = 1;
-            progressBar1.Value = 0;
-        }
+     
+      
     }
 }
 

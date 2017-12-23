@@ -226,13 +226,39 @@ namespace MyProject.UI
             UI.ShowDialog();
             this.Visible = false;
         }
+        private void label19_Click(object sender, EventArgs e)
+        {
+            CodeSales UI = new CodeSales();
+            UI.ShowDialog();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                // Wait 100 milliseconds.
+                Thread.Sleep(30);
+                // Report progress.
+                bgdWorker1.ReportProgress(i);
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            progressBar1.Visible = false;
+        }
         #endregion
         #region View
         public void View()
         {
             try
             {
-                backgroundWorker1.RunWorkerAsync();
+                bgdWorker1.RunWorkerAsync();
                 dgvSanPham.DataSource = _service.ListProducts();
                 cboDM.Items.Clear();
                 cboNCC.Items.Clear();
@@ -305,7 +331,13 @@ namespace MyProject.UI
                         break;
                     case "TenSP":
                         errProdive.SetError(txtTenSP, entry.Value);
+                        break;                  
+                    case "TrongLuong":
+                        errProdive.SetError(txtTrongLuong, entry.Value);
                         break;
+                    case "KichThuoc":
+                        errProdive.SetError(txtKichThuoc, entry.Value);
+                        break;                      
                     default:
                         break;
                 }
@@ -371,31 +403,6 @@ namespace MyProject.UI
         }
         #endregion
 
-        private void label19_Click(object sender, EventArgs e)
-        {
-            CodeSales UI = new CodeSales();
-            UI.ShowDialog();
-        }
-
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            for (int i = 1; i <= 100; i++)
-            {
-                // Wait 100 milliseconds.
-                Thread.Sleep(30);
-                // Report progress.
-                backgroundWorker1.ReportProgress(i);
-            }
-        }
-
-        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            progressBar1.Visible = false;
-        }
+    
     }
 }

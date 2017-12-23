@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using MyProject.Domain;
 using System.Data.SqlClient;
 using System.Data;
@@ -12,14 +11,28 @@ namespace MyProject.Repository.ADONET
         private SqlConnection connection = ConnectionADONET.Connection;
         public NguoiDung getUser(NguoiDung ND)
         {
-            string cmdsql = "SELECT * FROM NGUOIDUNG,NhanVien WHERE ID='" + ND.ID + "' AND Pass ='" + ND.Pass + "' AND NhanVien.MaNV = NguoiDung.MaNV";
+            if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
+            {
+                connection.Open();
+            }
+
+            //Kiểm tra thông tin đăng nhập
+            string cmdsql = "SELECT * FROM NGUOIDUNG WHERE ID='" + ND.ID + "' AND Pass ='" + ND.Pass + "' ";
             SqlCommand myCommand = new SqlCommand(cmdsql,connection);
-            DataTable dataTable = new DataTable();
+            DataTable dataTable = new DataTable();       
             try
             {
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
                 dataTable.Load(sqlDataReader);
-                return ConvertToListUser(dataTable).FirstOrDefault();
+                NguoiDung Target = Infrastructure.Encode.ConvertToNumberale<NguoiDung>(dataTable).FirstOrDefault();
+                //Lấy thông tin nhân viên sau khi đăng nhập thành công
+                string cmdsql2 = "SELECT * FROM NhanVien WHERE MaNV='" + Target.MaNV + "' ";
+                SqlCommand myCommand2 = new SqlCommand(cmdsql2, connection);
+                DataTable dataTable2 = new DataTable();
+                SqlDataReader sqlDataReader2 = myCommand2.ExecuteReader();
+                dataTable2.Load(sqlDataReader2);
+                Target.NhanVien = Infrastructure.Encode.ConvertToNumberale<NhanVien>(dataTable2).FirstOrDefault();
+                return Target;
             }
             catch
             {
@@ -28,45 +41,31 @@ namespace MyProject.Repository.ADONET
             finally
             {
                 connection.Close();
-            }
+            }      
         }      
-        public IEnumerable<NguoiDung> ConvertToListUser(DataTable dataTable)
+        public NguoiDung getUserbyName(NguoiDung Target)
         {
-            return dataTable.AsEnumerable().Select(row => new NguoiDung
+            if (connection.State == ConnectionState.Closed || connection.State == ConnectionState.Broken)
             {
-                ID = row["ID"].ToString(),
-                Pass = row["Pass"].ToString(),
-                Mail = row["Mail"].ToString(),
-                MaNV = row["MaNV"].ToString(),
-                NhanVien = new NhanVien()
-                {
-                    MaNV = row["MaNV"].ToString(),
-                    Ten = row["Ten"].ToString(),
-                    ChucVu = row["ChucVu"].ToString(),
-                    Diachi = row["DiaChi"].ToString(),
-                    Luong = Convert.ToInt32(row["Luong"]),
-                    sdt = row["sdt"].ToString(),
-                },
-            });
-        }
-        public IEnumerable<NguoiDung> listUser()
-        {
-            string cmdsql = "SELECT * FROM NGUOIDUNG ";
-            SqlCommand myCommand = new SqlCommand();
-            IEnumerable<NguoiDung> list =null;
+                connection.Open();
+            }
+            //Kiểm tra thông tin đăng nhập
+            string cmdsql = "SELECT * FROM NGUOIDUNG WHERE ID='" + Target.ID + "' AND Mail ='" + Target.Mail + "' ";
+            SqlCommand myCommand = new SqlCommand(cmdsql, connection);
             DataTable dataTable = new DataTable();
             try
             {
-                myCommand.Connection = connection;
-                myCommand.CommandText = cmdsql;
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
                 dataTable.Load(sqlDataReader);
-                list = ConvertToListUser(dataTable);
-                return list;
+                return Infrastructure.Encode.ConvertToNumberale<NguoiDung>(dataTable).FirstOrDefault();
             }
-            catch
+            catch (Exception)
             {
-                return null;
+                throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

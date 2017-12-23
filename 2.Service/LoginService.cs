@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using MyProject.Domain;
 using MyProject.Infrastructure;
 using MyProject.Repository;
@@ -9,6 +8,7 @@ namespace MyProject.Service
     {
         private IValidationDictionary _validationDictionary;
         private ILoginRepository _repository;
+        #region Set-LoginService
         public LoginService(IValidationDictionary validationDictionary)
             : this(validationDictionary, new LoginRepository())
         { }
@@ -17,6 +17,8 @@ namespace MyProject.Service
             _validationDictionary = validationDictionary;
             _repository = repository;
         }
+        #endregion
+        #region Validation
         //Kiểm tra dữ liệu
         public bool ValidateContact(NguoiDung Username)
         {
@@ -39,6 +41,8 @@ namespace MyProject.Service
             }
             return _validationDictionary.IsValid;
         }
+        #endregion
+        #region Login
         public bool getUser(NguoiDung ND)
         {
             // Validation logic
@@ -47,11 +51,8 @@ namespace MyProject.Service
             // Database logic
             try
             {
-                //Pass : 123456
                 ND.Pass = Encode.md5((ND.Pass));
-                //Pass: 12378y78a78132dsxzc
-                NguoiDung key = _repository.getUser(ND);
-                //Kiểm tra người dùng có tồn tại hay không? Nếu có lưu trữ thông tin và trả về đúng để đăng nhập
+                NguoiDung key = _repository.getUser(ND);          
                 if (key != null)
                 {
                     NhanVien NV = key.NhanVien;
@@ -72,18 +73,15 @@ namespace MyProject.Service
                 return false;
             try
             {
-                IEnumerable<NguoiDung> list = _repository.listUser();
-                foreach (NguoiDung item in list)
-                {
-                    if (item.ID.Equals(ND.ID) && item.Mail.Equals(ND.Mail))
-                        return true;
-                }
-                return false;
+                if (_repository.getUserbyName(ND) == null)
+                    return false;
             }
             catch
             {
                 return false;
             }
+            return true;
         }
+        #endregion
     }
 }

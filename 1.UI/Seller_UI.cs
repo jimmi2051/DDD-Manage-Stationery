@@ -71,7 +71,7 @@ namespace MyProject.UI
                 SqlDependency de = new SqlDependency(cmd);
                 de.OnChange += new OnChangeEventHandler(de_OnChange);
                 dt.Load(cmd.ExecuteReader(CommandBehavior.CloseConnection));
-                IEnumerable<HoaDon> enumerable = Encode.ConvertToTankReadings(dt);
+                IEnumerable<HoaDon> enumerable = Encode.ConvertToNumberale<HoaDon>(dt);
                 dgvHoadon.DataSource = enumerable.ToList();
             }
             catch

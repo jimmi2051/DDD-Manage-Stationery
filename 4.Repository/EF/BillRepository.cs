@@ -89,8 +89,7 @@ namespace MyProject.Repository
         }
         public String getCommand() {
             return "SELECT MaHD,MaNV,MaKH,TongTien,TrangThai,NgayLap  from dbo.HoaDon";
-        }
-       
+        }     
         #endregion
     }
 }

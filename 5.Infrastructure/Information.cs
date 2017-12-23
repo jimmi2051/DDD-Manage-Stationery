@@ -8,7 +8,6 @@ namespace MyProject.Infrastructure
         public static NhanVien Nhanvien { get; set; }
         public static NguoiDung Nguoidung{get;set;}
         public static Form frmLogin { get; set; }
-        public static int Result { get; set; }
         public static string PersistanceStrategy
         {
             get { return ConfigurationManager.AppSettings["PersistanceStrategy"].ToString(); }
