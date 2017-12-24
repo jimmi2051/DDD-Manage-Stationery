@@ -9,8 +9,5 @@ namespace MyProject.Domain
         NhaCungCap EditSupplier(NhaCungCap supplierToEdit);
         NhaCungCap GetSupplier(String Key);
         IEnumerable<NhaCungCap> ListSuppliers();
-        IEnumerable<NhaCungCap> SearchSuppliers(String Key);
-        IEnumerable<NhaCungCap> SearchSuppliersbyName(String Key);
-
     }
 }

@@ -231,19 +231,40 @@ namespace MyProject.Service
                 return false;
             return true;
         }
+        IEnumerable listToSearch;
         public IEnumerable ListProducts()
         {
-            return _productrepository.ListProducts();
+            return listToSearch=_productrepository.ListProducts();
         }
         public IEnumerable SearchProducts(String Key, String Type)
         {
+            ValidateString(Key);
+            List<SanPham> result = new List<SanPham>();
             if (Type == "Mã nhà cung cấp")
-                return _productrepository.SearchProductsbyNCC(Key);
-            if (Type == "Loại sản phẩm")
-                return _productrepository.SearchProductsbyNCC(Key);
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.MaNCC.Contains(Key))
+                        result.Add(item);
+                }
+            if (Type == "Mã danh mục")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.MaDM.Contains(Key))
+                        result.Add(item);
+                }
             if (Type == "Tên sản phẩm")
-                return _productrepository.SearchProductsbyName(Key);
-            return _productrepository.SearchProducts(Key);
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.TenSP.Contains(Key))
+                        result.Add(item);
+                }
+            if (Type == "Mã sản phẩm")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.MaSP.Contains(Key))
+                        result.Add(item);
+                }
+            return result;
         }
         public SanPham GetProduct(String Key)
         {

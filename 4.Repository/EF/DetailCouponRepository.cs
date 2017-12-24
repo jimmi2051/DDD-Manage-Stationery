@@ -10,25 +10,28 @@ namespace MyProject.Repository
         #region Command
         public ChiTietPhieu createDetailCoupon(ChiTietPhieu DetailCouponToCreate)
         {
-            _entities.Insert_ChiTietPhieu(DetailCouponToCreate.MaSP, DetailCouponToCreate.MaPhieu, DetailCouponToCreate.DonGia, DetailCouponToCreate.SoLuong);
+            _entities.ChiTietPhieux.Add(DetailCouponToCreate);
             _entities.SaveChanges();
             return DetailCouponToCreate;
         }
         public void deleteDetailCouponbyID(String key)
         {
-            _entities.DeleteAll_ChiTietPhieu(key);
+            foreach (ChiTietPhieu item in _entities.ChiTietPhieux.Where(c=>c.MaPhieu.Equals(key)).ToList())
+            {
+                _entities.ChiTietPhieux.Remove(item);
+            }
             _entities.SaveChanges();
         }
         public void deleteDetailCoupon(ChiTietPhieu DetailCouponToDelete)
         {
-            _entities.Delete_ChiTietPhieu(DetailCouponToDelete.MaPhieu,DetailCouponToDelete.MaSP);
+            _entities.ChiTietPhieux.Remove(DetailCouponToDelete);
             _entities.SaveChanges();
         }
         public ChiTietPhieu editDetailCoupon(ChiTietPhieu DetailCouponToEdit)
         {
-          //  var originalBill = getDetailCoupon(DetailCouponToEdit.MaPhieu, DetailCouponToEdit.MaSP);
-        //    _entities.Entry(originalBill).CurrentValues.SetValues(DetailCouponToEdit);
-            _entities.Update_ChiTietPhieu(DetailCouponToEdit.MaSP, DetailCouponToEdit.MaPhieu, DetailCouponToEdit.DonGia, DetailCouponToEdit.SoLuong);
+            var originalBill = getDetailCoupon(DetailCouponToEdit.MaPhieu, DetailCouponToEdit.MaSP);
+            _entities.Entry(originalBill).CurrentValues.SetValues(DetailCouponToEdit);
+            // _entities.Update_ChiTietPhieu(DetailCouponToEdit.MaSP, DetailCouponToEdit.MaPhieu, DetailCouponToEdit.DonGia, DetailCouponToEdit.SoLuong);
             _entities.SaveChanges();
             return DetailCouponToEdit;
         }

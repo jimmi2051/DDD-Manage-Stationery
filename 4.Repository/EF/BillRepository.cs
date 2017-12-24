@@ -46,27 +46,27 @@ namespace MyProject.Repository
         #region Command
         public HoaDon CreateBill(HoaDon target)
         {
-            _entities.InSert_HoaDon(target.MaHD, target.NgayLap, target.MaNV, target.MaKH, target.TongTien, target.TrangThai);
+            _entities.HoaDons.Add(target);
             _entities.SaveChanges();
             return target;
         }
         public void DeleteBill(HoaDon BillToDelete)
         {
-            _entities.Delete_HoaDon(BillToDelete.MaHD);
+            _entities.HoaDons.Remove(BillToDelete);
             _entities.SaveChanges();
         }
         public HoaDon EditBill(HoaDon BillToEdit)
         {
-           //var originalBill = GetBill(BillToEdit.MaHD);
-           //_entities.Entry(originalBill).CurrentValues.SetValues(BillToEdit);
-            _entities.Update_HoaDon(BillToEdit.MaHD, BillToEdit.NgayLap, BillToEdit.MaNV, BillToEdit.MaKH, BillToEdit.TongTien, BillToEdit.TrangThai);
+            var originalBill = GetBill(BillToEdit.MaHD);
+            _entities.Entry(originalBill).CurrentValues.SetValues(BillToEdit);
+            // _entities.Update_HoaDon(BillToEdit.MaHD, BillToEdit.NgayLap, BillToEdit.MaNV, BillToEdit.MaKH, BillToEdit.TongTien, BillToEdit.TrangThai);
             _entities.SaveChanges();
             return BillToEdit;
         }
 
         public void ComfirmBill(string ID, int quality)
         {
-            _entities.ThanhToan(quality, ID);
+            
             _entities.SaveChanges();
         }
         #endregion

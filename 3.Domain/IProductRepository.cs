@@ -12,11 +12,6 @@ namespace MyProject.Domain
         //Queries
         SanPham GetProduct(String Key);
         IEnumerable<SanPham> ListProducts();
-        IEnumerable<SanPham> SearchProducts(String Key);
-        IEnumerable<SanPham> SearchProductsbyNCC(String Key);
-        IEnumerable<SanPham> SearchProductsbyType(String Key);
-        IEnumerable<SanPham> SearchProductsbyName(String Key);
-        IEnumerable<SanPham> SearchProductsbyTypeName(String key);
         IEnumerable<SanPham> StatisticalProduct(String SqlCmd);
     }
 }

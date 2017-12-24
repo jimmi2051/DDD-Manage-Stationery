@@ -1,38 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MyProject.Domain;
 namespace MyProject.Repository.RAW
 {
     public class CodesRepositoryRAW : ICodeSalesRepository
     {
+        QLVanPhong_Context _entities = QLVanPhong_Context.Instance;
         public MaKhuyenMai CreateCode(MaKhuyenMai Target)
         {
-            throw new NotImplementedException();
+            _entities.MaKhuyenMais.Add(Target);
+            _entities.SaveChanges();
+            return Target;
         }
 
         public void DeleteCode(MaKhuyenMai Target)
         {
-            throw new NotImplementedException();
+            _entities.MaKhuyenMais.Remove(Target);
+            _entities.SaveChanges();
         }
 
         public MaKhuyenMai getCodes(string key)
         {
-            throw new NotImplementedException();
+            return _entities.MaKhuyenMais.Where(c => c.MaKM.Equals(key)).FirstOrDefault();
         }
 
         public IEnumerable<MaKhuyenMai> listCodes()
         {
-            throw new NotImplementedException();
+            return _entities.MaKhuyenMais.ToList();
         }
-
-        public IEnumerable<MaKhuyenMai> searchCodes(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public MaKhuyenMai UpdateCode(MaKhuyenMai Target)
         {
-            throw new NotImplementedException();
+            var CodetoEdit = getCodes(Target.MaKM);
+            if (!CodetoEdit.Equals(Target))
+            {
+                CodetoEdit.TiLe = Target.TiLe;
+                CodetoEdit.TrangThai = Target.TrangThai;
+            }
+            _entities.SaveChanges();
+            return Target;
         }
     }
 }

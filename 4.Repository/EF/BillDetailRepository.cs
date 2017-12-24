@@ -10,27 +10,30 @@ namespace MyProject.Repository
         #region Command
         public ChiTietHoaDon createBillDetail(ChiTietHoaDon billDetailToCreate)
         {
-            _entities.InSert_ChiTietHD(billDetailToCreate.MaHD, billDetailToCreate.MaSP, billDetailToCreate.DonGia, billDetailToCreate.SoLuong);
+            _entities.ChiTietHoaDons.Add(billDetailToCreate);
             _entities.SaveChanges();
             return billDetailToCreate;
         }
         //Xóa 1 đống chi tiết hóa đơn theo Ma hóa đơn
         public void deleteBillDetailbyID(String key)
         {
-            _entities.DeleteAll_ChiTietHD(key);
+            foreach (ChiTietHoaDon item in _entities.ChiTietHoaDons.Where(c=>c.MaHD.Equals(key)).ToList())
+            {
+                _entities.ChiTietHoaDons.Remove(item);
+            }
             _entities.SaveChanges();
         }
         //Xóa 1 chi tiết hóa đơn
         public void deleteBillDetail(ChiTietHoaDon billDetailToDelete)
         {
-            _entities.Delete_ChiTietHD(billDetailToDelete.MaHD, billDetailToDelete.MaSP);
+            _entities.ChiTietHoaDons.Remove(billDetailToDelete);
             _entities.SaveChanges();           
         }
         public ChiTietHoaDon editBillDetail(ChiTietHoaDon billDetailToEdit)
         {
-            //var originalBill = getBillDetail(billDetailToEdit.MaHD, billDetailToEdit.MaSP);
-           // _entities.Entry(originalBill).CurrentValues.SetValues(billDetailToEdit);
-            _entities.Update_ChiTietHD(billDetailToEdit.MaHD, billDetailToEdit.MaSP, billDetailToEdit.DonGia, billDetailToEdit.SoLuong);
+            var originalBill = getBillDetail(billDetailToEdit.MaHD, billDetailToEdit.MaSP);
+            _entities.Entry(originalBill).CurrentValues.SetValues(billDetailToEdit);
+            //  _entities.Update_ChiTietHD(billDetailToEdit.MaHD, billDetailToEdit.MaSP, billDetailToEdit.DonGia, billDetailToEdit.SoLuong);
             _entities.SaveChanges();
             return billDetailToEdit;
         }

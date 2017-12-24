@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyProject.Domain;
 namespace MyProject.Repository
 {
@@ -12,13 +10,13 @@ namespace MyProject.Repository
         #region Commands
         public KhachHang CreateCustomer(KhachHang CustomerToCreate)
         {
-            _entities.InSert_KhachHang(CustomerToCreate.MaKH, CustomerToCreate.Ten, CustomerToCreate.DiaChi, CustomerToCreate.Sdt);
+            _entities.KhachHangs.Add(CustomerToCreate);
             _entities.SaveChanges();
             return CustomerToCreate;
         }
         public void DeleteCustomer(KhachHang CustomerToDelete)
         {
-            _entities.DeleteKhachHang(CustomerToDelete.MaKH);
+            _entities.KhachHangs.Remove(CustomerToDelete);
             _entities.SaveChanges();
         }
         public KhachHang EditCustomer(KhachHang CustomerToEdit)

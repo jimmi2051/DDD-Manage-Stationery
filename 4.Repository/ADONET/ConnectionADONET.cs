@@ -17,7 +17,6 @@ namespace MyProject.Repository.ADONET
                 {
                     connection.Open();
                 }
-
                 return connection;
             }
         }

@@ -31,25 +31,11 @@ namespace MyProject.Repository.RAW
         }
         public NhaCungCap GetSupplier(String Key)
         {
-            return (from c in _entities.NhaCungCaps
-                    where c.MaNCC.Equals(Key)
-                    select c).FirstOrDefault();
+            return _entities.NhaCungCaps.Where(c => c.MaNCC.Equals(Key)).FirstOrDefault();
         }
         public IEnumerable<NhaCungCap> ListSuppliers()
         {
             return _entities.NhaCungCaps.ToList();
-        }
-        public IEnumerable<NhaCungCap> SearchSuppliers(String Key)
-        {
-            return (from c in _entities.NhaCungCaps
-                    where c.MaNCC.Equals(Key)
-                    select c).ToList();
-        }
-        public IEnumerable<NhaCungCap> SearchSuppliersbyName(String Key)
-        {
-            return (from c in _entities.NhaCungCaps
-                    where c.Ten.Equals(Key)
-                    select c).ToList();
         }
     }
 }

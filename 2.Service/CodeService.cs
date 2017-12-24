@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MyProject.Domain;
 using MyProject.Infrastructure;
 using MyProject.Repository;
@@ -56,17 +57,21 @@ namespace MyProject.Service
         {
             return _repository.getCodes(key);
         }
-
-        public IEnumerable<MaKhuyenMai> listCodes()
+        IEnumerable listSearch;
+        public IEnumerable listCodes()
         {
-            return _repository.listCodes();
+            return listSearch=_repository.listCodes();
         }
-
-        public IEnumerable<MaKhuyenMai> searchCodes(string key)
+        public IEnumerable searchCodes(string key)
         {
-            return _repository.searchCodes(key);
+            List<MaKhuyenMai> result = new List<MaKhuyenMai>();
+            foreach (MaKhuyenMai item in listSearch)
+            {
+                if (item.MaKM.Contains(key))
+                    result.Add(item);
+            }
+            return result;
         }
-
         public bool UpdateCode(MaKhuyenMai Target)
         {
             if (!ValidateCode(Target))

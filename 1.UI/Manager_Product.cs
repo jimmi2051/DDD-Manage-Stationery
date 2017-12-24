@@ -116,11 +116,19 @@ namespace MyProject.UI
                 ViewErrors();
         }
         private void btnTimkiem_Click(object sender, EventArgs e)
-        {                
+        {
             if (txtTimkiem.Text.Equals(""))
+            {
+                progressBar1.Maximum = 100;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                progressBar1.Visible = true;
                 View();
+            }
             else
+            {
                 dgvSanPham.DataSource = _service.SearchProducts(txtTimkiem.Text, cboLoaisp.SelectedItem.ToString());
+            }
             ViewErrors();
         }
         private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -251,8 +259,7 @@ namespace MyProject.UI
         #endregion
         #region View
         public void View()
-        {
-        
+        {        
                 bgdWorker1.RunWorkerAsync();
                 listproduct = _service.ListProducts();
                 cboDM.Items.Clear();

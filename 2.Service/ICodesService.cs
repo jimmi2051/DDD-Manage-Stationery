@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 using MyProject.Domain;
 namespace MyProject.Service
 {
@@ -12,7 +9,7 @@ namespace MyProject.Service
         Boolean CreateCode(MaKhuyenMai Target);
         Boolean UpdateCode(MaKhuyenMai Target);
         Boolean DeleteCode(MaKhuyenMai Target);
-        IEnumerable<MaKhuyenMai> listCodes();
-        IEnumerable<MaKhuyenMai> searchCodes(string key);
+        IEnumerable listCodes();
+        IEnumerable searchCodes(string key);
     }
 }

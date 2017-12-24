@@ -9,18 +9,18 @@ namespace MyProject.Repository.ADONET
     public class ProductRepositoryADONET : IProductRepository
     {
         private SqlConnection connection = ConnectionADONET.Connection;
-        SqlCommand setData(SqlCommand cmd, SanPham Sp1)
+        SqlCommand setData(SqlCommand cmd, SanPham productTarget)
         {
-            cmd.Parameters.Add("@MaSP", SqlDbType.VarChar).Value = Sp1.MaSP;
-            cmd.Parameters.Add("@MaNCC", SqlDbType.VarChar).Value = Sp1.MaNCC;
-            cmd.Parameters.Add("@MaDM", SqlDbType.VarChar).Value = Sp1.MaDM;
-            cmd.Parameters.Add("@TenSP", SqlDbType.NVarChar).Value = Sp1.TenSP;
-            cmd.Parameters.Add("@DonGia", SqlDbType.Money).Value = Sp1.DonGia;
-            cmd.Parameters.Add("@SoLuong", SqlDbType.Int).Value = Sp1.SoLuong;
-            cmd.Parameters.Add("@XuatXu", SqlDbType.NVarChar).Value = Sp1.XuatXu;
-            cmd.Parameters.Add("@TrongLuong", SqlDbType.Float).Value = Sp1.TrongLuong;
-            cmd.Parameters.Add("@KichThuoc", SqlDbType.Float).Value = Sp1.KichThuoc;
-            cmd.Parameters.Add("@DonVi", SqlDbType.NVarChar).Value = Sp1.DonVi;
+            cmd.Parameters.Add("@MaSP", SqlDbType.VarChar).Value = productTarget.MaSP;
+            cmd.Parameters.Add("@MaNCC", SqlDbType.VarChar).Value = productTarget.MaNCC;
+            cmd.Parameters.Add("@MaDM", SqlDbType.VarChar).Value = productTarget.MaDM;
+            cmd.Parameters.Add("@TenSP", SqlDbType.NVarChar).Value = productTarget.TenSP;
+            cmd.Parameters.Add("@DonGia", SqlDbType.Money).Value = productTarget.DonGia;
+            cmd.Parameters.Add("@SoLuong", SqlDbType.Int).Value = productTarget.SoLuong;
+            cmd.Parameters.Add("@XuatXu", SqlDbType.NVarChar).Value = productTarget.XuatXu;
+            cmd.Parameters.Add("@TrongLuong", SqlDbType.Float).Value = productTarget.TrongLuong;
+            cmd.Parameters.Add("@KichThuoc", SqlDbType.Float).Value = productTarget.KichThuoc;
+            cmd.Parameters.Add("@DonVi", SqlDbType.NVarChar).Value = productTarget.DonVi;
             return cmd;
         }
         public SanPham CreateProduct(SanPham productToCreate)
@@ -157,31 +157,6 @@ namespace MyProject.Repository.ADONET
         }
 
         public IEnumerable<SanPham> ListProductsSQLCMD()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> SearchProducts(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> SearchProductsbyName(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> SearchProductsbyNCC(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> SearchProductsbyType(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> SearchProductsbyTypeName(string key)
         {
             throw new NotImplementedException();
         }

@@ -1,53 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyProject.Domain;
 namespace MyProject.Repository.RAW
 {
     public class EmployeeRepositoryRAW : IEmployeeRepository
     {
-        public void CheckEmployee(NhanVien employeeToCheck)
-        {
-            throw new NotImplementedException();
-        }
-
+        QLVanPhong_Context _entities = QLVanPhong_Context.Instance;
+        #region Commands
         public NhanVien CreateEmployee(NhanVien employeeToCreate)
         {
-            throw new NotImplementedException();
+            _entities.NhanViens.Add(employeeToCreate);
+            _entities.SaveChanges();
+            return employeeToCreate;
         }
-
         public void DeleteEmployee(NhanVien employeeToDelete)
         {
-            throw new NotImplementedException();
+            _entities.NhanViens.Remove(employeeToDelete);
+            _entities.SaveChanges();
         }
-
         public NhanVien EditEmployee(NhanVien employeeToEdit)
         {
-            throw new NotImplementedException();
+            var originalEmployee = GetEmployee(employeeToEdit.MaNV);
+            if (!originalEmployee.Equals(employeeToEdit))
+            {
+                originalEmployee.Ten = employeeToEdit.Ten;
+                originalEmployee.Diachi = employeeToEdit.Diachi;
+                originalEmployee.Luong = employeeToEdit.Luong;
+                originalEmployee.ChucVu = employeeToEdit.ChucVu;
+                originalEmployee.sdt = employeeToEdit.sdt;
+            }        
+            _entities.SaveChanges();
+            return employeeToEdit;
         }
-
-        public NhanVien GetEmployee(string Key)
+        #endregion
+        #region Queries
+        public NhanVien GetEmployee(String Key)
         {
-            throw new NotImplementedException();
+            return _entities.NhanViens.Where(c => c.MaNV.Equals(Key)).FirstOrDefault();
         }
-
         public IEnumerable<NhanVien> ListEmployees()
         {
-            throw new NotImplementedException();
+            return _entities.NhanViens.ToList();
         }
-
-        public IEnumerable<NhanVien> SearchEmployees(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<NhanVien> SearchEmployeesbyName(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<NhanVien> SearchEmployessbyPosition(string Key)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

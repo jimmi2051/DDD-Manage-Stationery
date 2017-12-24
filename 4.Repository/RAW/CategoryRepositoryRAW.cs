@@ -7,40 +7,40 @@ namespace MyProject.Repository.RAW
 {
     public class CategoryRepositoryRAW : ICategoryRepository
     {
-        private QLVanPhong_Context db = QLVanPhong_Context.Instance;
-        public DanhMucSP CreateProductCategory(DanhMucSP productcategoryToCreate)
+        private QLVanPhong_Context _entities = QLVanPhong_Context.Instance;
+        #region Commands
+        public DanhMucSP CreateProductCategory(DanhMucSP target)
         {
-            throw new NotImplementedException();
+            _entities.DanhMucSPs.Add(target);
+            _entities.SaveChanges();
+            return target;
         }
-
-        public void DeleteProductCategory(DanhMucSP productcategoryToDelete)
+        public void DeleteProductCategory(DanhMucSP target)
         {
-            throw new NotImplementedException();
+            _entities.DanhMucSPs.Remove(target);
+            _entities.SaveChanges();
         }
-
         public DanhMucSP EditProductCategory(DanhMucSP productcategoryToEdit)
         {
-            throw new NotImplementedException();
+            var originalProductCategory = GetProductCategory(productcategoryToEdit.MaDM);
+            if(!originalProductCategory.Equals(productcategoryToEdit))
+            {
+                originalProductCategory.TenDM = productcategoryToEdit.TenDM;
+                originalProductCategory.SoLuong = productcategoryToEdit.SoLuong;
+            }      
+            _entities.SaveChanges();
+            return productcategoryToEdit;
         }
-
-        public DanhMucSP GetProductCategory(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
+        #endregion
+        #region Queries
         public IEnumerable<DanhMucSP> ListProductCategorys()
         {
-            return db.DanhMucSPs.ToList();
+            return _entities.DanhMucSPs.ToList();
         }
-
-        public IEnumerable<DanhMucSP> SearchCategorys(string Key)
+        public DanhMucSP GetProductCategory(String Key)
         {
-            throw new NotImplementedException();
+            return _entities.DanhMucSPs.Where(c => c.MaDM.Equals(Key)).FirstOrDefault();
         }
-
-        public IEnumerable<DanhMucSP> SearchCategorysByName(string Key)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

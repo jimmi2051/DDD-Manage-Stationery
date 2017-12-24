@@ -10,6 +10,5 @@ namespace MyProject.Domain
         MaKhuyenMai UpdateCode(MaKhuyenMai Target);
         void DeleteCode(MaKhuyenMai Target);
         IEnumerable<MaKhuyenMai> listCodes();
-        IEnumerable<MaKhuyenMai> searchCodes(string key);
     }
 }

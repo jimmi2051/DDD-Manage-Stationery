@@ -36,26 +36,6 @@ namespace MyProject.Repository
         {
             return _entities.SanPhams.Where(c => c.MaSP.Equals(Key)).FirstOrDefault();
         }
-        public IEnumerable<SanPham> SearchProducts(String Key)
-        {
-            return _entities.SanPhams.Where(c => c.MaSP.Contains(Key)).ToList();
-        }
-        public IEnumerable<SanPham> SearchProductsbyNCC(String Key)
-        {
-            return _entities.SanPhams.Where(c => c.MaNCC.Contains(Key)).ToList();
-        }
-        public IEnumerable<SanPham> SearchProductsbyType(String Key)
-        {
-            return _entities.SanPhams.Where(c => c.MaDM.Contains(Key)).ToList();
-        }
-        public IEnumerable<SanPham> SearchProductsbyName(String Key)
-        {
-            return _entities.SanPhams.Where(c => c.TenSP.Contains(Key)).ToList();
-        }
-        public IEnumerable<SanPham> SearchProductsbyTypeName(String key)
-        {
-            return _entities.SanPhams.Where(c => c.DanhMucSP.TenDM.Contains(key)).ToList();
-        }
         public IEnumerable<SanPham> StatisticalProduct(String SqlCmd)
         {
             return _entities.Database.SqlQuery<SanPham>(SqlCmd);

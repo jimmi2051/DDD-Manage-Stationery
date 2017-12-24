@@ -9,7 +9,5 @@ namespace MyProject.Domain
         DanhMucSP EditProductCategory(DanhMucSP productcategoryToEdit);
         DanhMucSP GetProductCategory(String Key);
         IEnumerable<DanhMucSP> ListProductCategorys();
-        IEnumerable<DanhMucSP> SearchCategorys(String Key);
-        IEnumerable<DanhMucSP> SearchCategorysByName(String Key);
     }
 }

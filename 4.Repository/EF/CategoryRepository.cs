@@ -10,13 +10,13 @@ namespace MyProject.Repository
         #region Commands
         public DanhMucSP CreateProductCategory(DanhMucSP target)
         {
-            _entities.InSert_DanhMucSP(target.MaDM, target.TenDM, target.SoLuong);
+            _entities.DanhMucSPs.Add(target);
             _entities.SaveChanges();
             return target;
         }
         public void DeleteProductCategory(DanhMucSP target)
         {
-            _entities.Delete_DanhMucSP(target.MaDM);
+            _entities.DanhMucSPs.Remove(target);
             _entities.SaveChanges();
         }
         public DanhMucSP EditProductCategory(DanhMucSP productcategoryToEdit)
@@ -36,14 +36,6 @@ namespace MyProject.Repository
         public DanhMucSP GetProductCategory(String Key)
         {
             return _entities.DanhMucSPs.Where(c => c.MaDM.Equals(Key)).FirstOrDefault();
-        }
-        public IEnumerable<DanhMucSP> SearchCategorys(String Key)
-        {
-            return _entities.DanhMucSPs.Where(c => c.MaDM.Contains(Key)).ToList();
-        }
-        public IEnumerable<DanhMucSP> SearchCategorysByName(String Key)
-        {
-            return _entities.DanhMucSPs.Where(c => c.TenDM.Contains(Key)).ToList();
         }
         #endregion
 

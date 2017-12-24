@@ -73,12 +73,15 @@ namespace MyProject.Service
                 _validationDictionary.AddError("SoLuong", "Vui lòng nhập giá trị hợp lệ");
             return _validationDictionary.IsValid;
         }
+        //Đã check lần 1
         public bool ValidateSupplier(NhaCungCap supplierToValidate)
         {
             _validationDictionary.Clear();
             if (supplierToValidate.MaNCC.Trim().Length == 0)
                 _validationDictionary.AddError("MaNCC", "Mã nhà cung cấp không được để trống");
-            if (supplierToValidate.sdt.Trim().Length > 0 && !Regex.IsMatch(supplierToValidate.sdt, @"\d"))
+            if (supplierToValidate.Ten.Length == 0)
+                _validationDictionary.AddError("Ten", "Vui lòng nhập tên");
+            if (supplierToValidate.sdt.Trim().Length > 0 && !Regex.IsMatch(supplierToValidate.sdt, @"\d") || supplierToValidate.sdt.Length==0 || supplierToValidate.sdt.Length>12)
                 _validationDictionary.AddError("sdt", "Vui long nhập số điện thoại hợp lệ");
             return _validationDictionary.IsValid;
         }
@@ -95,6 +98,7 @@ namespace MyProject.Service
                 _validationDictionary.AddError("Password", "Không được bỏ trống mật khẩu");
             return _validationDictionary.IsValid;
         }
+        //Đã check lần 1
         public bool ValidateEmployee(NhanVien employeeValidate)
         {
             _validationDictionary.Clear();
@@ -103,11 +107,11 @@ namespace MyProject.Service
             if (employeeValidate.Ten.Length == 0)
                 _validationDictionary.AddError("Ten", "Vui lòng nhập họ và tên");
             if (employeeValidate.Luong.ToString().Length == 0)
-                _validationDictionary.AddError("Luong", "Vui long nhập lương ");
+                _validationDictionary.AddError("Luong", "Vui lòng nhập lương ");
             if (employeeValidate.Luong < 0)
                 _validationDictionary.AddError("Luong", "Vui lòng nhập lương hợp lệ ");
-            if (employeeValidate.sdt.Trim().Length > 0 && !Regex.IsMatch(employeeValidate.sdt, @"\d"))
-                _validationDictionary.AddError("Sdt", "Vui lòng nhập số dt hop le ");
+            if (employeeValidate.sdt.Trim().Length > 0 && !Regex.IsMatch(employeeValidate.sdt, @"\d") || employeeValidate.sdt.Length == 0 || employeeValidate.sdt.Length>11)
+                _validationDictionary.AddError("Sdt", "Vui lòng nhập số điện thoại hợp lệ ");
             return _validationDictionary.IsValid;
         }
         public bool ValidateCategory(DanhMucSP categoryToValidate)
@@ -117,11 +121,12 @@ namespace MyProject.Service
                 _validationDictionary.AddError("MaDM", "Vui lòng nhập mã danh mục");
             if (categoryToValidate.TenDM.Length == 0)
                 _validationDictionary.AddError("Ten", "Vui lòng nhập tên danh mục");
-            if (categoryToValidate.SoLuong < 0)
+            if (categoryToValidate.SoLuong < 0 )
                 _validationDictionary.AddError("SoLuong", "Vui lòng nhập số lượng hợp lệ");
             return _validationDictionary.IsValid;
         }
         #endregion
+        //Đã check lần 2
         #region Product
         public bool CreateProduct(SanPham productToCreate)
         {
@@ -175,22 +180,40 @@ namespace MyProject.Service
         {
             return _productrepository.GetProduct(Key);
         }
+        private IEnumerable listProductToSearch;
         public IEnumerable ListProducts()
         {
-            return _productrepository.ListProducts().ToList();
-        }
+            return listProductToSearch=_productrepository.ListProducts().ToList();
+        }       
         public IEnumerable SearchProducts(String Key, String Type)
-        {
+        {           
             ValidateString(Key);
+            List<SanPham> result = new List<SanPham>();
             if (Type == "Mã nhà cung cấp")
-                return _productrepository.SearchProductsbyNCC(Key);
+                foreach (SanPham item in listProductToSearch)
+                {
+                    if (item.MaNCC.Contains(Key))
+                        result.Add(item);
+                }
             if (Type == "Mã danh mục")
-                return _productrepository.SearchProductsbyType(Key);
+                foreach (SanPham item in listProductToSearch)
+                {
+                    if (item.MaDM.Contains(Key))
+                        result.Add(item);
+                }
             if (Type == "Tên sản phẩm")
-                return _productrepository.SearchProductsbyName(Key);
-            //if (Type == "Loại sản phẩm")
-            //    return _productrepository.SearchProductsbyTypeName(Key);
-            return _productrepository.SearchProducts(Key);
+                foreach (SanPham item in listProductToSearch)
+                {
+                    if (item.TenSP.Contains(Key))
+                        result.Add(item);
+                }
+            if(Type == "Mã sản phẩm")
+            foreach (SanPham item in listProductToSearch)
+                {
+                    if (item.MaSP.Contains(Key))
+                        result.Add(item);
+                }
+            return result;            
         }
         public String getNewIDProduct()
         {
@@ -243,6 +266,7 @@ namespace MyProject.Service
             return _productrepository.StatisticalProduct(sqlcmd).ToList();
         }
         #endregion
+        //Đã check lần 1 - Finish
         #region Supplier
         public bool CreateSupplier(NhaCungCap supplierToCreate)
         {
@@ -288,17 +312,28 @@ namespace MyProject.Service
         {
             return _supplierrepository.GetSupplier(Key);
         }
+        IEnumerable listSupToSearch;
         public IEnumerable ListSuppliers()
         {
-            return _supplierrepository.ListSuppliers();
+            return listSupToSearch=_supplierrepository.ListSuppliers();
         }
         public IEnumerable SearchSuppliers(String Key, String Type)
         {
+            List<NhaCungCap> result = new List<NhaCungCap>();
             ValidateString(Key);
             if (Type == "Tên")
-                return _supplierrepository.SearchSuppliersbyName(Key);
-            return _supplierrepository.SearchSuppliers(Key);
-
+                foreach (NhaCungCap item in listSupToSearch)
+                {
+                    if (item.Ten.Contains(Key))
+                        result.Add(item);
+                }
+            if(Type=="Mã nhà cung cấp")
+                foreach (NhaCungCap item in listSupToSearch)
+                {
+                    if (item.MaNCC.Contains(Key))
+                        result.Add(item);
+                }
+            return result;
         }
         public String getNewIDSup()
         {
@@ -321,6 +356,7 @@ namespace MyProject.Service
             return newID;
         }
         #endregion
+        //Đã check lần 2 - Finish
         #region Employee
         public bool CreateEmployee(NhanVien employeeToCreate)
         {
@@ -337,7 +373,6 @@ namespace MyProject.Service
         }
         public bool DeleteEmployee(NhanVien employeeToDelete)
         {
-
             try
             {
                 _employeerepository.DeleteEmployee(employeeToDelete);
@@ -357,24 +392,41 @@ namespace MyProject.Service
             }
             catch { return false; }
             return true;
-
         }
         public NhanVien GetEmployee(String Key)
         {
             return _employeerepository.GetEmployee(Key);
         }
+        IEnumerable listEmployeeToSearch;
         public IEnumerable ListEmployees()
         {
-            return _employeerepository.ListEmployees();
+            return listEmployeeToSearch=_employeerepository.ListEmployees();
         }
         public IEnumerable SearchEmployees(String Key, String Type)
         {
             ValidateString(Key);
+            List<NhanVien> result = new List<NhanVien>();
             if (Type == "Tên")
-                return _employeerepository.SearchEmployeesbyName(Key);
+            {
+                foreach (NhanVien item in listEmployeeToSearch)
+                {
+                    if (item.Ten.Contains(Key))
+                        result.Add(item);
+                }
+            }            
             if (Type == "Chức vụ")
-                return _employeerepository.SearchEmployessbyPosition(Key);
-            return _employeerepository.SearchEmployees(Key);
+                foreach (NhanVien item in listEmployeeToSearch)
+                {
+                    if (item.ChucVu.Contains(Key))
+                        result.Add(item);
+                }
+            if (Type =="Mã nhân viên")
+                foreach (NhanVien item in listEmployeeToSearch)
+                {
+                    if (item.MaNV.Contains(Key))
+                        result.Add(item);
+                }
+            return result;
         }
         public String getNewIDEmployee()
         {
@@ -397,8 +449,8 @@ namespace MyProject.Service
             return newID;
         }
         #endregion
+        //Đã check lần 1-Finish
         #region Danh Mục SP
-
         public bool CreateCategory(DanhMucSP categoryToCreate)
         {
             if (!ValidateCategory(categoryToCreate))
@@ -443,16 +495,32 @@ namespace MyProject.Service
         {
             return _categoryrepository.GetProductCategory(Key);
         }
+        IEnumerable listCategoryToSearch;
         public IEnumerable ListCategorys()
         {
-            return _categoryrepository.ListProductCategorys();
+            return listCategoryToSearch=_categoryrepository.ListProductCategorys();
         }
         public IEnumerable SearchCategorys(String Key, String Type)
         {
             ValidateString(Key);
+            List<DanhMucSP> result = new List<DanhMucSP>();
             if (Type == "Tên")
-                return _categoryrepository.SearchCategorysByName(Key);
-            return _categoryrepository.SearchCategorys(Key);
+            {
+                foreach (DanhMucSP item in listCategoryToSearch)
+                {
+                    if (item.TenDM.Contains(Key))
+                        result.Add(item);
+                }
+            }
+            if (Type == "Mã danh mục")
+            {
+                foreach (DanhMucSP item in listCategoryToSearch)
+                {
+                    if (item.MaDM.Contains(Key))
+                        result.Add(item);
+                }
+            }
+            return result;
         }
         public String getNewIDCat()
         {
@@ -482,7 +550,7 @@ namespace MyProject.Service
                 return false;
             try
             {
-                target.Pass = Infrastructure.Encode.md5((target.Pass));
+                target.Pass = Encode.md5((target.Pass));
                 _userrepository.InsertUser(target);
             }
             catch
@@ -535,7 +603,7 @@ namespace MyProject.Service
         {
             try
             {
-                _employeerepository.CheckEmployee(employeeToCheck);
+                
             }
             catch
             {

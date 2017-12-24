@@ -50,36 +50,6 @@ namespace MyProject.Repository.RAW
                     where c.MaSP.Equals(Key)
                     select c).FirstOrDefault();
         }
-        public IEnumerable<SanPham> SearchProducts(String Key)
-        {
-            return (from c in _entities.SanPhams
-                    where c.MaSP.Equals(Key)
-                    select c).ToList();
-        }
-public IEnumerable<SanPham> SearchProductsbyNCC(String Key)
-        {
-            return (from c in _entities.SanPhams
-                    where c.MaNCC.Equals(Key)
-                    select c).ToList();
-        }
-       public  IEnumerable<SanPham> SearchProductsbyType(String Key)
-        {
-            return (from c in _entities.SanPhams
-                    where c.MaDM.Equals(Key)
-                    select c).ToList();
-        }
-         public IEnumerable<SanPham> SearchProductsbyName(String Key)
-        {
-            return (from c in _entities.SanPhams
-                    where c.TenSP.Equals(Key)
-                    select c).ToList();
-
-        }
-        public IEnumerable<SanPham> SearchProductsbyTypeName(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<SanPham> StatisticalProduct(string SqlCmd)
         {
             throw new NotImplementedException();

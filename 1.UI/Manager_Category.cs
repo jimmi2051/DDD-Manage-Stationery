@@ -250,7 +250,7 @@ namespace MyProject.UI
         }
         private Boolean checkSoLuong()
         {
-            if (txtSoLuong.Text.Length > 0 && !System.Text.RegularExpressions.Regex.IsMatch(txtSoLuong.Text, @"\d"))
+            if (txtSoLuong.Text.Length > 0 && !System.Text.RegularExpressions.Regex.IsMatch(txtSoLuong.Text, @"\d")||txtSoLuong.Text.Length == 0 )
             {
                 errProdive.SetError(txtSoLuong, "Vui lòng nhập số lượng hợp lệ ..");
                 return false;

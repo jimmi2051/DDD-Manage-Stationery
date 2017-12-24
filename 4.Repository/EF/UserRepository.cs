@@ -8,19 +8,20 @@ namespace MyProject.Repository
         QLVanPhongEntities _entities = QLVanPhongEntities.Instance;
         public NguoiDung InsertUser(NguoiDung target)
         {
-            _entities.Insert_NguoiDung(target.ID, target.Pass, target.Mail, target.MaNV);
+            _entities.NguoiDungs.Add(target);
             _entities.SaveChanges();
             return target;
         }
         public NguoiDung UpdateUser(NguoiDung target)
-        {          
-            _entities.Update_NguoiDung(target.ID, target.Pass, target.Mail, target.MaNV);
+        {
+            var usertoedit = getUser(target.ID);
+            _entities.Entry(usertoedit).CurrentValues.SetValues(target);
             _entities.SaveChanges();
             return target;
         }
         public void DeleteUser(NguoiDung target)
         {
-            _entities.Delete_NguoiDung(target.ID);
+            _entities.NguoiDungs.Remove(target);
             _entities.SaveChanges();
         }
         public NguoiDung getUser(String ID)

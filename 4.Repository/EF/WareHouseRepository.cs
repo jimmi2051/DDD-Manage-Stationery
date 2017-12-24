@@ -9,19 +9,20 @@ namespace MyProject.Repository
         QLVanPhongEntities _entities = QLVanPhongEntities.Instance;
         public Kho CreateWareHouse(Kho warehouseToCreate)
         {
-            _entities.Insert_Kho(warehouseToCreate.MaSP, warehouseToCreate.MaPhieu,warehouseToCreate.SoLuong ,warehouseToCreate.NgayLap, warehouseToCreate.NgayXuat);
+            _entities.Khoes.Add(warehouseToCreate);
             _entities.SaveChanges();
             return warehouseToCreate;
         }
         public Kho UpdateWareHouse(Kho warehouseToUpdate)
         {
-            _entities.Update_kho(warehouseToUpdate.MaSP, warehouseToUpdate.MaPhieu, warehouseToUpdate.SoLuong, warehouseToUpdate.NgayLap, warehouseToUpdate.NgayXuat);
+            var target = getWareHouse(warehouseToUpdate.MaSP);
+            _entities.Entry(target).CurrentValues.SetValues(warehouseToUpdate);
             _entities.SaveChanges();
             return warehouseToUpdate;
         }
         public void DeleteWareHouse(Kho warehouseToDelete)
         {
-            _entities.Delete_kho(warehouseToDelete.MaSP, warehouseToDelete.MaPhieu);
+            _entities.Khoes.Remove(warehouseToDelete);
             _entities.SaveChanges();
         }
         public Kho getWareHouse(String msp)

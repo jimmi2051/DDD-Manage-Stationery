@@ -9,13 +9,13 @@ namespace MyProject.Repository
         QLVanPhongEntities _entities = QLVanPhongEntities.Instance;
         public NhaCungCap CreateSupplier(NhaCungCap target)
         {
-            _entities.Insert_NhaCungCap(target.MaNCC, target.Ten, target.DiaChi, target.sdt);
+            _entities.NhaCungCaps.Add(target);
             _entities.SaveChanges();
             return target;
         }
         public void DeleteSupplier(NhaCungCap SupplierToDelete)
         {
-            _entities.Delete_NhaCungCap(SupplierToDelete.MaNCC);
+            _entities.NhaCungCaps.Remove(SupplierToDelete);
             _entities.SaveChanges();
         }
         public NhaCungCap EditSupplier(NhaCungCap SupplierToEdit)
@@ -34,14 +34,5 @@ namespace MyProject.Repository
         {
             return _entities.NhaCungCaps.ToList();
         }
-        public IEnumerable<NhaCungCap> SearchSuppliers(String Key)
-        {
-            return _entities.NhaCungCaps.Where(c => c.MaNCC.Contains(Key)).ToList();
-        }
-        public IEnumerable<NhaCungCap> SearchSuppliersbyName(String Key)
-        {
-            return _entities.NhaCungCaps.Where(c => c.Ten.Contains(Key)).ToList();
-        }
-
     }
 }

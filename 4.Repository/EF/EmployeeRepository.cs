@@ -6,23 +6,17 @@ namespace MyProject.Repository
 {
     public class EmployeeRepository : IEmployeeRepository 
     {
-        QLVanPhongEntities _entities = QLVanPhongEntities.Instance;
-
-        public void CheckEmployee(NhanVien employeeToCheck)
-        {
-            _entities.UpdateLuong(employeeToCheck.MaNV);
-            _entities.SaveChanges();
-        }
+        QLVanPhongEntities _entities = QLVanPhongEntities.Instance;       
         #region Commands
         public NhanVien CreateEmployee(NhanVien employeeToCreate)
         {
-            _entities.Insert_NhanVien(employeeToCreate.MaNV, employeeToCreate.Ten, employeeToCreate.Diachi, employeeToCreate.sdt, employeeToCreate.ChucVu, employeeToCreate.Luong);
+            _entities.NhanViens.Add(employeeToCreate);
             _entities.SaveChanges();
             return employeeToCreate;
         }
         public void DeleteEmployee(NhanVien employeeToDelete)
         {
-            _entities.Delete_NhanVien(employeeToDelete.MaNV);
+            _entities.NhanViens.Remove(employeeToDelete);
             _entities.SaveChanges();
         }
         public NhanVien EditEmployee(NhanVien employeeToEdit)
@@ -37,24 +31,13 @@ namespace MyProject.Repository
         #region Queries
         public NhanVien GetEmployee(String Key)
         {
-            return _entities.Database.SqlQuery<NhanVien>("SELECT * FROM NhanVien WHERE MaNV='"+Key+"'").FirstOrDefault();
+           return _entities.NhanViens.Where(c => c.MaNV.Equals(Key)).FirstOrDefault();
         }
         public IEnumerable<NhanVien> ListEmployees()
         {
-            return _entities.Database.SqlQuery<NhanVien>("SELECT * FROM NhanVien").ToList();
+            return _entities.NhanViens.ToList();
         }
-        public IEnumerable<NhanVien> SearchEmployees(String Key)
-        {
-            return _entities.NhanViens.Where(c => c.MaNV.Contains(Key)).ToList();
-        }
-        public IEnumerable<NhanVien> SearchEmployeesbyName(String Key)
-        {
-            return _entities.NhanViens.Where(c => c.Ten.Contains(Key)).ToList();
-        }
-        public IEnumerable<NhanVien> SearchEmployessbyPosition(String Key)
-        {
-            return _entities.NhanViens.Where(c => c.ChucVu.Contains(Key)).ToList();
-        }
+     
         #endregion
     }
 }

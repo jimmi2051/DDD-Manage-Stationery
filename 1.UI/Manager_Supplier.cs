@@ -64,6 +64,9 @@ namespace MyProject.UI
                     case "MaNCC":
                         errProdive.SetError(txtMaNCC, entry.Value);
                         break;
+                    case "Ten":
+                        errProdive.SetError(txtTen, entry.Value);
+                        break;
                     case "sdt":
                         errProdive.SetError(txtSdt, entry.Value);
                         break;
