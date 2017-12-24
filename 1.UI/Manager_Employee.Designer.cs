@@ -129,7 +129,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1160, 445);
             this.panel2.TabIndex = 9;
-            
             // 
             // cboLoai
             // 
@@ -178,7 +177,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Old English Text MT", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(119, 64);
+            this.label3.Location = new System.Drawing.Point(128, 62);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(191, 28);
             this.label3.TabIndex = 4;
@@ -341,7 +340,6 @@
             this.cboChucVu.Name = "cboChucVu";
             this.cboChucVu.Size = new System.Drawing.Size(150, 21);
             this.cboChucVu.TabIndex = 19;
-         
             // 
             // btnUser
             // 

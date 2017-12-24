@@ -10,13 +10,26 @@ namespace MyProject.Domain
         private IList<HoaDon> Hoadon;
         private IList<NhanVien> Nhanvien;
         private IList<ChiTietHoaDon> Chitiethoadon;
+        private IList<KhachHang> Khachhang;
         private IList<NhaCungCap> Nhacungcap;
         private IList<DanhMucSP> DanhmucSP;
         private IList<Kho> Kho;
         private IList<PhieuNhapXuat> Phieunhapxuat;
         private IList<ChiTietPhieu> Chitietphieu;
+        private IList<MaKhuyenMai> Makhuyenmai;
+
         private QLVanPhong_Context()
         {
+            Makhuyenmai = new List<MaKhuyenMai>()
+            {
+                 new MaKhuyenMai { MaKM="KM001", TiLe=10, TrangThai="Kích hoạt" },
+                 new MaKhuyenMai { MaKM="KM002", TiLe=15, TrangThai="Không kích hoạt" }
+            };
+            Khachhang = new List<KhachHang>()
+            {
+                new KhachHang {  MaKH ="KH001", Ten ="Nguyễn Văn Tí", DiaChi="127 An Dương Vương, P3, Q5" , Sdt="01685000421"},
+                new KhachHang {  MaKH ="KH002", Ten ="Nguyễn Tèo", DiaChi="55 Hồng Bàng, P11, Q10" , Sdt="01921000421"},
+            };
             Chitietphieu = new List<ChiTietPhieu>()
             {
                 new ChiTietPhieu {  MaPhieu="MP001", MaSP ="SP001", DonGia=15000,SoLuong=30 },
@@ -95,13 +108,13 @@ namespace MyProject.Domain
                 return instance;
             }
         }
-        public virtual IList<ChiTietHoaDon> ChiTietHoaDons { get { return Chitiethoadon; } }
+        public virtual IList<ChiTietHoaDon> ChiTietHoaDons { get { return Chitiethoadon; } set { } }
         public virtual IList<ChiTietPhieu> ChiTietPhieux { get { return Chitietphieu; } set { } }
         public virtual IList<DanhMucSP> DanhMucSPs { get { return DanhmucSP; } set { } }
         public virtual IList<HoaDon> HoaDons { get { return Hoadon; } }
-        public virtual IList<KhachHang> KhachHangs { get; set; }
+        public virtual IList<KhachHang> KhachHangs { get { return Khachhang; } set { } }
         public virtual IList<Kho> Khoes { get { return Kho; } set { } }
-        public virtual IList<MaKhuyenMai> MaKhuyenMais { get; set; }
+        public virtual IList<MaKhuyenMai> MaKhuyenMais { get { return Makhuyenmai; } set { } }
         public virtual IList<NguoiDung> NguoiDungs { get { return Nguoidung; }  }
         public virtual IList<NhaCungCap> NhaCungCaps { get { return Nhacungcap; } }
         public virtual IList<NhanVien> NhanViens { get { return Nhanvien; } }
