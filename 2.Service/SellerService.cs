@@ -46,6 +46,7 @@ namespace MyProject.Service
             if (key.Trim().Length > 0 && !Regex.IsMatch(key, @"\w"))
                 _validationDictionary.AddError("Timkiem", "Vui lòng nhập từ khóa hợp lệ");
             return _validationDictionary.IsValid;
+            
         }
         public bool ValidateBill(HoaDon billToValidate)
         {
@@ -55,16 +56,15 @@ namespace MyProject.Service
                 if (_customerrepository.GetCustomer(billToValidate.MaKH) == null)
                     _validationDictionary.AddError("MaKH", "Không tồn tại mã khách hàng");
             }
+            if (billToValidate.TongTien < 0 || billToValidate.TongTien.ToString().Length>0 && !Regex.IsMatch(billToValidate.TongTien.ToString(),@"\d"))
+                _validationDictionary.AddError("TongTien", "Tổng tiền không hợp lệ");
             return _validationDictionary.IsValid;
         }
         public bool ValidateProduct(SanPham productToValidate)
         {
             _validationDictionary.Clear();
-            if (productToValidate.SoLuong < 0)
-                _validationDictionary.AddError("SoLuong", "So luong khong hop le");
-            if (productToValidate.SoLuong.ToString().Length > 0 && !Regex.IsMatch(productToValidate.SoLuong.ToString(), @"\d"))
-                _validationDictionary.AddError("SoLuong", "Sai dữ liệu");
-
+            if (productToValidate.SoLuong.ToString().Length > 0 && !Regex.IsMatch(productToValidate.SoLuong.ToString(), @"\d")||productToValidate.SoLuong<0)
+                _validationDictionary.AddError("SoLuong", "Số lượng không hợp lệ");
             return _validationDictionary.IsValid;
         }
         public bool ValidateCustomer(KhachHang customerToValidate)
@@ -75,12 +75,9 @@ namespace MyProject.Service
             if (customerToValidate.Ten.Trim().Length == 0)
                 _validationDictionary.AddError("TenKH", "Vui lòng nhập họ tên  ");
             return _validationDictionary.IsValid;
-
-
         }
         #endregion
         #region Hóa đơn
-
         public bool CreateBill(HoaDon billToCreate)
         {
             if (!ValidateBill(billToCreate))
@@ -100,9 +97,7 @@ namespace MyProject.Service
         public bool DeleteBill(HoaDon billToDelete)
         {
             try
-            {
-                //Xóa toàn bộ chi tiết hóa đơn nằm bên trong
-                _billdetailrepository.deleteBillDetailbyID(billToDelete.MaHD);
+            {                
                 _billrepository.DeleteBill(billToDelete);
             }
             catch
@@ -126,10 +121,10 @@ namespace MyProject.Service
             }
             return true;
         }
-
+        IEnumerable listBillToSearch;
         public IEnumerable ListBills()
         {
-            return _billrepository.ListBills();
+            return listBillToSearch=_billrepository.ListBills();
         }
         public HoaDon getBill(String Key)
         {
@@ -138,11 +133,27 @@ namespace MyProject.Service
         public IEnumerable searchBill(String Key, String Type)
         {
             ValidateString(Key);
+            IList < HoaDon > result = new List<HoaDon>();
             if (Type == "Mã nhân viên")
-                return _billrepository.getBillByIDEm(Key);
+                foreach (HoaDon item in listBillToSearch)
+                {
+                    if(item.MaNV.Contains(Key))
+                    result.Add(item);
+                }
+
             if (Type == "Mã khách hàng")
-                return _billrepository.getBillByIDCu(Key);
-            return _billrepository.getBillByID(Key);
+                foreach (HoaDon item in listBillToSearch)
+                {
+                    if (item.MaKH.Contains(Key))
+                        result.Add(item);
+                }
+            if(Type == "Mã hóa đơn")
+                foreach (HoaDon item in listBillToSearch)
+                {
+                    if (item.MaHD.Contains(Key))
+                        result.Add(item);
+                }
+            return result;
         }
         public bool CheckFirstBill(String key)
         {
@@ -150,7 +161,6 @@ namespace MyProject.Service
                 return false;
             return true;
         }
-
         public List<HoaDon> Statistical(String DateStart, String DateEnd, String MaNV, int Type)
         {
             if (!ValidateDate(DateStart, DateEnd))
@@ -236,32 +246,32 @@ namespace MyProject.Service
         {
             return listToSearch=_productrepository.ListProducts();
         }
-        public IEnumerable SearchProducts(String Key, String Type)
+        public IEnumerable SearchProducts(String Key, String Type,decimal pricestart,decimal priceend)
         {
             ValidateString(Key);
             List<SanPham> result = new List<SanPham>();
             if (Type == "Mã nhà cung cấp")
                 foreach (SanPham item in listToSearch)
                 {
-                    if (item.MaNCC.Contains(Key))
+                    if (item.MaNCC.Contains(Key) && item.DonGia>=pricestart && item.DonGia<= priceend )
                         result.Add(item);
                 }
-            if (Type == "Mã danh mục")
+            if (Type == "Loại sản phẩm")
                 foreach (SanPham item in listToSearch)
                 {
-                    if (item.MaDM.Contains(Key))
+                    if (item.DanhMucSP.TenDM.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
                         result.Add(item);
                 }
             if (Type == "Tên sản phẩm")
                 foreach (SanPham item in listToSearch)
                 {
-                    if (item.TenSP.Contains(Key))
+                    if (item.TenSP.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
                         result.Add(item);
                 }
             if (Type == "Mã sản phẩm")
                 foreach (SanPham item in listToSearch)
                 {
-                    if (item.MaSP.Contains(Key))
+                    if (item.MaSP.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
                         result.Add(item);
                 }
             return result;
@@ -427,16 +437,16 @@ namespace MyProject.Service
         }
 
         #endregion
-        #region SQLDependency
-        public String getCommand()
-        {
-            return _billrepository.getCommand();
-        }
-        public void setSqlDependency()
-        {
-            _billrepository.SetSQLDependency();
-        }
-        #endregion
+        //#region SQLDependency
+        //public String getCommand()
+        //{
+        //    return _billrepository.getCommand();
+        //}
+        //public void setSqlDependency()
+        //{
+        //    _billrepository.SetSQLDependency();
+        //}
+        //#endregion
 
     }
 }

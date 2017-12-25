@@ -15,11 +15,11 @@ namespace MyProject.UI
 {
     public partial class Seller_UI : Form
     {
-        #region SQLDependency
-        public delegate void NewHome();
-        public event NewHome OnNewHome;
-        SqlConnection con = null;
-        #endregion
+        //#region SQLDependency
+        //public delegate void NewHome();
+        //public event NewHome OnNewHome;
+        //SqlConnection con = null;
+        //#endregion
         private ModelStateDictionary ModelState;
         private ISellerService _service;
         HoaDon billtoBackup;
@@ -34,60 +34,60 @@ namespace MyProject.UI
             }
             InitializeComponent();
             InitData();
-            #region SQLDependency
-            try
-            {
-                _service.setSqlDependency();
-                con = new SqlConnection(Information.StrConnect);
-            }
-            catch {
+            //#region SQLDependency
+            //try
+            //{
+            //    _service.setSqlDependency();
+            //    con = new SqlConnection(Information.StrConnect);
+            //}
+            //catch {
                
-            }
-                #endregion
+            //}
+            //    #endregion
         }
-        #region SQLDependency
-        public void SellerUI_OnNewHome()
-        {
-            ISynchronizeInvoke i = (ISynchronizeInvoke)this;
-            if (i.InvokeRequired)//tab
-            {
-                NewHome dd = new NewHome(SellerUI_OnNewHome);
-                i.BeginInvoke(dd, null);
-                return;
-            }
-            LoadData();
-        }
-        void LoadData()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                SqlCommand cmd = new SqlCommand(_service.getCommand(), con);
-                cmd.Notification = null;
-                SqlDependency de = new SqlDependency(cmd);
-                de.OnChange += new OnChangeEventHandler(de_OnChange);
-                dt.Load(cmd.ExecuteReader(CommandBehavior.CloseConnection));
-                IEnumerable<HoaDon> enumerable = Encode.ConvertToNumberale<HoaDon>(dt);
-                dgvHoadon.DataSource = enumerable.ToList();
-            }
-            catch
-            { }
-       }
+       // #region SQLDependency
+       // public void SellerUI_OnNewHome()
+       // {
+       //     ISynchronizeInvoke i = (ISynchronizeInvoke)this;
+       //     if (i.InvokeRequired)//tab
+       //     {
+       //         NewHome dd = new NewHome(SellerUI_OnNewHome);
+       //         i.BeginInvoke(dd, null);
+       //         return;
+       //     }
+       //     LoadData();
+       // }
+       // void LoadData()
+       // {
+       //     try
+       //     {
+       //         DataTable dt = new DataTable();
+       //         if (con.State == ConnectionState.Closed)
+       //         {
+       //             con.Open();
+       //         }
+       //         SqlCommand cmd = new SqlCommand(_service.getCommand(), con);
+       //         cmd.Notification = null;
+       //         SqlDependency de = new SqlDependency(cmd);
+       //         de.OnChange += new OnChangeEventHandler(de_OnChange);
+       //         dt.Load(cmd.ExecuteReader(CommandBehavior.CloseConnection));
+       //         IEnumerable<HoaDon> enumerable = Encode.ConvertToNumberale<HoaDon>(dt);
+       //         dgvHoadon.DataSource = enumerable.ToList();
+       //     }
+       //     catch
+       //     { }
+       //}
        
-        public void de_OnChange(object sender, SqlNotificationEventArgs e)
-        {
-            SqlDependency de = sender as SqlDependency;
-            de.OnChange -= de_OnChange;
-            if (OnNewHome != null)
-            {
-                OnNewHome();
-            }
-        }
-        #endregion
+       // public void de_OnChange(object sender, SqlNotificationEventArgs e)
+       // {
+       //     SqlDependency de = sender as SqlDependency;
+       //     de.OnChange -= de_OnChange;
+       //     if (OnNewHome != null)
+       //     {
+       //         OnNewHome();
+       //     }
+       // }
+       // #endregion
         public Seller_UI(ISellerService service)
             : this()
         {
@@ -161,14 +161,20 @@ namespace MyProject.UI
         private void viewSanPham(String key, String type)
         {
             ClearDGV(dgvProduct);
-            IEnumerable enumerable = _service.SearchProducts(key, type);
+            decimal pricestart = 0;
+            decimal priceend = decimal.MaxValue;
+            if (txtPriceStart.Text.Length != 0)
+                pricestart = decimal.Parse(txtPriceStart.Text);
+            if (txtPriceEnd.Text.Length != 0)
+                priceend = decimal.Parse(txtPriceEnd.Text);
+            IEnumerable enumerable = _service.SearchProducts(key, type,pricestart,priceend);
             foreach (SanPham item in enumerable)
             {
                 dgvProduct.Rows.Add(
                        item.MaSP,
                        item.TenSP,
                        item.DanhMucSP.TenDM,
-                       item.DonGia,
+                        LamTron(item.DonGia + item.DonGia * 30 / 100),
                        item.DonVi
                        );
             }
@@ -349,22 +355,16 @@ namespace MyProject.UI
         //Tạo hóa đơn để chỉnh sửa
         HoaDon getBill()
         {
-            try
+
+            return new HoaDon()
             {
-                return new HoaDon()
-                {
-                    MaHD = txtIDBilltoEdit.Text,
-                    MaNV = txtIDEmployeetoEdit.Text,
-                    MaKH = txtIDCustomertoEdit.Text == "" ? "" : txtIDCustomertoEdit.Text,
-                    NgayLap = DateTime.Parse(txtDatetoEdit.Text),
-                    TongTien = txtTotaltoEdit.Text == "" ? 0 : decimal.Parse(txtTotaltoEdit.Text),
-                    TrangThai = txtStatustoEdit.Text
-                };
-            }
-            catch
-            {
-                return null;
-            }
+                MaHD = txtIDBilltoEdit.Text,
+                MaNV = txtIDEmployeetoEdit.Text,
+                NgayLap = DateTime.Parse(txtDatetoEdit.Text),
+                TongTien = txtTotaltoEdit.Text == "" ? 0 : decimal.Parse(txtTotaltoEdit.Text),
+                TrangThai = txtStatustoEdit.Text,
+                MaKH = txtIDCustomertoEdit.Text == "" ? "" : txtIDCustomertoEdit.Text,
+            };
         }
         //Khởi tạo chi tiết hóa đơn
         ChiTietHoaDon getBillDetail(String mahd, string masp, decimal dongia, int soluong)
@@ -465,7 +465,7 @@ namespace MyProject.UI
             HoaDon billToEdit = getBill();
             if (_service.EditBill(billToEdit))
             {
-                MessageBox.Show("Thành công");
+                MessageBox.Show("Thành công","Thông báo",MessageBoxButtons.OK,MessageBoxIcon.None);
                 inforBill.Visible = false;
                 View();
             }
@@ -488,13 +488,14 @@ namespace MyProject.UI
                 MessageBox.Show("Vui lòng chọn hóa đơn");
             else
             {
-                HoaDon billtoDelete = getBill();
+                HoaDon billtoDelete = _service.getBill(txtIDBilltoEdit.Text);
                 DialogResult dlr = MessageBox.Show("Bạn có muốn xóa hóa đơn", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlr == DialogResult.Yes)
                 {
-                    _service.DeleteBill(billtoDelete);
-                    MessageBox.Show("Thành công");
+                    if (_service.DeleteBill(billtoDelete))
+                        MessageBox.Show("Thành công");
                     View();
+                   
                 }
             }
         }
@@ -715,11 +716,11 @@ namespace MyProject.UI
             ptrHinhAnh.ImageLocation = ("..\\..\\Images\\QuanLy.jpg");
             View();
             cboTypeofBill.SelectedIndex = 0;
-            #region SQLDependency
-            OnNewHome += new NewHome(SellerUI_OnNewHome);//tab
-            //load data vao datagrid
-            LoadData();
-            #endregion
+            //#region SQLDependency
+            //OnNewHome += new NewHome(SellerUI_OnNewHome);//tab
+            ////load data vao datagrid
+            //LoadData();
+            //#endregion
         }
         private void Seller_UI_FormClosed(object sender, FormClosedEventArgs e)
         {

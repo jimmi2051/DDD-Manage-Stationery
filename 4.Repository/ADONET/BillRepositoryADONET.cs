@@ -36,22 +36,6 @@ namespace MyProject.Repository.ADONET
         {
             throw new NotImplementedException();
         }
-
-        public IEnumerable<HoaDon> getBillByID(string ID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<HoaDon> getBillByIDCu(string ID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<HoaDon> getBillByIDEm(string ID)
-        {
-            throw new NotImplementedException();
-        }
-
         public string getCommand()
         {
             throw new NotImplementedException();

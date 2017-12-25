@@ -28,7 +28,6 @@ namespace MyProject.Repository.RAW
             _entities.SaveChanges();
             return BillToEdit;
         }
-
         public IEnumerable<HoaDon> ListBills()
         {
             return _entities.HoaDons.ToList();
@@ -38,35 +37,6 @@ namespace MyProject.Repository.RAW
             return (from c in _entities.HoaDons
                     where c.MaHD.Equals(Key)
                     select c).FirstOrDefault();
-        }
-        public IEnumerable<HoaDon> SearchBills(String Key)
-        {
-            return (from c in _entities.HoaDons
-                    where c.MaHD.Equals(Key)
-                    select c).ToList();
-        }
-        public HoaDon GetLastBill()
-        {
-            HoaDon[] ar = _entities.HoaDons.ToArray();
-            return ar[ar.Length - 1];
-        }
-        public IEnumerable<HoaDon> getBillByID(String ID)
-        {
-            return (from c in _entities.HoaDons
-                    where c.MaHD.Equals(ID)
-                    select c).ToList();
-        }
-        public IEnumerable<HoaDon> getBillByIDEm(String ID)
-        {
-            return (from c in _entities.HoaDons
-                    where c.MaNV.Equals(ID)
-                    select c).ToList();
-        }
-        public IEnumerable<HoaDon> getBillByIDCu(String ID)
-        {
-            return (from c in _entities.HoaDons
-                    where c.MaKH.Equals(ID)
-                    select c).ToList();
         }
         public KhachHang checkCustomer(String key)
         {
@@ -78,15 +48,6 @@ namespace MyProject.Repository.RAW
                     where c.MaNV.Equals(key)
                     select c).FirstOrDefault();
         }
-        public MaKhuyenMai getCode(String key)
-
-        {
-            return null;
-        }
-        public void deleteCode(MaKhuyenMai target)
-        {
-            
-        }
 
         public IEnumerable<HoaDon> getBillByDate(string SqlCmd)
         {
@@ -97,17 +58,10 @@ namespace MyProject.Repository.RAW
         {
             throw new NotImplementedException();
         }
-
         public void SetSQLDependency()
         {
             throw new NotImplementedException();
         }
-
-        public IEnumerable<HoaDon> LoadData()
-        {
-            throw new NotImplementedException();
-        }
-
         public string getCommand()
         {
             throw new NotImplementedException();

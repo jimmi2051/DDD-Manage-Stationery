@@ -12,7 +12,7 @@ namespace MyProject.Service
         bool DeleteBill(HoaDon billToDelete);
         bool EditBill(HoaDon billToEdit);
         IEnumerable ListBills();
-        IEnumerable searchBill(String Key, String type);
+        IEnumerable searchBill(String Key, String type);       
         HoaDon billCreateNew();
         HoaDon getBill(String key);
         List<HoaDon> Statistical(String DateStart, String DateEnd, String MaNV, int Type);
@@ -27,10 +27,10 @@ namespace MyProject.Service
         //Repository của Sản phẩm
         bool checkAmount(string product_id, int target);
         IEnumerable ListProducts();
-        IEnumerable SearchProducts(String Key,String type);
+        IEnumerable SearchProducts(String Key,String type, decimal pricestart, decimal priceend);
         SanPham GetProduct(String Key);
         bool Comfirm(String billID);
-        //Repository của Khách han2g
+        //Repository của Khách hanng
         bool CreateCustomer(KhachHang CustomerToCreate);
         bool DeleteCustomer(KhachHang CustomerToDelete);
         bool EditCustomer(KhachHang CustomerToEdit);
@@ -41,8 +41,8 @@ namespace MyProject.Service
         //Mã giảm giá
         MaKhuyenMai getCode(String key);
         bool deleteCode(MaKhuyenMai target);
-        //SQLDependency
-        String getCommand();
-        void setSqlDependency();
+        ////SQLDependency
+        //String getCommand();
+        //void setSqlDependency();
     }
 }

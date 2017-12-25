@@ -153,6 +153,12 @@
             this.Code = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.errProdive = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtPriceStart = new System.Windows.Forms.TextBox();
+            this.txtPriceEnd = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
@@ -1010,6 +1016,12 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label29);
+            this.groupBox4.Controls.Add(this.label28);
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.label26);
+            this.groupBox4.Controls.Add(this.txtPriceEnd);
+            this.groupBox4.Controls.Add(this.txtPriceStart);
             this.groupBox4.Controls.Add(this.dgvProduct);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.txtQualitytoAdd);
@@ -1020,7 +1032,7 @@
             this.groupBox4.Controls.Add(this.btnThemsp);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(454, 277);
+            this.groupBox4.Size = new System.Drawing.Size(454, 320);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sản phẩm";
@@ -1039,10 +1051,10 @@
             this.Loại,
             this.DonGia,
             this.DonVi});
-            this.dgvProduct.Location = new System.Drawing.Point(6, 45);
+            this.dgvProduct.Location = new System.Drawing.Point(6, 81);
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.ReadOnly = true;
-            this.dgvProduct.Size = new System.Drawing.Size(431, 197);
+            this.dgvProduct.Size = new System.Drawing.Size(431, 204);
             this.dgvProduct.TabIndex = 12;
             // 
             // MaSP
@@ -1085,7 +1097,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(196, 258);
+            this.label3.Location = new System.Drawing.Point(196, 301);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 9;
@@ -1094,7 +1106,7 @@
             // txtQualitytoAdd
             // 
             this.txtQualitytoAdd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.txtQualitytoAdd.Location = new System.Drawing.Point(251, 253);
+            this.txtQualitytoAdd.Location = new System.Drawing.Point(251, 296);
             this.txtQualitytoAdd.MaxLength = 9;
             this.txtQualitytoAdd.Name = "txtQualitytoAdd";
             this.txtQualitytoAdd.Size = new System.Drawing.Size(102, 20);
@@ -1103,17 +1115,17 @@
             // 
             // txtKeyofProducttoSearch
             // 
-            this.txtKeyofProducttoSearch.Location = new System.Drawing.Point(6, 19);
+            this.txtKeyofProducttoSearch.Location = new System.Drawing.Point(108, 23);
             this.txtKeyofProducttoSearch.MaxLength = 100;
             this.txtKeyofProducttoSearch.Name = "txtKeyofProducttoSearch";
-            this.txtKeyofProducttoSearch.Size = new System.Drawing.Size(152, 20);
+            this.txtKeyofProducttoSearch.Size = new System.Drawing.Size(100, 20);
             this.txtKeyofProducttoSearch.TabIndex = 1;
             // 
             // pictureBox9
             // 
             this.pictureBox9.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
-            this.pictureBox9.Location = new System.Drawing.Point(359, 248);
+            this.pictureBox9.Location = new System.Drawing.Point(359, 291);
             this.pictureBox9.Name = "pictureBox9";
             this.pictureBox9.Size = new System.Drawing.Size(31, 23);
             this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1122,9 +1134,9 @@
             // 
             // btnSearchtoProduct
             // 
-            this.btnSearchtoProduct.Location = new System.Drawing.Point(304, 16);
+            this.btnSearchtoProduct.Location = new System.Drawing.Point(353, 18);
             this.btnSearchtoProduct.Name = "btnSearchtoProduct";
-            this.btnSearchtoProduct.Size = new System.Drawing.Size(75, 23);
+            this.btnSearchtoProduct.Size = new System.Drawing.Size(84, 51);
             this.btnSearchtoProduct.TabIndex = 2;
             this.btnSearchtoProduct.Text = "Tìm kiếm";
             this.btnSearchtoProduct.UseVisualStyleBackColor = true;
@@ -1138,9 +1150,9 @@
             "Mã nhà cung cấp",
             "Loại sản phẩm",
             "Tên sản phẩm"});
-            this.cboTypeofProduct.Location = new System.Drawing.Point(168, 19);
+            this.cboTypeofProduct.Location = new System.Drawing.Point(254, 25);
             this.cboTypeofProduct.Name = "cboTypeofProduct";
-            this.cboTypeofProduct.Size = new System.Drawing.Size(121, 21);
+            this.cboTypeofProduct.Size = new System.Drawing.Size(93, 21);
             this.cboTypeofProduct.TabIndex = 3;
             this.cboTypeofProduct.SelectedIndexChanged += new System.EventHandler(this.cboLoaisp_SelectedIndexChanged);
             // 
@@ -1148,7 +1160,7 @@
             // 
             this.btnThemsp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnThemsp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemsp.Location = new System.Drawing.Point(358, 248);
+            this.btnThemsp.Location = new System.Drawing.Point(358, 291);
             this.btnThemsp.Name = "btnThemsp";
             this.btnThemsp.Size = new System.Drawing.Size(84, 23);
             this.btnThemsp.TabIndex = 1;
@@ -1492,6 +1504,56 @@
             // 
             this.errProdive.ContainerControl = this;
             // 
+            // txtPriceStart
+            // 
+            this.txtPriceStart.Location = new System.Drawing.Point(108, 49);
+            this.txtPriceStart.Name = "txtPriceStart";
+            this.txtPriceStart.Size = new System.Drawing.Size(100, 20);
+            this.txtPriceStart.TabIndex = 13;
+            // 
+            // txtPriceEnd
+            // 
+            this.txtPriceEnd.Location = new System.Drawing.Point(247, 49);
+            this.txtPriceEnd.Name = "txtPriceEnd";
+            this.txtPriceEnd.Size = new System.Drawing.Size(100, 20);
+            this.txtPriceEnd.TabIndex = 14;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(214, 56);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(27, 13);
+            this.label26.TabIndex = 15;
+            this.label26.Text = "Đến";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(41, 56);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(61, 13);
+            this.label27.TabIndex = 16;
+            this.label27.Text = "Khoảng giá";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(41, 30);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(47, 13);
+            this.label28.TabIndex = 17;
+            this.label28.Text = "Từ khóa";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(216, 28);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(32, 13);
+            this.label29.TabIndex = 18;
+            this.label29.Text = "Theo";
+            // 
             // Seller_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1674,5 +1736,11 @@
         private System.Windows.Forms.ColumnHeader lwvDonGia;
         private System.Windows.Forms.ColumnHeader lwvSoLuong;
         private System.Windows.Forms.ColumnHeader lwvThanhTien;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox txtPriceEnd;
+        private System.Windows.Forms.TextBox txtPriceStart;
     }
 }

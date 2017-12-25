@@ -14,29 +14,11 @@ namespace MyProject.Repository
         #region Queries
         public IEnumerable<HoaDon> ListBills()
         {
-            IEnumerable<HoaDon> list = _entities.Database.SqlQuery<HoaDon>("SELECT * FROM HoaDon").ToList();
-            foreach (var item in list)
-            {
-                item.NhanVien = _entities.NhanViens.Where(c => c.MaNV.Equals(item.MaNV)).FirstOrDefault();
-                item.KhachHang = _entities.KhachHangs.Where(c => c.MaKH.Equals(item.MaKH)).FirstOrDefault();
-            }
-            return list;
+           return  _entities.HoaDons.ToList();
         }
         public HoaDon GetBill(String Key)
         {
-            return _entities.Database.SqlQuery<HoaDon>("SELECT * FROM HoaDon WHERE MaHD = '" + Key + "'").FirstOrDefault();
-        }
-        public IEnumerable<HoaDon> getBillByID(String ID)
-        {
-            return _entities.Database.SqlQuery<HoaDon>("SELECT * FROM HoaDon WHERE MaHD Like '%" + ID + "%'").ToList();
-        }
-        public IEnumerable<HoaDon> getBillByIDEm(String ID)
-        {
-            return _entities.Database.SqlQuery<HoaDon>("SELECT * FROM HoaDon WHERE MaNV Like '%" + ID + "%'").ToList();
-        }
-        public IEnumerable<HoaDon> getBillByIDCu(String ID)
-        {
-            return _entities.Database.SqlQuery<HoaDon>("SELECT * FROM HoaDon WHERE MaKH Like '%" + ID + "%'").ToList();
+            return _entities.HoaDons.Where(c => c.MaHD.Equals(Key)).FirstOrDefault();
         }
         public IEnumerable<HoaDon> getBillByDate(String SqlCmd)
         {
@@ -63,33 +45,31 @@ namespace MyProject.Repository
             _entities.SaveChanges();
             return BillToEdit;
         }
-
         public void ComfirmBill(string ID, int quality)
-        {
-            
+        {          
             _entities.SaveChanges();
         }
         #endregion
-        #region SQLDependency
-        SqlConnection con = null;
-        public void SetSQLDependency()
-        {
-            Infrastructure.Information.StrConnect = _entities.Database.Connection.ConnectionString;
-            SqlClientPermission perm = new SqlClientPermission(PermissionState.Unrestricted);
-            perm.Demand();
-            try
-            {
-                SqlDependency.Start(Infrastructure.Information.StrConnect);
-            }
-            catch (Exception ex)
-            {
-                throw new System.Exception("Fails to Start the SqlDependency in the ImmediateNotificationRegister public class", ex);
-            }
-            con = new SqlConnection(Infrastructure.Information.StrConnect);
-        }
-        public String getCommand() {
-            return "SELECT MaHD,MaNV,MaKH,TongTien,TrangThai,NgayLap  from dbo.HoaDon";
-        }     
-        #endregion
+        //#region SQLDependency
+        //SqlConnection con = null;
+        //public void SetSQLDependency()
+        //{
+        //    Infrastructure.Information.StrConnect = _entities.Database.Connection.ConnectionString;
+        //    SqlClientPermission perm = new SqlClientPermission(PermissionState.Unrestricted);
+        //    perm.Demand();
+        //    try
+        //    {
+        //        SqlDependency.Start(Infrastructure.Information.StrConnect);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new System.Exception("Fails to Start the SqlDependency in the ImmediateNotificationRegister public class", ex);
+        //    }
+        //    con = new SqlConnection(Infrastructure.Information.StrConnect);
+        //}
+        //public String getCommand() {
+        //    return "SELECT MaHD,MaNV,MaKH,TongTien,TrangThai,NgayLap  from dbo.HoaDon";
+        //}     
+        //#endregion
     }
 }
