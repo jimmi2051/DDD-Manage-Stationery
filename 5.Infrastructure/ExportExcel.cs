@@ -131,12 +131,12 @@ namespace MyProject.Infrastructure
                 tail.Value2 = getTongTien;
 
                 // Save file
-                oBook.SaveAs(System.Windows.Forms.Application.StartupPath + @"\ExportExcel\" + BillID + ".xls", XlFileFormat.xlWorkbookNormal,
+                oBook.SaveAs(System.Windows.Forms.Application.StartupPath + @"\" + BillID + ".xls", XlFileFormat.xlWorkbookNormal,
                                 null, null, false, false,
                                 XlSaveAsAccessMode.xlExclusive,
                                 false, false, false, false, false);
                 oExcel.Quit();
-                FileInfo fil = new FileInfo(System.Windows.Forms.Application.StartupPath + @"\ExportExcel\" + BillID + ".xls");
+                FileInfo fil = new FileInfo(System.Windows.Forms.Application.StartupPath + @"\" + BillID + ".xls");
                 if (fil.Exists == true)
                 {
                     MessageBox.Show("Xuất thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

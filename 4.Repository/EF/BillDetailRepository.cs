@@ -33,7 +33,6 @@ namespace MyProject.Repository
         {
             var originalBill = getBillDetail(billDetailToEdit.MaHD, billDetailToEdit.MaSP);
             _entities.Entry(originalBill).CurrentValues.SetValues(billDetailToEdit);
-            //  _entities.Update_ChiTietHD(billDetailToEdit.MaHD, billDetailToEdit.MaSP, billDetailToEdit.DonGia, billDetailToEdit.SoLuong);
             _entities.SaveChanges();
             return billDetailToEdit;
         }
@@ -45,13 +44,7 @@ namespace MyProject.Repository
         }
         public IEnumerable<ChiTietHoaDon> ListBillDetailByID(String key)
         {
-            IEnumerable<ChiTietHoaDon> list = _entities.Database.SqlQuery<ChiTietHoaDon>("SELECT * FROM CHITIETHOADON WHERE MaHD='" + key + "' ").ToList();
-            foreach (ChiTietHoaDon item in list)
-            {
-                item.SanPham = (_entities.SanPhams.Where(c => c.MaSP.Equals(item.MaSP)).FirstOrDefault());
-                item.HoaDon = _entities.HoaDons.Where(c => c.MaHD.Equals(item.MaHD)).FirstOrDefault();
-            }
-            return list;
+            return _entities.ChiTietHoaDons.Where(c => c.MaHD.Equals(key)).ToList();
         }
         public ChiTietHoaDon getFirstBillDetail(String Key)
         {

@@ -589,105 +589,23 @@ namespace MyProject.UI
                 View();
                 ViewErrors();
                 BilltoChecked = billtoUpdate;
+                txtTongtien.Text = _service.getBill(txtIDBilltoDetail.Text).TongTien.ToString();
+                txtThanhtien.Text = txtTongtien.Text;
+                btnTratien.Enabled = true;
                 timer.Tick += new EventHandler(timer_Tick); 
                 timer.Interval = (1000) * (30);            
                 timer.Enabled = true; 
                 timer.Start();
             }          
-        }
-
-        //Chuyển sang mục thanh toán
-        private void btnThanhtoan_Click(object sender, EventArgs e)
-        {
-            if (!_service.CheckFirstBill(txtIDBilltoDetail.Text))
-            {
-                MessageBox.Show("Vui lòng cập nhập hóa đơn");
-                return;
-            }
-            if (dgvDachon.Rows.Count == 0)
-            {
-                MessageBox.Show("Bạn chưa chọn hàng ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            tabControl.SelectedTab = tabThanhtoan;
-            txtTongtien.Text = _service.getBill(txtIDBilltoDetail.Text).TongTien.ToString();
-            txtThanhtien.Text = txtTongtien.Text;
-            btnTratien.Enabled = true;
-        }
-        //Trả tiền và giảm số lượng sản phẩm trong sản phẩm
-        private void btnTratien_Click(object sender, EventArgs e)
-        {
-            if (CheckBill())
-            {
-                if (txtTienthua.Text.Equals("-0.000") || txtTienthua.Text.Equals(""))
-                    MessageBox.Show("Bạn chưa trả đủ tiền", "Lỗi: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                {
-                    if (_service.Comfirm(txtIDBilltoDetail.Text))
-                    {
-                        MessageBox.Show("Thanh toán thành công ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.None);
-                        btnTratien.Enabled = false;
-                        InHoaDon();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Lỗi thanh toán", "Lỗi",MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                    }
-                }
-            }           
-            View();
-        }
-        //Cập nhập tiền thối 
-        private void txtKhachdua_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (decimal.Parse(txtKhachdua.Text) >= decimal.Parse(txtThanhtien.Text))
-                    txtTienthua.Text = (decimal.Parse(txtKhachdua.Text) - decimal.Parse(txtThanhtien.Text)).ToString();
-                else txtTienthua.Text = "-0.000";
-            }
-            catch { }
-        }
+        }         
         //Chặn bấm tùm lum
         private void tabControl_Click(object sender, EventArgs e)
         {
-            if ((tabControl.SelectedTab == tabChitiet || tabControl.SelectedTab == tabThanhtoan) && txtIDBilltoDetail.Text.Equals(""))
+            if ((tabControl.SelectedTab == tabChitiet ) && txtIDBilltoDetail.Text.Equals(""))
             {
                 tabControl.SelectedTab = tabHoadon;
                 MessageBox.Show("Vui lòng chọn hóa đơn để xem chi tiết");
                 return;
-            }
-            if (tabControl.SelectedTab == tabThanhtoan && dgvDachon.Rows.Count == 0)
-            {
-                MessageBox.Show("Bạn chưa chọn hàng ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                tabControl.SelectedTab = tabChitiet;
-                return;
-            }
-        }
-        //Áp dụng mã giảm giá
-        private void btnAddcode_Click(object sender, EventArgs e)
-        {
-            float tongtien = float.Parse(_service.getBill(txtIDBilltoDetail.Text).TongTien.ToString());
-            if (txtMagiamgia.Text.Length == 5)
-                CodeSales = _service.getCode(txtMagiamgia.Text);
-            else errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
-            if (CodeSales == null)
-                errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
-            else
-            {
-                errProdive.Clear();
-                txtThanhtien.Text = (tongtien - tongtien / 100 * CodeSales.TiLe).ToString();
-                txtKhachdua_TextChanged(sender, e);
-            }
-        }
-
-        //In hóa đợn
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            if (ExportExcel.ExportEx(txtIDBilltoDetail.Text, lblNhanVien.Text, lblKhachHang2.Text, txtDatetoEdit.Text, this.listView1, lblTongTien.Text))
-            {
-                grbInhoadon.Visible = false;
-                tabControl.SelectedTab = tabHoadon;
             }
         }
         private void txtSoLuong_TextChanged(object sender, EventArgs e)
@@ -744,5 +662,64 @@ namespace MyProject.UI
             Visible = false;
         }
         #endregion
+
+        private void btnTratien_Click_1(object sender, EventArgs e)
+        {
+            if (CheckBill())
+            {
+                if (txtTienthua.Text.Equals("-0.000") || txtTienthua.Text.Equals(""))
+                    MessageBox.Show("Bạn chưa trả đủ tiền", "Lỗi: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    if (_service.Comfirm(txtIDBilltoDetail.Text))
+                    {
+                        MessageBox.Show("Thanh toán thành công ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        btnTratien.Enabled = false;
+                        InHoaDon();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lỗi thanh toán", "Lỗi", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            View();
+        }
+
+        private void btnAddcode_Click_1(object sender, EventArgs e)
+        {
+            float tongtien = float.Parse(_service.getBill(txtIDBilltoDetail.Text).TongTien.ToString());
+            if (txtMagiamgia.Text.Length == 5)
+                CodeSales = _service.getCode(txtMagiamgia.Text);
+            else errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
+            if (CodeSales == null)
+                errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
+            else
+            {
+                errProdive.Clear();
+                txtThanhtien.Text = (tongtien - tongtien / 100 * CodeSales.TiLe).ToString();
+                txtKhachdua_TextChanged_1(sender, e);
+            }
+        }
+
+        private void btnPrint_Click_1(object sender, EventArgs e)
+        {
+            if (ExportExcel.ExportEx(txtIDBilltoDetail.Text, lblNhanVien.Text, lblKhachHang2.Text, txtDatetoEdit.Text, this.listView1, lblTongTien.Text))
+            {
+                grbInhoadon.Visible = false;
+                tabControl.SelectedTab = tabHoadon;
+            }
+        }
+
+        private void txtKhachdua_TextChanged_1(object sender, EventArgs e)
+        {
+            try
+            {
+                if (decimal.Parse(txtKhachdua.Text) >= decimal.Parse(txtThanhtien.Text))
+                    txtTienthua.Text = (decimal.Parse(txtKhachdua.Text) - decimal.Parse(txtThanhtien.Text)).ToString();
+                else txtTienthua.Text = "-0.000";
+            }
+            catch { }
+        }
     }
 }
