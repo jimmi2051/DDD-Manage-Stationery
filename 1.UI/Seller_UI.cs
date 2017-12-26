@@ -15,11 +15,6 @@ namespace MyProject.UI
 {
     public partial class Seller_UI : Form
     {
-        //#region SQLDependency
-        //public delegate void NewHome();
-        //public event NewHome OnNewHome;
-        //SqlConnection con = null;
-        //#endregion
         private ModelStateDictionary ModelState;
         private ISellerService _service;
         HoaDon billtoBackup;
@@ -34,60 +29,7 @@ namespace MyProject.UI
             }
             InitializeComponent();
             InitData();
-            //#region SQLDependency
-            //try
-            //{
-            //    _service.setSqlDependency();
-            //    con = new SqlConnection(Information.StrConnect);
-            //}
-            //catch {
-               
-            //}
-            //    #endregion
         }
-       // #region SQLDependency
-       // public void SellerUI_OnNewHome()
-       // {
-       //     ISynchronizeInvoke i = (ISynchronizeInvoke)this;
-       //     if (i.InvokeRequired)//tab
-       //     {
-       //         NewHome dd = new NewHome(SellerUI_OnNewHome);
-       //         i.BeginInvoke(dd, null);
-       //         return;
-       //     }
-       //     LoadData();
-       // }
-       // void LoadData()
-       // {
-       //     try
-       //     {
-       //         DataTable dt = new DataTable();
-       //         if (con.State == ConnectionState.Closed)
-       //         {
-       //             con.Open();
-       //         }
-       //         SqlCommand cmd = new SqlCommand(_service.getCommand(), con);
-       //         cmd.Notification = null;
-       //         SqlDependency de = new SqlDependency(cmd);
-       //         de.OnChange += new OnChangeEventHandler(de_OnChange);
-       //         dt.Load(cmd.ExecuteReader(CommandBehavior.CloseConnection));
-       //         IEnumerable<HoaDon> enumerable = Encode.ConvertToNumberale<HoaDon>(dt);
-       //         dgvHoadon.DataSource = enumerable.ToList();
-       //     }
-       //     catch
-       //     { }
-       //}
-       
-       // public void de_OnChange(object sender, SqlNotificationEventArgs e)
-       // {
-       //     SqlDependency de = sender as SqlDependency;
-       //     de.OnChange -= de_OnChange;
-       //     if (OnNewHome != null)
-       //     {
-       //         OnNewHome();
-       //     }
-       // }
-       // #endregion
         public Seller_UI(ISellerService service)
             : this()
         {
@@ -488,7 +430,7 @@ namespace MyProject.UI
                 MessageBox.Show("Vui lòng chọn hóa đơn");
             else
             {
-                HoaDon billtoDelete = _service.getBill(txtIDBilltoEdit.Text);
+                HoaDon billtoDelete = getBill();
                 DialogResult dlr = MessageBox.Show("Bạn có muốn xóa hóa đơn", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlr == DialogResult.Yes)
                 {
@@ -633,12 +575,7 @@ namespace MyProject.UI
             lbHello.Text = "Xin chào, " + Information.Nhanvien.Ten + " \nChức vụ: " + Information.Nhanvien.ChucVu + " ";
             ptrHinhAnh.ImageLocation = ("..\\..\\Images\\QuanLy.jpg");
             View();
-            cboTypeofBill.SelectedIndex = 0;
-            //#region SQLDependency
-            //OnNewHome += new NewHome(SellerUI_OnNewHome);//tab
-            ////load data vao datagrid
-            //LoadData();
-            //#endregion
+            cboTypeofBill.SelectedIndex = 0;         
         }
         private void Seller_UI_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -662,7 +599,6 @@ namespace MyProject.UI
             Visible = false;
         }
         #endregion
-
         private void btnTratien_Click_1(object sender, EventArgs e)
         {
             if (CheckBill())

@@ -22,7 +22,7 @@ namespace MyProject.Repository
         }
         public void DeleteWareHouse(Kho warehouseToDelete)
         {
-            _entities.Khoes.Remove(warehouseToDelete);
+            _entities.Khoes.Remove(getWareHouse(warehouseToDelete.MaSP));
             _entities.SaveChanges();
         }
         public Kho getWareHouse(String msp)
@@ -31,17 +31,8 @@ namespace MyProject.Repository
         }
         public IEnumerable<Kho> listWareHouses()
         {
-            return _entities.Database.SqlQuery<Kho>("SELECT * FROM KHO").ToList(); 
+            return _entities.Khoes.ToList();
         }
-        public IEnumerable<Kho> searchWareHouse(String key)
-        {
-            return _entities.Khoes.Where(c=>c.MaSP.Contains(key)).ToList();
-        }
-        public IEnumerable<Kho> searchWareHouseBy(String key)
-        {
-            return _entities.Khoes.Where(c => c.MaPhieu.Contains(key)).ToList();
-        }
-
         public IEnumerable<Kho> StatisticalWareHouse(string sqlcmd)
         {
             return _entities.Database.SqlQuery<Kho>(sqlcmd);

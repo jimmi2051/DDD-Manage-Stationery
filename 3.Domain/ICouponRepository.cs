@@ -9,8 +9,5 @@ namespace MyProject.Domain
         PhieuNhapXuat EditCoupon(PhieuNhapXuat CouponToEdit);
         PhieuNhapXuat GetCoupon(String Key);
         IEnumerable<PhieuNhapXuat> ListCoupons();
-        IEnumerable<PhieuNhapXuat> getCouponByID(String ID);
-        IEnumerable<PhieuNhapXuat> getCouponByEm(String key);
-        IEnumerable<PhieuNhapXuat> getCouponByStt(String key);
     }
 }

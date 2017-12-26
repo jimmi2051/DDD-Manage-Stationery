@@ -8,14 +8,10 @@ namespace MyProject.Domain
         //Commands
         HoaDon CreateBill(HoaDon BillToCreate);
         void DeleteBill(HoaDon BillToDelete);
-        HoaDon EditBill(HoaDon BillToEdit);
-        void ComfirmBill(string ID,int quality);      
+        HoaDon EditBill(HoaDon BillToEdit);   
         //Queries
         HoaDon GetBill(String Key);
         IEnumerable<HoaDon> ListBills();
         IEnumerable<HoaDon> getBillByDate(String SqlCmd);
-        ////SQLDependency
-        //void SetSQLDependency();
-        //String getCommand();
     }
 }

@@ -28,21 +28,6 @@ namespace MyProject.Repository.ADONET
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PhieuNhapXuat> getCouponByEm(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<PhieuNhapXuat> getCouponByID(string ID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<PhieuNhapXuat> getCouponByStt(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<PhieuNhapXuat> ListCoupons()
         {
             throw new NotImplementedException();

@@ -16,7 +16,7 @@ namespace MyProject.Repository
         }
         public void DeleteProductCategory(DanhMucSP target)
         {
-            _entities.DanhMucSPs.Remove(target);
+            _entities.DanhMucSPs.Remove(GetProductCategory(target.MaDM));
             _entities.SaveChanges();
         }
         public DanhMucSP EditProductCategory(DanhMucSP productcategoryToEdit)

@@ -7,10 +7,6 @@ namespace MyProject.Repository.ADONET
 {
     public class BillRepositoryADONET : IBillRepository
     {
-        public void ComfirmBill(string ID, int quality)
-        {
-            throw new NotImplementedException();
-        }
 
         public HoaDon CreateBill(HoaDon BillToCreate)
         {

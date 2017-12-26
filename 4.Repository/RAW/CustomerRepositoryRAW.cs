@@ -29,15 +29,5 @@ namespace MyProject.Repository.RAW
         {
             throw new NotImplementedException();
         }
-
-        public IEnumerable<KhachHang> SearchCustomers(string Key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<KhachHang> SearchCustomersbyName(string Key)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

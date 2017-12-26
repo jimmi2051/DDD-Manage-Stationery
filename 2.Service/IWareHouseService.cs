@@ -31,5 +31,9 @@ namespace MyProject.Service
         bool DeleteDetailCoupon(ChiTietPhieu DetailCouponToDelete);
         ChiTietPhieu getDetailCoupon(String ID, String key);
         bool DeleteDetailCouponByID(String key);
+        //Product
+        IEnumerable ListProducts();
+        IEnumerable SearchProducts(String Key, String type, decimal pricestart, decimal priceend);
+        SanPham GetProduct(String Key);
     }
 }

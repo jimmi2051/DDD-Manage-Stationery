@@ -21,7 +21,7 @@ namespace MyProject.Repository.RAW
         }
         public HoaDon EditBill(HoaDon BillToEdit)
         {
-            //_entities.UpdateBill(BillToEdit.MaSP, BillToEdit.MaNCC, BillToEdit.MaDM, BillToEdit.TenSP, BillToEdit.DonGia, BillToEdit.SoLuong, BillToEdit.XuatXu, BillToEdit.TrongLuong, BillToEdit.KichThuoc, BillToEdit.DonVi);
+          
             var originalBill = GetBill(BillToEdit.MaHD);
             _entities.HoaDons.Remove(originalBill);
             _entities.HoaDons.Add(BillToEdit);
@@ -50,19 +50,6 @@ namespace MyProject.Repository.RAW
         }
 
         public IEnumerable<HoaDon> getBillByDate(string SqlCmd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ComfirmBill(string ID, int quality)
-        {
-            throw new NotImplementedException();
-        }
-        public void SetSQLDependency()
-        {
-            throw new NotImplementedException();
-        }
-        public string getCommand()
         {
             throw new NotImplementedException();
         }

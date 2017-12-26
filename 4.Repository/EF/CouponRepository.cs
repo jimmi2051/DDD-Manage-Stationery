@@ -15,14 +15,14 @@ namespace MyProject.Repository
         }
         public void DeleteCoupon(PhieuNhapXuat CouponToDelete)
         {
-            _entities.PhieuNhapXuats.Remove(CouponToDelete);
+            _entities.PhieuNhapXuats.Remove(GetCoupon(CouponToDelete.MaPhieu));
             _entities.SaveChanges();
         }
         public PhieuNhapXuat EditCoupon(PhieuNhapXuat CouponToEdit)
         {
             var originalCoupon = GetCoupon(CouponToEdit.MaPhieu);
             _entities.Entry(originalCoupon).CurrentValues.SetValues(CouponToEdit);
-            //_entities.Update_PhieuNhapXuat(CouponToEdit.MaPhieu, CouponToEdit.MaNV, CouponToEdit.TongTien, CouponToEdit.NgayLap, CouponToEdit.TrangThai);
+         
             _entities.SaveChanges();
             return CouponToEdit;
         }
@@ -33,19 +33,7 @@ namespace MyProject.Repository
         public IEnumerable<PhieuNhapXuat> ListCoupons()
         {
                 return _entities.PhieuNhapXuats.ToList();
-           // return _entities.Database.SqlQuery<PhieuNhapXuat>("SELECT * FROM PhieuNhapXuat").ToList();
-        }
-        public IEnumerable<PhieuNhapXuat> getCouponByID(String ID)
-        {
-            return _entities.PhieuNhapXuats.Where(c => c.MaPhieu.Contains(ID)).ToList();
-        }        
-        public IEnumerable<PhieuNhapXuat> getCouponByEm(String key)
-        {
-            return _entities.PhieuNhapXuats.Where(c => c.MaNV.Contains(key)).ToList();
-        }
-        public IEnumerable<PhieuNhapXuat> getCouponByStt(String key)
-        {
-            return _entities.PhieuNhapXuats.Where(c => c.TrangThai.Contains(key)).ToList();
+          
         }
     }
 }

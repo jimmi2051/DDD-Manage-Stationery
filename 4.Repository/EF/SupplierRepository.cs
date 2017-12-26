@@ -15,7 +15,7 @@ namespace MyProject.Repository
         }
         public void DeleteSupplier(NhaCungCap SupplierToDelete)
         {
-            _entities.NhaCungCaps.Remove(SupplierToDelete);
+            _entities.NhaCungCaps.Remove(GetSupplier(SupplierToDelete.MaNCC));
             _entities.SaveChanges();
         }
         public NhaCungCap EditSupplier(NhaCungCap SupplierToEdit)

@@ -16,7 +16,7 @@ namespace MyProject.Repository
         }
         public void DeleteCustomer(KhachHang CustomerToDelete)
         {
-            _entities.KhachHangs.Remove(CustomerToDelete);
+            _entities.KhachHangs.Remove(GetCustomer(CustomerToDelete.MaKH));
             _entities.SaveChanges();
         }
         public KhachHang EditCustomer(KhachHang CustomerToEdit)
@@ -36,14 +36,6 @@ namespace MyProject.Repository
         public IEnumerable<KhachHang> ListCustomers()
         {
             return _entities.KhachHangs.ToList();
-        }
-        public IEnumerable<KhachHang> SearchCustomers(String Key)
-        {
-            return _entities.KhachHangs.Where(c => c.MaKH.Contains(Key)).ToList();
-        }
-        public IEnumerable<KhachHang> SearchCustomersbyName(String Key)
-        {
-            return _entities.KhachHangs.Where(c => c.Ten.Contains(Key)).ToList();
         }
         #endregion
     }

@@ -41,8 +41,5 @@ namespace MyProject.Service
         //Mã giảm giá
         MaKhuyenMai getCode(String key);
         bool deleteCode(MaKhuyenMai target);
-        ////SQLDependency
-        //String getCommand();
-        //void setSqlDependency();
     }
 }

@@ -25,17 +25,6 @@ namespace MyProject.Repository.ADONET
         {
             throw new NotImplementedException();
         }
-
-        public IEnumerable<Kho> searchWareHouse(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Kho> searchWareHouseBy(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Kho> StatisticalWareHouse(string sqlcmd)
         {
             throw new NotImplementedException();

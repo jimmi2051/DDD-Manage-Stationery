@@ -26,7 +26,7 @@ namespace MyProject.Repository
         //Xóa 1 chi tiết hóa đơn
         public void deleteBillDetail(ChiTietHoaDon billDetailToDelete)
         {
-            _entities.ChiTietHoaDons.Remove(billDetailToDelete);
+            _entities.ChiTietHoaDons.Remove(getBillDetail(billDetailToDelete.MaHD,billDetailToDelete.MaSP));
             _entities.SaveChanges();           
         }
         public ChiTietHoaDon editBillDetail(ChiTietHoaDon billDetailToEdit)

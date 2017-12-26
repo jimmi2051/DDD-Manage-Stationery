@@ -27,17 +27,6 @@ namespace MyProject.Repository.RAW
         {
             return entities.Khoes.ToList();
         }
-
-        public IEnumerable<Kho> searchWareHouse(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Kho> searchWareHouseBy(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Kho> StatisticalWareHouse(string sqlcmd)
         {
             throw new NotImplementedException();

@@ -112,7 +112,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(911, 45);
+            this.panel1.Size = new System.Drawing.Size(935, 45);
             this.panel1.TabIndex = 7;
             // 
             // pictureBox5
@@ -164,7 +164,7 @@
             this.pictureBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-            this.pictureBox8.Location = new System.Drawing.Point(782, 4);
+            this.pictureBox8.Location = new System.Drawing.Point(806, 4);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(36, 35);
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -197,7 +197,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(824, 12);
+            this.label4.Location = new System.Drawing.Point(848, 12);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 20);
             this.label4.TabIndex = 3;
@@ -237,7 +237,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox3.Location = new System.Drawing.Point(0, 45);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(117, 410);
+            this.groupBox3.Size = new System.Drawing.Size(117, 398);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tài khoản";
@@ -274,7 +274,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(117, 45);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(794, 410);
+            this.groupBox1.Size = new System.Drawing.Size(818, 398);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quản lý kho";
@@ -298,7 +298,7 @@
             this.dgvKho.Location = new System.Drawing.Point(6, 72);
             this.dgvKho.Name = "dgvKho";
             this.dgvKho.ReadOnly = true;
-            this.dgvKho.Size = new System.Drawing.Size(580, 271);
+            this.dgvKho.Size = new System.Drawing.Size(526, 259);
             this.dgvKho.TabIndex = 11;
             this.dgvKho.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKho_CellClick_1);
             // 
@@ -397,9 +397,9 @@
             this.grbSua.Controls.Add(this.txtSoLuong);
             this.grbSua.Controls.Add(this.txtMaPhieu);
             this.grbSua.Controls.Add(this.txtMaSP);
-            this.grbSua.Location = new System.Drawing.Point(604, 73);
+            this.grbSua.Location = new System.Drawing.Point(551, 46);
             this.grbSua.Name = "grbSua";
-            this.grbSua.Size = new System.Drawing.Size(190, 330);
+            this.grbSua.Size = new System.Drawing.Size(190, 285);
             this.grbSua.TabIndex = 7;
             this.grbSua.TabStop = false;
             this.grbSua.Text = "Chi tiết sản phẩm";
@@ -521,9 +521,9 @@
             this.groupBox2.Controls.Add(this.pictureBox4);
             this.groupBox2.Controls.Add(this.btnSua);
             this.groupBox2.Controls.Add(this.btnChitiet);
-            this.groupBox2.Location = new System.Drawing.Point(6, 350);
+            this.groupBox2.Location = new System.Drawing.Point(6, 338);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(461, 53);
+            this.groupBox2.Size = new System.Drawing.Size(485, 53);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Chức năng";
@@ -631,7 +631,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(911, 455);
+            this.ClientSize = new System.Drawing.Size(935, 443);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.panel1);

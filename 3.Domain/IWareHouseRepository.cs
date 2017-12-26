@@ -9,8 +9,6 @@ namespace MyProject.Domain
         void DeleteWareHouse(Kho warehouseToDelete);
         Kho getWareHouse(String msp);
         IEnumerable<Kho> listWareHouses();
-        IEnumerable<Kho> searchWareHouse(String key);
-        IEnumerable<Kho> searchWareHouseBy(String key);
         IEnumerable<Kho> StatisticalWareHouse(String sqlcmd);
     }
 }

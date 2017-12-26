@@ -183,7 +183,14 @@ namespace MyProject.Service
             {
                 try
                 {
-                    _billrepository.ComfirmBill(item.MaSP, (int)item.SoLuong);
+                    foreach (SanPham product in listToSearch)
+                    {
+                        if (product.MaSP.Equals(item.MaSP))
+                        {
+                            product.SoLuong = product.SoLuong - item.SoLuong;
+                            _productrepository.EditProduct(product);
+                        }
+                    }
                 }
                 catch
                 {
@@ -216,7 +223,6 @@ namespace MyProject.Service
             }
             return newMaHD;
         }
-
         //Help Tạo mới 1 hóa đơn tự động
         public HoaDon billCreateNew()
         {
@@ -380,16 +386,30 @@ namespace MyProject.Service
             }
             return true;
         }
+        IEnumerable listcustomerToSearch;
         public IEnumerable ListCustomers()
         {
-            return _customerrepository.ListCustomers();
+            return listcustomerToSearch=_customerrepository.ListCustomers();
         }
         public IEnumerable searchCustomer(String Key, String type)
         {
             ValidateString(Key);
+            List<KhachHang> result = new List<KhachHang>();
             if (type == "Tên")
-                return _customerrepository.SearchCustomersbyName(Key);
-            return _customerrepository.SearchCustomers(Key);
+            {
+                foreach (KhachHang item in listcustomerToSearch)
+                {
+                    if (item.Ten.Contains(Key))
+                        result.Add(item);
+                }
+            }
+            if(type == "Mã khách hàng")
+                foreach (KhachHang item in listcustomerToSearch)
+                {
+                    if (item.MaKH.Contains(Key))
+                        result.Add(item);
+                }
+            return result;
         }
         public KhachHang getCustomer(String key)
         {
@@ -437,16 +457,7 @@ namespace MyProject.Service
         }
 
         #endregion
-        //#region SQLDependency
-        //public String getCommand()
-        //{
-        //    return _billrepository.getCommand();
-        //}
-        //public void setSqlDependency()
-        //{
-        //    _billrepository.SetSQLDependency();
-        //}
-        //#endregion
+       
 
     }
 }

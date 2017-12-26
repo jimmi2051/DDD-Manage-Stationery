@@ -16,7 +16,8 @@ namespace MyProject.Repository
         }
         public void DeleteProduct(SanPham productToDelete)
         {
-            _entities.SanPhams.Remove(productToDelete);
+            SanPham Target = GetProduct(productToDelete.MaSP);
+            _entities.SanPhams.Remove(Target);
             _entities.SaveChanges();
         }
         public SanPham EditProduct(SanPham productToEdit)

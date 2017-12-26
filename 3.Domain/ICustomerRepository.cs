@@ -10,7 +10,5 @@ namespace MyProject.Domain
         KhachHang EditCustomer(KhachHang CustomerToEdit);
         KhachHang GetCustomer(String Key);
         IEnumerable<KhachHang> ListCustomers();
-        IEnumerable<KhachHang> SearchCustomers(String Key);
-        IEnumerable<KhachHang> SearchCustomersbyName(String Key);
     }
 }

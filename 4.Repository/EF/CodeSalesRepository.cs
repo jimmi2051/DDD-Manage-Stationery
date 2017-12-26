@@ -15,7 +15,8 @@ namespace MyProject.Repository
 
         public void DeleteCode(MaKhuyenMai Target)
         {
-            _entities.MaKhuyenMais.Remove(Target);
+
+            _entities.MaKhuyenMais.Remove(getCodes(Target.MaKM));
             _entities.SaveChanges();
         }
 

@@ -77,7 +77,8 @@ namespace MyProject.Service
                     new ModelStateWrapper(ModelState),
                     new WareHouseRepositoryRAW(),
                     new CouponRepositoryRAW(),
-                    new DetailCouponRepositoryRAW()
+                    new DetailCouponRepositoryRAW(),
+                    new ProductRepositoryRAW()
                     );         
             }
             if (key == "ADONET")
@@ -85,7 +86,8 @@ namespace MyProject.Service
                     new ModelStateWrapper(ModelState),
                     new WareHouseRepositoryADONET(),
                     new CouponRepositoryADONET(),
-                    new DetailCouponRepositoryADONET()
+                    new DetailCouponRepositoryADONET(),
+                    new ProductRepositoryADONET()
                     );
             if (key == "EF")
             {

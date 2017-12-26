@@ -5,6 +5,8 @@ using MyProject.Service;
 using MyProject.Infrastructure;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+
 namespace MyProject.UI
 {
     public partial class Coupon : Form
@@ -41,16 +43,12 @@ namespace MyProject.UI
             dgvCoupon.DataSource = _service.ListCoupon();
         }
         //hiển thị sản phẩm
+     
         private void ViewProduct()
         {
             ClearDGV(dgvProduct);
-            IEnumerable enumerable;
-            using (Manager_Service _tempservice = DataFactory.getManagerService(ModelState, Information.PersistanceStrategy))
-            {
-                enumerable = _tempservice.ListProducts();
-            }
-                
-                foreach (SanPham item in enumerable)
+           
+                foreach (SanPham item in _service.ListProducts())
                 {
                     dgvProduct.Rows.Add(
                         item.MaSP,
@@ -59,17 +57,13 @@ namespace MyProject.UI
                         item.DonGia,
                         item.DonVi
                         );
-                }
-            
+                }           
         }
         private void ViewProduct(String key, String type)
         {
-            using (IManagerService _tempservice = DataFactory.getManagerService(ModelState, Information.PersistanceStrategy))
-            {
-                ClearDGV(dgvProduct);
-                IEnumerable enumerable = _tempservice.SearchProducts(key, type);
-                foreach (SanPham item in enumerable)
-                {
+            ClearDGV(dgvProduct);
+            foreach (SanPham item in _service.SearchProducts(key,type,0,decimal.MaxValue)) 
+                {                    
                     dgvProduct.Rows.Add(
                         item.MaSP,
                         item.TenSP,
@@ -77,22 +71,16 @@ namespace MyProject.UI
                         item.DonGia,
                         item.DonVi
                         );
-                }
-            }
+                }       
         }
         private void ViewProduct(String DetailIn)
         {
-            
-            using (IManagerService _tempservice = DataFactory.getManagerService(ModelState, Information.PersistanceStrategy))
+            cboIDProductofDetailIn.Items.Clear();
+            foreach (SanPham item in _service.ListProducts())
             {
-                IEnumerable enumerable = _tempservice.ListProducts();
-                cboIDProductofDetailIn.Items.Clear();
-                foreach (SanPham item in enumerable)
-                {
-                    cboIDProductofDetailIn.Items.Add(item.MaSP);
-                }
-                cboIDProductofDetailIn.SelectedIndex = 0;
+                cboIDProductofDetailIn.Items.Add(item.MaSP);
             }
+            cboIDProductofDetailIn.SelectedIndex = 0;
         }
         //Hiển thị dữ liệu đã có Nhập - xuất
         private void ViewDetailAvaible(DataGridView dataGridView)
@@ -646,18 +634,11 @@ namespace MyProject.UI
         //Tìm kiếm sản phẩm
         private void btnSearchofProduct_Click(object sender, EventArgs e)
         {
-            try
-            {
                 errProdive.Clear();
-                if (txtKeyofProduct.Text.Equals(""))
-                    ViewProduct();
-                else
-                    ViewProduct(txtKeyofProduct.Text, cboTypeofProduct.SelectedItem.ToString());
-            }
-            catch
-            {
-                errProdive.SetError(cboTypeofProduct, "Vui lòng chọn dữ liệu ");
-            }
+            if (txtKeyofProduct.Text.Equals(""))
+                ViewProduct();
+            else
+                ViewProduct(txtKeyofProduct.Text, cboTypeofProduct.SelectedItem.ToString());          
         }
         #endregion
 

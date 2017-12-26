@@ -168,7 +168,7 @@ namespace MyProject.UI
             }
             if (btnXoa.Enabled == true )
             {
-                DialogResult dlr = MessageBox.Show("Bạn có muốn xóa hóa đơn", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dlr = MessageBox.Show("Bạn có muốn xóa khách hàng ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlr == DialogResult.Yes)
                 {
                     if (_service.DeleteCustomer(Target))

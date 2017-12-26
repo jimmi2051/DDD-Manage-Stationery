@@ -30,18 +30,21 @@ namespace MyProject.Service
         private IWareHouseRepository _warehouserepository;
         private ICouponRepository _couponrepository;
         private IDetailCouponRepository _detailCouponrepository;
+        private IProductRepository _productrepository;
         public WareHouseService(IValidationDictionary validationDictionary)
-            : this(validationDictionary, new WareHouseRepository(),new CouponRepository(),new DetailCouponRepository())
+            : this(validationDictionary, new WareHouseRepository(),new CouponRepository(),new DetailCouponRepository(),new ProductRepository())
         {
         }
-        public WareHouseService(IValidationDictionary validationDictionary, IWareHouseRepository warehouserepository,ICouponRepository couponrepository,IDetailCouponRepository detailCouponrepository)
+        public WareHouseService(IValidationDictionary validationDictionary, IWareHouseRepository warehouserepository, ICouponRepository couponrepository, IDetailCouponRepository detailCouponrepository,IProductRepository productRepository)
 
         {
             _validationDictionary = validationDictionary;
             _warehouserepository = warehouserepository;
             _couponrepository = couponrepository;
             _detailCouponrepository = detailCouponrepository;
+            _productrepository = productRepository;
         }
+        #region Validatetion
         public bool ValidateString(String key)
         {
             _validationDictionary.Clear();
@@ -56,7 +59,7 @@ namespace MyProject.Service
                 _validationDictionary.AddError("Soluong", "Vui lòng nhập số lượng hợp lệ");
             return _validationDictionary.IsValid;
         }
-
+        #endregion
         #region WareHouse
         public bool CreateWareHouse(Kho warehousetoCreate)
         {
@@ -102,17 +105,28 @@ namespace MyProject.Service
         {
             return _warehouserepository.getWareHouse(msp);
         }
-
+        IEnumerable listWarehouse;
         public IEnumerable ListWareHouse()
         {
-            return _warehouserepository.listWareHouses();
+            return listWarehouse=_warehouserepository.listWareHouses();
         }
         public IEnumerable SearchWareHouse(String key, String Type)
         {
             ValidateString(key);
+            List<Kho> result = new List<Kho>();
             if (Type == "Mã sản phẩm")
-                return _warehouserepository.searchWareHouse(key);
-            return _warehouserepository.searchWareHouseBy(key);
+                foreach (Kho item in listWarehouse)
+                {
+                    if (item.MaSP.Contains(key))
+                        result.Add(item);
+                }
+            if (Type == "Mã phiếu")
+                foreach (Kho item in listWarehouse)
+                {
+                    if (item.MaPhieu.Contains(key))
+                        result.Add(item);
+                }
+            return result;
         }
         public IEnumerable Sort(String key) 
         {
@@ -157,8 +171,7 @@ namespace MyProject.Service
         public bool DeleteCoupon(PhieuNhapXuat couponToDelete)
         {
             try
-            {
-                _detailCouponrepository.deleteDetailCouponbyID(couponToDelete.MaPhieu);
+            {              
                 _couponrepository.DeleteCoupon(couponToDelete);
             }
             catch
@@ -171,18 +184,34 @@ namespace MyProject.Service
         {
             return _couponrepository.GetCoupon(key);
         }
+        IEnumerable listCoupon;
         public IEnumerable ListCoupon()
         {
-            return _couponrepository.ListCoupons();
+            return listCoupon=_couponrepository.ListCoupons();
         }
         public IEnumerable searchCoupon(String key, String type)
         {
             ValidateString(key);
+            List<PhieuNhapXuat> result = new List<PhieuNhapXuat>();
             if (type == "Mã nhân viên")
-                return _couponrepository.getCouponByEm(key);
+                foreach (PhieuNhapXuat item in listCoupon)
+                {
+                    if (item.MaNV.Contains(key))
+                        result.Add(item);
+                }
             if (type == "Trạng thái")
-                return _couponrepository.getCouponByStt(key);
-            return _couponrepository.getCouponByID(key);
+                foreach (PhieuNhapXuat item in listCoupon)
+                {
+                    if (item.TrangThai.Contains(key))
+                        result.Add(item);
+                }
+            if (type == "Mã phiếu")
+                foreach (PhieuNhapXuat item in listCoupon)
+                {
+                    if (item.MaPhieu.Contains(key))
+                        result.Add(item);
+                }
+            return result;
         }
         public PhieuNhapXuat createNewCoupon()
         {
@@ -223,6 +252,47 @@ namespace MyProject.Service
             }
         }
         #endregion
+        #region Product
+        IEnumerable listToSearch;
+        public IEnumerable ListProducts()
+        {
+            return listToSearch = _productrepository.ListProducts();
+        }
+        public IEnumerable SearchProducts(String Key, String Type, decimal pricestart, decimal priceend)
+        {
+            ValidateString(Key);
+            List<SanPham> result = new List<SanPham>();
+            if (Type == "Mã nhà cung cấp")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.MaNCC.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
+                        result.Add(item);
+                }
+            if (Type == "Loại sản phẩm")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.DanhMucSP.TenDM.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
+                        result.Add(item);
+                }
+            if (Type == "Tên sản phẩm")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.TenSP.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
+                        result.Add(item);
+                }
+            if (Type == "Mã sản phẩm")
+                foreach (SanPham item in listToSearch)
+                {
+                    if (item.MaSP.Contains(Key) && item.DonGia >= pricestart && item.DonGia <= priceend)
+                        result.Add(item);
+                }
+            return result;
+        }
+        public SanPham GetProduct(String Key)
+        {
+            return _productrepository.GetProduct(Key);
+        }
+        #endregion
         #region DetailCoupon     
         public IEnumerable listDetailCoupon(String key)
         {
@@ -230,16 +300,59 @@ namespace MyProject.Service
         }
         public bool CreateDetailCoupon(ChiTietPhieu DetailCouponToCreate)
         {
-//            if (!ValidateDetailCoupon(DetailCouponToCreate))
-             //   return false;
+            //            if (!ValidateDetailCoupon(DetailCouponToCreate))
+            //   return false;
             try
             {
                 _detailCouponrepository.createDetailCoupon(DetailCouponToCreate);
+                SanPham product = _productrepository.GetProduct(DetailCouponToCreate.MaSP);
+                Kho target = getWareHouse(DetailCouponToCreate.MaSP);
+                PhieuNhapXuat Phieu = getCoupon(DetailCouponToCreate.MaPhieu);
+                if (Phieu.TrangThai.Equals("Nhập"))
+                {
+                    target.SoLuong = target.SoLuong + DetailCouponToCreate.SoLuong;
+                    target.NgayLap = Phieu.NgayLap;
+                }
+                else
+                {
+                    target.SoLuong = target.SoLuong - DetailCouponToCreate.SoLuong;
+                    product.SoLuong += DetailCouponToCreate.SoLuong;
+                    target.NgayXuat = Phieu.NgayLap;
+                }
+
+                _productrepository.EditProduct(product);
+                _warehouserepository.UpdateWareHouse(target);
             }
             catch
             {
                 return false;
             }
+            return true;
+        }
+        public bool UpdateDetailCoupon(ChiTietPhieu DetailCouponToEdit)
+        {
+            try
+            {
+                _detailCouponrepository.editDetailCoupon(DetailCouponToEdit);
+                SanPham product = _productrepository.GetProduct(DetailCouponToEdit.MaSP);
+                Kho target = getWareHouse(DetailCouponToEdit.MaSP);
+                PhieuNhapXuat Phieu = getCoupon(DetailCouponToEdit.MaPhieu);
+                ChiTietPhieu chitiet = getDetailCoupon(DetailCouponToEdit.MaPhieu, DetailCouponToEdit.MaSP);
+                if (Phieu.TrangThai.Equals("Nhập"))
+                {
+                    target.SoLuong = target.SoLuong - chitiet.SoLuong + DetailCouponToEdit.SoLuong;
+                    target.NgayLap = Phieu.NgayLap;
+                }
+                else
+                {
+                    target.SoLuong = target.SoLuong + chitiet.SoLuong - DetailCouponToEdit.SoLuong;
+                    product.SoLuong = product.SoLuong - chitiet.SoLuong + DetailCouponToEdit.SoLuong;
+                    target.NgayXuat = Phieu.NgayLap;
+                }
+                _productrepository.EditProduct(product);
+                _warehouserepository.UpdateWareHouse(target);
+            }
+            catch { return false; }
             return true;
         }
         public bool DeleteDetailCoupon(ChiTietPhieu DetailCouponToDelete)
@@ -258,17 +371,7 @@ namespace MyProject.Service
         {
             return _detailCouponrepository.getDetailCoupon(ID, key);
         }
-        public bool UpdateDetailCoupon(ChiTietPhieu ct)
-        {
-          //  if (!ValidateDetailCoupon(ct))
-//return false;
-            try
-            {
-                _detailCouponrepository.editDetailCoupon(ct);
-            }
-            catch { return false; }
-            return true;
-        }
+ 
         public bool DeleteDetailCouponByID(String key)
         {
 
@@ -286,7 +389,7 @@ namespace MyProject.Service
                 return false;
             return true;
         }
-
+    
         public List<Kho> Statistical(int Type,String MaSP)
         {
             string sqlcmd = "SELECT * FROM Kho ";

@@ -16,7 +16,7 @@ namespace MyProject.Repository
         }
         public void DeleteEmployee(NhanVien employeeToDelete)
         {
-            _entities.NhanViens.Remove(employeeToDelete);
+            _entities.NhanViens.Remove(GetEmployee(employeeToDelete.MaNV));
             _entities.SaveChanges();
         }
         public NhanVien EditEmployee(NhanVien employeeToEdit)
