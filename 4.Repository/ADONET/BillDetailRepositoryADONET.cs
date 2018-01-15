@@ -38,6 +38,11 @@ namespace MyProject.Repository.ADONET
             throw new NotImplementedException();
         }
 
+        public IEnumerable<ChiTietHoaDon> ListBillDetail()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<ChiTietHoaDon> ListBillDetailByID(string key)
         {
             throw new NotImplementedException();

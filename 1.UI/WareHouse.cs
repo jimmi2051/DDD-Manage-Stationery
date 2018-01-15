@@ -9,6 +9,7 @@ namespace MyProject.UI
 {
     public partial class WareHouse : Form
     {
+        #region Setup 
         private ModelStateDictionary ModelState;
         IWareHouseService _service;
         public WareHouse()
@@ -23,6 +24,7 @@ namespace MyProject.UI
         {
             _service = service;
         }
+        #endregion
         #region View
         private void View()
         {

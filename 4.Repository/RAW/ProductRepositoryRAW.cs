@@ -50,14 +50,5 @@ namespace MyProject.Repository.RAW
                     where c.MaSP.Equals(Key)
                     select c).FirstOrDefault();
         }
-        public IEnumerable<SanPham> StatisticalProduct(string SqlCmd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> ListProductsSQLCMD()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

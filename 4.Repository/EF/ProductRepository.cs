@@ -37,10 +37,6 @@ namespace MyProject.Repository
         {
             return _entities.SanPhams.Where(c => c.MaSP.Equals(Key)).FirstOrDefault();
         }
-        public IEnumerable<SanPham> StatisticalProduct(String SqlCmd)
-        {
-            return _entities.Database.SqlQuery<SanPham>(SqlCmd);
-        }
         #endregion
     }
 }

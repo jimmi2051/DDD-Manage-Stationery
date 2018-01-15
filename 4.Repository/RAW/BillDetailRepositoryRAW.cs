@@ -58,6 +58,11 @@ namespace MyProject.Repository.RAW
         {
             return null;
         }
+
+        public IEnumerable<ChiTietHoaDon> ListBillDetail()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

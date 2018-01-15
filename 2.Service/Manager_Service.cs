@@ -235,35 +235,64 @@ namespace MyProject.Service
             }
             return newID;
         }
+        public class SortASC : IComparer<SanPham> 
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return x.SoLuong.Value.CompareTo(y.SoLuong.Value);
+            }
+        }
+        public class SortDESC : IComparer<SanPham> 
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return y.SoLuong.Value.CompareTo(x.SoLuong.Value);
+            }
+        }
         public List<SanPham> StatisticalProduct(int Type, String MaSP, String DateStart, String DateEnd)
         {
             if (!ValidateDate(DateStart, DateEnd))
-                return null;
-            string sqlcmd="SELECT * FROM SanPham ";
+                return null;         
+            List<SanPham> result = new List<SanPham>();           
             if (Type == 3 || Type == 4)
             {
-                sqlcmd = "SELECT * FROM SanPham ";
+                result = _productrepository.ListProducts().ToList();
                 if (MaSP != null)
-                    sqlcmd += "WHERE MaSP ='" + MaSP + "'";
-                if (Type == 1)
-                    sqlcmd += "ORDER BY SoLuong DESC ";
-                if (Type == 2)
-                    sqlcmd += "ORDER BY SoLuong ASC";
+                    result = result.FindAll(c => c.MaSP.Equals(MaSP));
+                if (Type == 3)
+                    result.Sort(new SortDESC());
+                if (Type == 4)
+                    result.Sort(new SortASC());
             }
             if (Type == 1 || Type == 2)
             {
-                sqlcmd = "SELECT SanPham.MaSP,MaNCC,MaDM,TenSP,ChiTietHoaDon.DonGia,ChiTietHoaDon.SoLuong,XuatXu,TrongLuong,KichThuoc,DonVi " +
-            "FROM SanPham,ChiTietHoaDon,HoaDon " +
-           "WHERE Sanpham.MaSP = ChiTietHoaDon.MaSP AND HoaDon.MaHD = ChiTietHoaDon.MaHD " +
-               " AND NgayLap >= '" + DateStart + "' AND NgayLap <= '" + DateEnd + "'";
+                IBillDetailRespository _repository = new BillDetailRepository();
+                foreach (ChiTietHoaDon item in _repository.ListBillDetail())
+                {
+                    if (item.HoaDon.NgayLap >= DateTime.Parse(DateStart) && item.HoaDon.NgayLap <= DateTime.Parse(DateEnd))
+                    {
+                        SanPham target = item.SanPham;
+                        target.SoLuong = item.SoLuong;
+                        target.DonGia = item.DonGia;
+                        SanPham index = result.Find(c => c.MaSP.Equals(target.MaSP));
+                        if (index != null)
+                        {
+                            index.SoLuong = index.SoLuong + target.SoLuong;
+                        }
+                        else
+                            result.Add(target);
+                    }
+                }               
                 if (MaSP != null)
-                    sqlcmd += "AND MaSP='" + MaSP + "'";
-                if(Type == 1 )
-                    sqlcmd+= "ORDER BY SoLuong DESC";
+                    result = result.FindAll(c => c.MaSP.Equals(MaSP));
+                if (Type == 1)
+                    result.Sort(new SortDESC());
                 if(Type == 2 )
-                    sqlcmd+= "ORDER BY SoLuong ASC";
+                    result.Sort(new SortASC());
             }
-            return _productrepository.StatisticalProduct(sqlcmd).ToList();
+            if(Type==0)
+                result = _productrepository.ListProducts().ToList();
+            return result;
         }
         #endregion
         //Đã check lần 1 - Finish

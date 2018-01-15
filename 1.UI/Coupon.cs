@@ -433,11 +433,14 @@ namespace MyProject.UI
                     {
                         if (!_service.CreateDetailCoupon(coupondetailto))
                             flag = 1;
+                        MessageBox.Show("1");
                     }
                     else
                     {
                         if (!_service.UpdateDetailCoupon(coupondetailto))
                             flag = 1;
+                        MessageBox.Show("2");
+
                     }
                     TotalMoney += Price * Quality;
                 }

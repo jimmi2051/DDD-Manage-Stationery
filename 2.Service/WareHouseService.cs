@@ -316,11 +316,10 @@ namespace MyProject.Service
                 else
                 {
                     target.SoLuong = target.SoLuong - DetailCouponToCreate.SoLuong;
-                    product.SoLuong += DetailCouponToCreate.SoLuong;
+                    product.SoLuong = product.SoLuong+ DetailCouponToCreate.SoLuong;
                     target.NgayXuat = Phieu.NgayLap;
-                }
-
-                _productrepository.EditProduct(product);
+                    _productrepository.EditProduct(product);
+                }               
                 _warehouserepository.UpdateWareHouse(target);
             }
             catch
@@ -333,7 +332,6 @@ namespace MyProject.Service
         {
             try
             {
-                _detailCouponrepository.editDetailCoupon(DetailCouponToEdit);
                 SanPham product = _productrepository.GetProduct(DetailCouponToEdit.MaSP);
                 Kho target = getWareHouse(DetailCouponToEdit.MaSP);
                 PhieuNhapXuat Phieu = getCoupon(DetailCouponToEdit.MaPhieu);
@@ -348,11 +346,12 @@ namespace MyProject.Service
                     target.SoLuong = target.SoLuong + chitiet.SoLuong - DetailCouponToEdit.SoLuong;
                     product.SoLuong = product.SoLuong - chitiet.SoLuong + DetailCouponToEdit.SoLuong;
                     target.NgayXuat = Phieu.NgayLap;
-                }
-                _productrepository.EditProduct(product);
+                    _productrepository.EditProduct(product);
+                }             
                 _warehouserepository.UpdateWareHouse(target);
             }
             catch { return false; }
+            _detailCouponrepository.editDetailCoupon(DetailCouponToEdit);
             return true;
         }
         public bool DeleteDetailCoupon(ChiTietPhieu DetailCouponToDelete)

@@ -156,14 +156,5 @@ namespace MyProject.Repository.ADONET
            connection.Close();         
         }
 
-        public IEnumerable<SanPham> ListProductsSQLCMD()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SanPham> StatisticalProduct(string SqlCmd)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

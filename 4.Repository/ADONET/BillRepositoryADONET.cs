@@ -28,10 +28,6 @@ namespace MyProject.Repository.ADONET
             throw new NotImplementedException();
         }
 
-        public IEnumerable<HoaDon> getBillByDate(string SqlCmd)
-        {
-            throw new NotImplementedException();
-        }
         public string getCommand()
         {
             throw new NotImplementedException();

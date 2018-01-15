@@ -161,19 +161,34 @@ namespace MyProject.Service
                 return false;
             return true;
         }
+        public class SortASC : IComparer<HoaDon> //Tao 1 class sort theo ho
+        {
+            public int Compare(HoaDon x, HoaDon y)
+            {
+                return x.TongTien.Value.CompareTo(y.TongTien.Value);
+            }
+        }
+        public class SortDESC : IComparer<HoaDon> //Tao 1 class sort theo ho
+        {
+            public int Compare(HoaDon x, HoaDon y)
+            {
+                return y.TongTien.Value.CompareTo(x.TongTien.Value);
+            }
+        }
         public List<HoaDon> Statistical(String DateStart, String DateEnd, String MaNV, int Type)
         {
             if (!ValidateDate(DateStart, DateEnd))
                 return null;
-            String sqlcmd = "SELECT * FROM HoaDon Where NgayLap >='" + DateStart + "' AND NgayLap <='" + DateEnd + "' ";
+            IEnumerable<HoaDon> list = _billrepository.ListBills();
+            List<HoaDon> result= new List<HoaDon>();
+            result = list.Where(c => c.NgayLap >= DateTime.Parse(DateStart) && c.NgayLap <= DateTime.Parse(DateEnd)).ToList();
             if (MaNV != null)
-                sqlcmd += "And MaNV = '" + MaNV + "'";
+                result = result.FindAll(c => c.MaNV.Equals(MaNV));
             if (Type == 1)
-                sqlcmd += "ORDER BY TongTien ASC";
+                result.Sort(new SortASC());
             if (Type == 2)
-                sqlcmd += "ORDER BY TongTien DESC";
-            return _billrepository.getBillByDate(sqlcmd).ToList();
-
+                result.Sort(new SortDESC());
+            return result;
         }
         //Xác nhận thanh toán thành công. Giảm số lượng trong Sản phẩm
         public bool Comfirm(String key)

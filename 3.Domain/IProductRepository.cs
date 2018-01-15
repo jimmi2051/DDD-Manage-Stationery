@@ -12,6 +12,5 @@ namespace MyProject.Domain
         //Queries
         SanPham GetProduct(String Key);
         IEnumerable<SanPham> ListProducts();
-        IEnumerable<SanPham> StatisticalProduct(String SqlCmd);
     }
 }

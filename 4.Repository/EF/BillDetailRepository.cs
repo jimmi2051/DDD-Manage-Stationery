@@ -50,6 +50,11 @@ namespace MyProject.Repository
         {
             return _entities.ChiTietHoaDons.Where(c => c.MaHD.Equals(Key)).FirstOrDefault();
         }
+
+        public IEnumerable<ChiTietHoaDon> ListBillDetail()
+        {
+            return _entities.ChiTietHoaDons.ToList();
+        }
         #endregion
     }
 }

@@ -9,6 +9,7 @@ namespace MyProject.Domain
         ChiTietHoaDon editBillDetail(ChiTietHoaDon billDetailToEdit);
         ChiTietHoaDon getBillDetail(String ID,String key);
         IEnumerable<ChiTietHoaDon> ListBillDetailByID(String key);
+        IEnumerable<ChiTietHoaDon> ListBillDetail();
         void deleteBillDetailbyID(String key);
         ChiTietHoaDon getFirstBillDetail(String Key);
     }

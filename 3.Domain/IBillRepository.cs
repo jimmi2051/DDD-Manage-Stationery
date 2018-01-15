@@ -12,6 +12,5 @@ namespace MyProject.Domain
         //Queries
         HoaDon GetBill(String Key);
         IEnumerable<HoaDon> ListBills();
-        IEnumerable<HoaDon> getBillByDate(String SqlCmd);
     }
 }

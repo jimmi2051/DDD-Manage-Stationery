@@ -48,10 +48,5 @@ namespace MyProject.Repository.RAW
                     where c.MaNV.Equals(key)
                     select c).FirstOrDefault();
         }
-
-        public IEnumerable<HoaDon> getBillByDate(string SqlCmd)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

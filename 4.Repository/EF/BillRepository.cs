@@ -18,10 +18,6 @@ namespace MyProject.Repository
         {
             return _entities.HoaDons.Where(c => c.MaHD.Equals(Key)).FirstOrDefault();
         }
-        public IEnumerable<HoaDon> getBillByDate(String SqlCmd)
-        {
-            return _entities.Database.SqlQuery<HoaDon>(SqlCmd);
-        }
         #endregion
         #region Command
         public HoaDon CreateBill(HoaDon target)
