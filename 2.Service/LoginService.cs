@@ -1,4 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
+using System.Text.RegularExpressions;
 using MyProject.Domain;
 using MyProject.Infrastructure;
 using MyProject.Repository;
@@ -23,7 +27,7 @@ namespace MyProject.Service
         public bool ValidateContact(NguoiDung Username)
         {
             _validationDictionary.Clear();
-            if (Username.ID.Trim().Length == 0) 
+            if (Username.ID.Trim().Length == 0)
                 _validationDictionary.AddError("Username", "Không được bỏ trống tên tài khoản");
             if (Username.Pass != null)
             {
@@ -52,14 +56,14 @@ namespace MyProject.Service
             try
             {
                 ND.Pass = Encode.md5((ND.Pass));
-                NguoiDung key = _repository.getUser(ND);          
+                NguoiDung key = _repository.getUser(ND);
                 if (key != null)
                 {
                     NhanVien NV = key.NhanVien;
                     Information.Nhanvien = NV;
                     Information.Nguoidung = key;
                     return true;
-                }      
+                }
             }
             catch
             {
@@ -83,5 +87,61 @@ namespace MyProject.Service
             return true;
         }
         #endregion
+        public string CreateLostPassword(int PasswordLength)
+        {
+            string _allowedChars = "abcdefghijk0123456789mnopqrstuvwxyz";
+            Random randNum = new Random(); char[] chars = new char[PasswordLength];
+            int allowedCharCount = _allowedChars.Length;
+            for (int i = 0; i < PasswordLength; i++)
+            {
+                chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
+            }
+            return new string(chars);
+        }
+        public string NoiDungMail(string username)
+        {
+            string NoiDung = "";
+            IUserRepository rp = new UserRepository();
+            NguoiDung target = rp.getUser(username);
+            string MatKhauMoi = "", TenDangNhap = "";
+            if (target != null)
+            {
+                NoiDung = "Đây là Mail gửi đến từ công ty DefTnT <br>";
+                NoiDung += "Tên tài khoản: " + username;
+                MatKhauMoi = CreateLostPassword(7); NoiDung += "<br> Mật khẩu mới của bạn là: " + MatKhauMoi;
+                TenDangNhap = target.ID;
+                target.Pass = Encode.md5(MatKhauMoi);
+                rp.UpdateUser(target);
+                NoiDung += "<br>Sau khi đăng nhập bạn nên đổi lại mật khẩu để tiện cho việc đăng nhập lần tiếp theo";
+                NoiDung += "<br><br><hr>Vui lòng không trả lời Mail này!";
+            }
+            return NoiDung;
+        }
+        public bool SendMail(string username, string mail)
+        {
+            MailMessage objEmail = new MailMessage();
+            objEmail.To.Add(mail);
+            objEmail.From = new MailAddress("jimmi2051@gmail.com");
+            objEmail.Subject = "Thông tin về mật khẩu của bạn";
+            objEmail.BodyEncoding = Encoding.UTF8;
+            objEmail.Body = NoiDungMail(username);
+            objEmail.Priority = MailPriority.High;
+            objEmail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("jimmi2051@gmail.com", "anhbekute");
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            try
+            {
+                smtp.Send(objEmail);
+            }
+            catch {
+                return false;
+            }
+            return true;
+        }
     }
 }

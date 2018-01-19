@@ -103,8 +103,7 @@ namespace MyProject.UI
                 }
             }
             if (flag == 0)
-            {
-                progressBar1.Visible = true;
+            {             
                 View();
                 HienChiTiet(false);
                 btnThem.Enabled = true;
@@ -118,11 +117,7 @@ namespace MyProject.UI
         private void btnTimkiem_Click(object sender, EventArgs e)
         {
             if (txtTimkiem.Text.Equals(""))
-            {
-                progressBar1.Maximum = 100;
-                progressBar1.Step = 1;
-                progressBar1.Value = 0;
-                progressBar1.Visible = true;
+            {             
                 View();
             }
             else
@@ -156,10 +151,6 @@ namespace MyProject.UI
         }
         private void btnDanhsach_Click(object sender, EventArgs e)
         {
-            progressBar1.Maximum = 100;
-            progressBar1.Step = 1;
-            progressBar1.Value = 0;
-            progressBar1.Visible = true;
             View();
    
         }
@@ -193,10 +184,6 @@ namespace MyProject.UI
         {
             lbHello.Text = "Xin chào, " + Information.Nhanvien.Ten + " \nChức vụ: " + Information.Nhanvien.ChucVu + " ";
             ptrHinhAnh.ImageLocation = ("..\\..\\Images\\QuanLy.jpg");           
-            progressBar1.Maximum = 100;
-            progressBar1.Step = 1;
-            progressBar1.Value = 0;
-            progressBar1.Visible = true;
             View();
             HienChiTiet(false);
             cboLoaisp.SelectedIndex = 0;
@@ -236,43 +223,22 @@ namespace MyProject.UI
             CodeSales UI = new CodeSales();
             UI.ShowDialog();
         }
-        //Progess-bar
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            for (int i = 1; i <= 100; i++)
-            {
-                // Wait 100 milliseconds.
-                Thread.Sleep(10);
-                // Report progress.
-                bgdWorker1.ReportProgress(i);
-            }
-        }
-        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-        }
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            dgvSanPham.DataSource = listproduct;
-            progressBar1.Visible = false;
-        }
         #endregion
         #region View
         public void View()
-        {        
-                bgdWorker1.RunWorkerAsync();
-                listproduct = _service.ListProducts();
-                cboDM.Items.Clear();
-                cboNCC.Items.Clear();
-                foreach (NhaCungCap item in _service.ListSuppliers())
-                {
-                    cboNCC.Items.Add(item.MaNCC);
-                }
-                foreach (DanhMucSP item in _service.ListCategorys())
-                {
-                    cboDM.Items.Add(item.MaDM);
-                }
-            
+        {
+            listproduct = _service.ListProducts();
+            cboDM.Items.Clear();
+            cboNCC.Items.Clear();
+            foreach (NhaCungCap item in _service.ListSuppliers())
+            {
+                cboNCC.Items.Add(item.MaNCC);
+            }
+            foreach (DanhMucSP item in _service.ListCategorys())
+            {
+                cboDM.Items.Add(item.MaDM);
+            }
+            dgvSanPham.DataSource = listproduct;
         }
         private void HienChiTiet(Boolean hien)
         {
@@ -399,8 +365,55 @@ namespace MyProject.UI
             dgvSanPham.ReadOnly = true;
             dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
+
         #endregion
 
-    
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Account_UI UI = new Account_UI();
+            UI.ShowDialog();
+            Manager_Product_Load(sender, e);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Manager_Employee UI = new Manager_Employee();
+            UI.Show();
+            this.Visible = false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Manager_Supplier UI = new Manager_Supplier(_service);
+            UI.Show();
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Manager_Category UI = new Manager_Category();
+            UI.Show();
+            this.Visible = false;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CodeSales UI = new CodeSales();
+            UI.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+            MenuStatistical UI = new MenuStatistical();
+            UI.ShowDialog();
+            this.Visible = false;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

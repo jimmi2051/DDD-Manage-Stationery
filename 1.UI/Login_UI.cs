@@ -118,6 +118,12 @@ namespace MyProject.UI
                 VisibleTxt(false);
                 label4.Text = "Mật khẩu sẽ được gửi tới Email: \n" + txtEmail.Text + "\ntrong thời gian sớm nhất";
                 btnSend.Enabled = false;
+                if (_service.SendMail(txtTenTK.Text, txtEmail.Text))
+                    MessageBox.Show("Đã gửi thành công");
+                else
+                {
+                    MessageBox.Show("Có lỗi xảy ra vui lòng thử lại sau ít phút ");
+                }
             }
             else
             {
@@ -140,7 +146,7 @@ namespace MyProject.UI
             for (int i = 1; i <= 100; i++)
             {
                 // Wait 100 milliseconds.
-                System.Threading.Thread.Sleep(10);
+                System.Threading.Thread.Sleep(5);
                 // Report progress.
                 bgdWorker.ReportProgress(i);
             }
