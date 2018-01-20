@@ -120,60 +120,67 @@ namespace MyProject.UI
 
 
         //Components Điều hướng
-        private void label15_Click(object sender, EventArgs e)
+        private void Statistical_Product_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MenuStatistical UI = new MenuStatistical();
-            UI.ShowDialog();
-            this.Visible = false;
+            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
+                Information.frmLogin.Show();
         }
-        private void label7_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Account_UI UI = new Account_UI();
             UI.ShowDialog();
         }
-        private void label6_Click(object sender, EventArgs e)
+
+        private void button2_Click(object sender, EventArgs e)
         {
+
             Manager_Product UI = new Manager_Product();
             UI.Show();
             this.Visible = false;
         }
-        private void label16_Click(object sender, EventArgs e)
+
+        private void button3_Click(object sender, EventArgs e)
         {
             Manager_Employee UI = new Manager_Employee();
             UI.Show();
             this.Visible = false;
         }
 
-        private void label17_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
             Manager_Supplier UI = new Manager_Supplier();
             UI.Show();
             this.Visible = false;
         }
 
-        private void label18_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e)
         {
             Manager_Category UI = new Manager_Category();
             UI.Show();
             this.Visible = false;
         }
-        private void label5_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
-        private void Statistical_Product_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
-                Information.frmLogin.Show();
-        }
-
-        #endregion
-
-        private void label19_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)
         {
             CodeSales UI = new CodeSales();
             UI.ShowDialog();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            MenuStatistical UI = new MenuStatistical();
+            UI.ShowDialog();
+            this.Visible = false;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+
+
+
     }
 }

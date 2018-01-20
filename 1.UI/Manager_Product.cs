@@ -122,7 +122,7 @@ namespace MyProject.UI
             }
             else
             {
-                dgvSanPham.DataSource = _service.SearchProducts(txtTimkiem.Text, cboLoaisp.SelectedItem.ToString());
+                dgvSanPham.DataSource = _service.SearchProducts(txtTimkiem.Text, cboLoaisp.SelectedItem.ToString(),cboSort.SelectedIndex,cboType.SelectedIndex,Decimal.Parse(txtPriceofStart.Text),Decimal.Parse(txtPriceofEnd.Text));
             }
             ViewErrors();
         }
@@ -154,6 +154,23 @@ namespace MyProject.UI
             View();
    
         }
+        private void cboSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboSort.SelectedIndex != 0)
+                cboType.Enabled = true;
+            else
+                cboType.Enabled = false;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            txtTimkiem.Text = "";
+            txtPriceofEnd.Text = "0";
+            txtPriceofStart.Text = "0";
+            cboType.SelectedIndex = 0;
+            cboSort.SelectedIndex = 0;
+            cboLoaisp.SelectedIndex = 0;
+        }
         //Hỗ trợ tự động hiển thị trên Combobox
         private void cboLoaisp_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -171,10 +188,6 @@ namespace MyProject.UI
             cboDM.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
         //Components Điều hướng
-        private void label4_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         private void Manager_Product_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
@@ -187,42 +200,54 @@ namespace MyProject.UI
             View();
             HienChiTiet(false);
             cboLoaisp.SelectedIndex = 0;
+            cboType.SelectedIndex = 0;
+            cboSort.SelectedIndex = 0;
         }
-        private void label17_Click(object sender, EventArgs e)
-        {
-            Manager_Supplier UI = new Manager_Supplier(_service);
-            UI.Show();
-            this.Hide();
-        }
-        private void label16_Click(object sender, EventArgs e)
-        {
-            Manager_Employee UI = new Manager_Employee();
-            UI.Show();
-            this.Visible = false;
-        }
-        private void label18_Click(object sender, EventArgs e)
-        {
-            Manager_Category UI = new Manager_Category();
-            UI.Show();
-            this.Visible = false;
-        }
-        private void label1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Account_UI UI = new Account_UI();
             UI.ShowDialog();
             Manager_Product_Load(sender, e);
         }
-        private void label15_Click(object sender, EventArgs e)
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Manager_Employee UI = new Manager_Employee();
+            UI.Show();
+            this.Visible = false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Manager_Supplier UI = new Manager_Supplier(_service);
+            UI.Show();
+            this.Hide();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Manager_Category UI = new Manager_Category();
+            UI.Show();
+            this.Visible = false;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CodeSales UI = new CodeSales();
+            UI.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
         {
             MenuStatistical UI = new MenuStatistical();
             UI.ShowDialog();
             this.Visible = false;
         }
-        private void label19_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)
         {
-            CodeSales UI = new CodeSales();
-            UI.ShowDialog();
+            this.Close();
         }
+
         #endregion
         #region View
         public void View()
@@ -366,54 +391,9 @@ namespace MyProject.UI
             dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
+
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Account_UI UI = new Account_UI();
-            UI.ShowDialog();
-            Manager_Product_Load(sender, e);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Manager_Employee UI = new Manager_Employee();
-            UI.Show();
-            this.Visible = false;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Manager_Supplier UI = new Manager_Supplier(_service);
-            UI.Show();
-            this.Hide();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Manager_Category UI = new Manager_Category();
-            UI.Show();
-            this.Visible = false;
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            CodeSales UI = new CodeSales();
-            UI.ShowDialog();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-
-            MenuStatistical UI = new MenuStatistical();
-            UI.ShowDialog();
-            this.Visible = false;
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
     }
 }

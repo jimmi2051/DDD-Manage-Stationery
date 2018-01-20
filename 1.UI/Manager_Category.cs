@@ -45,7 +45,7 @@ namespace MyProject.UI
             }
             catch { }
         }
-        private void btnTimkiem_Click(object sender, EventArgs e)
+        private void btnTimKiem_Click(object sender, EventArgs e)
         {
             if (txtTimkiem.Text.Equals(""))
                 View();
@@ -53,8 +53,33 @@ namespace MyProject.UI
                 dgvDanhMucSP.DataSource = _service.SearchCategorys(txtTimkiem.Text, cboLoai.SelectedItem.ToString());
             ViewErrors();
         }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            XoaTrangChiTiet();
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            HienChiTiet(true);
+            txtMaDM.Text = _service.getNewIDCat();
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            btnThem.Enabled = false;
+            btnXoa.Enabled = false;
+            HienChiTiet(true);
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            btnThem.Enabled = false;
+            btnSua.Enabled = false;
+            HienChiTiet(true);
+        }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
+
             int flag = 0;
             //Kiểm tra text box 
             if (!checkSoLuong())
@@ -101,6 +126,7 @@ namespace MyProject.UI
             else
                 ViewErrors();
         }
+
         private void btnHuy_Click(object sender, EventArgs e)
         {
             //Thiết lập lại các nút như ban đầu
@@ -112,30 +138,16 @@ namespace MyProject.UI
             //Cam nhap
             HienChiTiet(false);
         }
+
         private void btnDanhsach_Click(object sender, EventArgs e)
         {
             View();
         }
-        private void btnThem_Click(object sender, EventArgs e)
+        private void btnLammoi_Click(object sender, EventArgs e)
         {
-            XoaTrangChiTiet();
-            btnSua.Enabled = false;
-            btnXoa.Enabled = false;
-            HienChiTiet(true);
-            txtMaDM.Text = _service.getNewIDCat();
+            txtTimkiem.Text = "";
         }
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            btnThem.Enabled = false;
-            btnXoa.Enabled = false;
-            HienChiTiet(true);
-        }
-        private void btnXoa_Click(object sender, EventArgs e)
-        {
-            btnThem.Enabled = false;
-            btnSua.Enabled = false;
-            HienChiTiet(true);
-        }
+
         //Components Điều hướng
         private void Manager_ProductCategory_Load(object sender, EventArgs e)
         {
@@ -145,38 +157,55 @@ namespace MyProject.UI
             HienChiTiet(false);
             cboLoai.SelectedIndex = 0;
         }
-        private void label17_Click(object sender, EventArgs e)
+        private void Manager_ProductCategory_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Manager_Supplier UI = new Manager_Supplier(_service);
-            UI.Show();
-            Hide();
+            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
+                Information.frmLogin.Show();
         }
-        private void label2_Click(object sender, EventArgs e)
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Account_UI UI = new Account_UI();
+            UI.ShowDialog();
+            Manager_ProductCategory_Load(sender, e);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
             Manager_Product UI = new Manager_Product();
             UI.Show();
             Visible = false;
         }
-        private void label16_Click_1(object sender, EventArgs e)
+
+        private void button3_Click(object sender, EventArgs e)
         {
             Manager_Employee UI = new Manager_Employee();
             UI.Show();
             Visible = false;
         }
-        private void label4_Click(object sender, EventArgs e)
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Manager_Supplier UI = new Manager_Supplier(_service);
+            UI.Show();
+            Hide();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CodeSales UI = new CodeSales();
+            UI.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            MenuStatistical UI = new MenuStatistical();
+            UI.ShowDialog();
+            this.Visible = false;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
         {
             Close();
-        }
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-            Account_UI UI = new Account_UI();
-            UI.ShowDialog();
-            Manager_ProductCategory_Load(sender, e);
-        }       
-        private void Manager_ProductCategory_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
-                Information.frmLogin.Show();
         }
         #endregion
         #region View
@@ -261,24 +290,9 @@ namespace MyProject.UI
 
 
         #endregion
+  //New
 
-        private void label15_Click(object sender, EventArgs e)
-        {
-            MenuStatistical UI = new MenuStatistical();
-            UI.ShowDialog();
-            this.Visible = false;
-        }
-
-        private void label19_Click(object sender, EventArgs e)
-        {
-            CodeSales UI = new CodeSales();
-            UI.ShowDialog();
-        }
-
-        private void pictureBox9_Click(object sender, EventArgs e)
-        {
-
-        }
+      
     }
 }
 

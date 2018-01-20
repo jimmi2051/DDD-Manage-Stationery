@@ -125,6 +125,43 @@ namespace MyProject.Service
                 _validationDictionary.AddError("SoLuong", "Vui lòng nhập số lượng hợp lệ");
             return _validationDictionary.IsValid;
         }
+        public bool ValidatePrice(Decimal a, Decimal b)
+        {
+            _validationDictionary.Clear();
+            if (a > b || a<0 || b < 0)
+                _validationDictionary.AddError("Price", "Vui lòng nhập giá hợp lệ");
+            return _validationDictionary.IsValid;
+        }
+        #endregion
+        #region Compare List <Sort>
+        public class SortPriceASC : IComparer<SanPham>
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return x.DonGia.Value.CompareTo(y.DonGia.Value);
+            }
+        }
+        public class SortPriceDESC : IComparer<SanPham>
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return y.DonGia.Value.CompareTo(x.DonGia.Value);
+            }
+        }
+        public class SortASC : IComparer<SanPham>
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return x.SoLuong.Value.CompareTo(y.SoLuong.Value);
+            }
+        }
+        public class SortDESC : IComparer<SanPham>
+        {
+            public int Compare(SanPham x, SanPham y)
+            {
+                return y.SoLuong.Value.CompareTo(x.SoLuong.Value);
+            }
+        }
         #endregion
         //Đã check lần 2
         #region Product
@@ -184,10 +221,12 @@ namespace MyProject.Service
         public IEnumerable ListProducts()
         {
             return listProductToSearch=_productrepository.ListProducts().ToList();
-        }       
-        public IEnumerable SearchProducts(String Key, String Type)
+        }
+
+        public IEnumerable SearchProducts(String Key, String Type,int Sort, int TypeSort, Decimal PriceofStart, Decimal PriceofEnd)
         {           
             ValidateString(Key);
+            ValidatePrice(PriceofStart, PriceofEnd);
             List<SanPham> result = new List<SanPham>();
             if (Type == "Mã nhà cung cấp")
                 foreach (SanPham item in listProductToSearch)
@@ -213,6 +252,16 @@ namespace MyProject.Service
                     if (item.MaSP.Contains(Key))
                         result.Add(item);
                 }
+            if (Sort == 1 && TypeSort == 0 )
+                result.Sort(new SortASC());
+            if (Sort == 2 && TypeSort == 0)
+                result.Sort(new SortDESC());
+            if (Sort == 1 && TypeSort == 1)
+                result.Sort(new SortPriceASC());
+            if (Sort == 2 && TypeSort == 1)
+                result.Sort(new SortPriceDESC());
+            if ( PriceofEnd > 0)
+               result=result.FindAll(c => c.DonGia >= PriceofStart && c.DonGia <= PriceofEnd);
             return result;            
         }
         public String getNewIDProduct()
@@ -234,20 +283,6 @@ namespace MyProject.Service
                 else newID = "SP" + SoHD.ToString();
             }
             return newID;
-        }
-        public class SortASC : IComparer<SanPham> 
-        {
-            public int Compare(SanPham x, SanPham y)
-            {
-                return x.SoLuong.Value.CompareTo(y.SoLuong.Value);
-            }
-        }
-        public class SortDESC : IComparer<SanPham> 
-        {
-            public int Compare(SanPham x, SanPham y)
-            {
-                return y.SoLuong.Value.CompareTo(x.SoLuong.Value);
-            }
         }
         public List<SanPham> StatisticalProduct(int Type, String MaSP, String DateStart, String DateEnd)
         {

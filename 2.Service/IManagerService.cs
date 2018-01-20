@@ -12,7 +12,7 @@ namespace MyProject.Service
         bool EditProduct(SanPham productToEdit);
         SanPham GetProduct(String Key);
         IEnumerable ListProducts();
-        IEnumerable SearchProducts(String Key, String Type);
+        IEnumerable SearchProducts(String Key, String Type, int Sort, int TypeSort, Decimal PriceofStart, Decimal PriceofEnd);
         String getNewIDProduct();
         List<SanPham> StatisticalProduct(int Type, String MaSP, String DateStart, String DateEnd);
         //Repository Supplier

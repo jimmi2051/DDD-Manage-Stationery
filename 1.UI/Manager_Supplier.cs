@@ -103,6 +103,18 @@ namespace MyProject.UI
         }
         #endregion
         #region Event-Handler
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            if (cboLoai.SelectedIndex == -1)
+                cboLoai.SelectedIndex = 0;
+            if (txtTimkiem.Text.Equals(""))
+                View();
+            else
+                dgvNhaCC.DataSource = _service.SearchSuppliers(txtTimkiem.Text, cboLoai.SelectedItem.ToString());
+            ViewErrors();
+        }
+
         private void btnThem_Click(object sender, EventArgs e)
         {
             XoaTrangChiTiet();
@@ -118,32 +130,14 @@ namespace MyProject.UI
             btnXoa.Enabled = false;
             HienChiTiet(true);
         }
+
         private void btnXoa_Click(object sender, EventArgs e)
         {
             btnThem.Enabled = false;
             btnSua.Enabled = false;
             HienChiTiet(true);
         }
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
-            //Thiết lập lại các nút như ban đầu
-            btnXoa.Enabled = false;
-            btnSua.Enabled = false;
-            btnThem.Enabled = true;
-            //xoa trang
-            XoaTrangChiTiet();
-            //Cam nhap
-            HienChiTiet(false);
-        }
-        private void btnDanhsach_Click(object sender, EventArgs e)
-        {
-        View();
-        }
-        private void Manager_Supplier_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
-                Information.frmLogin.Show();
-        }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
             int flag = 0;
@@ -190,6 +184,27 @@ namespace MyProject.UI
             else
                 ViewErrors();
         }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            //Thiết lập lại các nút như ban đầu
+            btnXoa.Enabled = false;
+            btnSua.Enabled = false;
+            btnThem.Enabled = true;
+            //xoa trang
+            XoaTrangChiTiet();
+            //Cam nhap
+            HienChiTiet(false);
+        }
+        private void btnDanhsach_Click(object sender, EventArgs e)
+        {
+            View();
+        }
+        private void Manager_Supplier_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
+                Information.frmLogin.Show();
+        }
         private void dgvNhaCC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //Hien thi nut sua
@@ -207,47 +222,49 @@ namespace MyProject.UI
             }
             catch { }          
         }
-        private void btnTimkiem_Click(object sender, EventArgs e)
+
+
+
+        private void button6_Click(object sender, EventArgs e)
         {
-            if (cboLoai.SelectedIndex == -1)
-                cboLoai.SelectedIndex = 0;
-            if (txtTimkiem.Text.Equals(""))
-                View();
-            else
-                dgvNhaCC.DataSource = _service.SearchSuppliers(txtTimkiem.Text, cboLoai.SelectedItem.ToString());
-            ViewErrors();
+            CodeSales UI = new CodeSales();
+            UI.ShowDialog();
         }
-        private void label1_Click(object sender, EventArgs e)
+
+        private void button1_Click(object sender, EventArgs e)
         {
             Account_UI UI = new Account_UI();
             UI.ShowDialog();
             Manager_Supplier_Load(sender, e);
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             Manager_Product UI = new Manager_Product();
             UI.Show();
             this.Visible = false;
         }
 
-        private void label16_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
             Manager_Employee UI = new Manager_Employee();
             UI.Show();
             this.Visible = false;
         }
-        private void label4_Click(object sender, EventArgs e)
+
+        private void button8_Click(object sender, EventArgs e)
         {
             Close();
         }
-        private void label18_Click(object sender, EventArgs e)
+
+        private void button5_Click(object sender, EventArgs e)
         {
             Manager_Category UI = new Manager_Category();
             UI.Show();
             this.Visible = false;
         }
-        private void label15_Click(object sender, EventArgs e)
+
+        private void button7_Click(object sender, EventArgs e)
         {
             MenuStatistical UI = new MenuStatistical();
             UI.ShowDialog();
@@ -256,10 +273,9 @@ namespace MyProject.UI
 
         #endregion
 
-        private void label19_Click(object sender, EventArgs e)
+        private void groupBox3_Enter(object sender, EventArgs e)
         {
-            CodeSales UI = new CodeSales();
-            UI.ShowDialog();
+
         }
     }
 }
