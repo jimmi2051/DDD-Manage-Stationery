@@ -5,11 +5,6 @@ using MyProject.Service;
 using MyProject.Domain;
 using System.Collections;
 using System.Text.RegularExpressions;
-using System.Data.SqlClient;
-using System.Linq;
-using System.ComponentModel;
-using System.Data;
-using System.Collections.Generic;
 
 namespace MyProject.UI
 {
@@ -17,7 +12,6 @@ namespace MyProject.UI
     {
         private ModelStateDictionary ModelState;
         private ISellerService _service;
-        HoaDon billtoBackup;
         MaKhuyenMai CodeSales = null;
         HoaDon BilltoChecked;
         Timer timer = new Timer();
@@ -338,18 +332,43 @@ namespace MyProject.UI
             else
                 lblKhachHang2.Text = " Mã khách hàng: " + _service.getCustomer(txtIDCustomertoEdit.Text).MaKH + "|| Họ và tên: " + _service.getCustomer(txtIDCustomertoEdit.Text).Ten;
             lblNhanVien.Text = " Mã nhân viên: " + Information.Nhanvien.MaNV + "|| Họ và tên: " + Information.Nhanvien.Ten;
-            lblTongTien.Text = "\r\n Tổng tiền: " + txtThanhtien.Text + "\r\n Thanh toán tiền mặt: " + txtKhachdua.Text + "\r\n Tiền thừa: " + txtTienthua.Text;
+            lblTongTien.Text = "\r\n Tổng tiền: " + txtTotalPayed.Text + "\r\n Thanh toán tiền mặt: " + txtPayment.Text + "\r\n Tiền thừa: " + txtMoneyExcess.Text;
             lblNgay.Text = _service.getBill(txtIDBilltoDetail.Text).NgayLap.ToString();
         }
 
         #endregion
         #region Event-Handler
-        private void btnDanhsach_Click(object sender, EventArgs e)
+
+        private void dgvHoadon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ClearTextBox();
+            try
+            {
+                txtIDBilltoEdit.Text = dgvHoadon[0, e.RowIndex].Value.ToString();
+                txtDatetoEdit.Text = dgvHoadon[1, e.RowIndex].Value.ToString();
+                txtIDEmployeetoEdit.Text = dgvHoadon[2, e.RowIndex].Value.ToString();
+                txtTotaltoEdit.Text = dgvHoadon[4, e.RowIndex].Value.ToString();
+                txtStatustoEdit.Text = dgvHoadon[5, e.RowIndex].Value.ToString();
+                txtIDCustomertoEdit.Text = dgvHoadon[3, e.RowIndex].Value.ToString();
+            }
+            catch { }
+        }
+
+        private void dgvHoadon_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewDetail();
         }
 
-        private void btnThem_Click_1(object sender, EventArgs e)
+        private void btnSearchtoBill_Click(object sender, EventArgs e)
+        {
+            if (txtKeyofBilltoSearch.Text.Equals(""))
+                View();
+            else
+                dgvHoadon.DataSource = _service.searchBill(txtKeyofBilltoSearch.Text, cboTypeofBill.SelectedItem.ToString());
+            ViewErrors();
+        }
+        //Fix
+        private void btnAddBill_Click(object sender, EventArgs e)
         {
             dgvHoadon.ClearSelection();
             HoaDon billToCreate = _service.billCreateNew();
@@ -368,9 +387,11 @@ namespace MyProject.UI
             }
             ViewErrors();
         }
-
-
-        private void btnSua_Click_1(object sender, EventArgs e)
+        private void btnDetailBill_Click(object sender, EventArgs e)
+        {
+            ViewDetail();
+        }
+        private void btnEditBill_Click(object sender, EventArgs e)
         {
             HoaDon billToEdit = getBill();
             if (_service.EditBill(billToEdit))
@@ -385,7 +406,7 @@ namespace MyProject.UI
             ViewErrors();
         }
 
-        private void btnXoa_Click_1(object sender, EventArgs e)
+        private void btnDeleteBill_Click(object sender, EventArgs e)
         {
             //Check hóa đơn đã đươc chọn chưa
             if (txtIDBilltoEdit.Text.Equals(""))
@@ -403,24 +424,24 @@ namespace MyProject.UI
                 }
             }
         }
-        //Tìm kiếm sản phẩm trong chi tiết hóa đơn
-        private void btnTimkiemsp_Click(object sender, EventArgs e)
-        {                
+
+        private void btnSearchtoProduct_Click(object sender, EventArgs e)
+        {
             if (txtKeyofProducttoSearch.Text.Equals(""))
                 viewSanPham();
             else
                 viewSanPham(txtKeyofProducttoSearch.Text, cboTypeofProduct.SelectedItem.ToString());
         }
-        //Thêm dữ liệu giả trên 2 datagridview
-        private void btnThemsp_Click_1(object sender, EventArgs e)
+
+        private void btnAddProduct_Click(object sender, EventArgs e)
         {
             //Kiểm tra hóa đơn và số lượng nhập vào
-            if (!CheckBill()||CheckQuality())
+            if (!CheckBill() || CheckQuality())
                 return;
             UpdateDGV();
         }
-        //Xóa các dữ liệu giả trên bảng đã chọn
-        private void btnXoasp_Click(object sender, EventArgs e)
+
+        private void btnDeleteProduct_Click(object sender, EventArgs e)
         {
             if (CheckBill())
             {
@@ -440,14 +461,14 @@ namespace MyProject.UI
                 _service.EditBill(billtoUpdate);
             }
         }
-        //Reset lại dgvDachon
-        private void btnReset_Click(object sender, EventArgs e)
+
+        private void btnResetProduct_Click(object sender, EventArgs e)
         {
-            if (CheckBill())               
+            if (CheckBill())
                 ClearDGV();
         }
-        //Lưu dữ các chi tiết hóa đơn - thêm chi tiết hóa đơn
-        private void btnLuu_Click(object sender, EventArgs e)
+
+        private void btnDetailSave_Click(object sender, EventArgs e)
         {
             decimal TongTien = 0;
             if (CheckBill())
@@ -479,13 +500,94 @@ namespace MyProject.UI
                 View();
                 ViewErrors();
                 BilltoChecked = billtoUpdate;
-                txtTongtien.Text = _service.getBill(txtIDBilltoDetail.Text).TongTien.ToString();
-                txtThanhtien.Text = txtTongtien.Text;
-                btnTratien.Enabled = true;
+                txtTotal.Text = _service.getBill(txtIDBilltoDetail.Text).TongTien.ToString();
+                txtTotalPayed.Text = txtTotal.Text;
+                btnPayment.Enabled = true;
                 timer.Tick += new EventHandler(timer_Tick);
                 timer.Interval = (1000) * (30);
                 timer.Enabled = true;
                 timer.Start();
+            }
+        }
+
+        private void btnPayment_Click(object sender, EventArgs e)
+        {
+            if (CheckBill())
+            {
+                if (txtMoneyExcess.Text.Equals("-0.000") || txtMoneyExcess.Text.Equals(""))
+                    MessageBox.Show("Bạn chưa trả đủ tiền", "Lỗi: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    if (_service.Comfirm(txtIDBilltoDetail.Text))
+                    {
+                        MessageBox.Show("Thanh toán thành công ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        btnPayment.Enabled = false;
+                        InHoaDon();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lỗi thanh toán", "Lỗi", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            View();
+        }
+
+        private void btnAddcode_Click(object sender, EventArgs e)
+        {
+            float tongtien = float.Parse(_service.getBill(txtIDBilltoDetail.Text).TongTien.ToString());
+            if (txtCode.Text.Length == 5)
+                CodeSales = _service.getCode(txtCode.Text);
+            else errProdive.SetError(txtCode, "Mã nhập chưa đúng vui lòng kiểm tra lại");
+            if (CodeSales == null)
+                errProdive.SetError(txtCode, "Mã nhập chưa đúng vui lòng kiểm tra lại");
+            else
+            {
+                errProdive.Clear();
+                txtTotalPayed.Text = (tongtien - tongtien / 100 * CodeSales.TiLe).ToString();
+                txtPayment_TextChanged(sender, e);
+            }
+        }
+
+        private void txtQualitytoAdd_TextChanged(object sender, EventArgs e)
+        {
+            errProdive.Clear();
+        }
+
+        private void txtKeyofProducttoSearch_TextChanged(object sender, EventArgs e)
+        {
+            errProdive.Clear();
+        }
+
+        private void cboTypeofBill_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cboTypeofBill.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cboTypeofBill.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+
+        private void cboTypeofProduct_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cboTypeofProduct.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cboTypeofProduct.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+
+        private void txtPayment_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (decimal.Parse(txtPayment.Text) >= decimal.Parse(txtTotalPayed.Text))
+                    txtMoneyExcess.Text = (decimal.Parse(txtPayment.Text) - decimal.Parse(txtTotalPayed.Text)).ToString();
+                else txtMoneyExcess.Text = "-0.000";
+            }
+            catch { }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if (ExportExcel.ExportEx(txtIDBilltoDetail.Text, lblNhanVien.Text, lblKhachHang2.Text, txtDatetoEdit.Text, this.listView1, lblTongTien.Text))
+            {
+                grbInhoadon.Visible = false;
+                tabControl.SelectedTab = tabHoadon;
             }
         }
         //Chặn bấm tùm lum
@@ -498,25 +600,7 @@ namespace MyProject.UI
                 return;
             }
         }
-        private void txtSoLuong_TextChanged(object sender, EventArgs e)
-        {
-            errProdive.Clear();
-        }
-        private void txtTimkiem_TextChanged(object sender, EventArgs e)
-        {
-            errProdive.Clear();
-        }
-        private void cboLoai_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cboTypeofBill.AutoCompleteMode = AutoCompleteMode.Suggest;
-            cboTypeofBill.AutoCompleteSource = AutoCompleteSource.ListItems;
-        }
-
-        private void cboLoaisp_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cboTypeofProduct.AutoCompleteMode = AutoCompleteMode.Suggest;
-            cboTypeofProduct.AutoCompleteSource = AutoCompleteSource.ListItems;
-        }
+       
         //Component: Điều hướng
         private void Seller_UI_Load(object sender, EventArgs e)
         {
@@ -530,119 +614,25 @@ namespace MyProject.UI
             if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
                 Information.frmLogin.Show();
         }
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void label1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Account_UI UI = new Account_UI();
             UI.ShowDialog();
             Seller_UI_Load(sender, e);
         }
-        private void label15_Click(object sender, EventArgs e)
+
+        private void button3_Click(object sender, EventArgs e)
         {
             Manager_Customer UI = new Manager_Customer();
             UI.Show();
             Visible = false;
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
         #endregion
-        private void btnTratien_Click_1(object sender, EventArgs e)
-        {
-            if (CheckBill())
-            {
-                if (txtTienthua.Text.Equals("-0.000") || txtTienthua.Text.Equals(""))
-                    MessageBox.Show("Bạn chưa trả đủ tiền", "Lỗi: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                {
-                    if (_service.Comfirm(txtIDBilltoDetail.Text))
-                    {
-                        MessageBox.Show("Thanh toán thành công ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.None);
-                        btnTratien.Enabled = false;
-                        InHoaDon();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Lỗi thanh toán", "Lỗi", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            View();
-        }
 
-        private void btnAddcode_Click_1(object sender, EventArgs e)
-        {
-            float tongtien = float.Parse(_service.getBill(txtIDBilltoDetail.Text).TongTien.ToString());
-            if (txtMagiamgia.Text.Length == 5)
-                CodeSales = _service.getCode(txtMagiamgia.Text);
-            else errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
-            if (CodeSales == null)
-                errProdive.SetError(txtMagiamgia, "Mã nhập chưa đúng vui lòng kiểm tra lại");
-            else
-            {
-                errProdive.Clear();
-                txtThanhtien.Text = (tongtien - tongtien / 100 * CodeSales.TiLe).ToString();
-                txtKhachdua_TextChanged_1(sender, e);
-            }
-        }
-
-        private void btnPrint_Click_1(object sender, EventArgs e)
-        {
-            if (ExportExcel.ExportEx(txtIDBilltoDetail.Text, lblNhanVien.Text, lblKhachHang2.Text, txtDatetoEdit.Text, this.listView1, lblTongTien.Text))
-            {
-                grbInhoadon.Visible = false;
-                tabControl.SelectedTab = tabHoadon;
-            }
-        }
-
-        private void txtKhachdua_TextChanged_1(object sender, EventArgs e)
-        {
-            try
-            {
-                if (decimal.Parse(txtKhachdua.Text) >= decimal.Parse(txtThanhtien.Text))
-                    txtTienthua.Text = (decimal.Parse(txtKhachdua.Text) - decimal.Parse(txtThanhtien.Text)).ToString();
-                else txtTienthua.Text = "-0.000";
-            }
-            catch { }
-        }
-
-        private void dgvHoadon_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ClearTextBox();
-            try
-            {
-                txtIDBilltoEdit.Text = dgvHoadon[0, e.RowIndex].Value.ToString();
-                txtDatetoEdit.Text = dgvHoadon[1, e.RowIndex].Value.ToString();
-                txtIDEmployeetoEdit.Text = dgvHoadon[2, e.RowIndex].Value.ToString();
-                txtTotaltoEdit.Text = dgvHoadon[4, e.RowIndex].Value.ToString();
-                txtStatustoEdit.Text = dgvHoadon[5, e.RowIndex].Value.ToString();
-                txtIDCustomertoEdit.Text = dgvHoadon[3, e.RowIndex].Value.ToString();
-            }
-            catch { }
-        }
-
-        private void dgvHoadon_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ViewDetail();
-        }
-
-        private void btnSearchtoBill_Click(object sender, EventArgs e)
-        {
-            if (txtKeyofBilltoSearch.Text.Equals(""))
-                View();
-            else
-                dgvHoadon.DataSource = _service.searchBill(txtKeyofBilltoSearch.Text, cboTypeofBill.SelectedItem.ToString());
-            ViewErrors();
-        }
-
-        private void txtTotaltoFake_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnProducttoDelete_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -33,6 +33,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnHuy = new System.Windows.Forms.Button();
+            this.btnUser = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
@@ -61,7 +62,6 @@
             this.lbHello = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cboChucVu = new System.Windows.Forms.ComboBox();
-            this.btnUser = new System.Windows.Forms.Button();
             this.txtDiachi = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtLuong = new System.Windows.Forms.TextBox();
@@ -142,6 +142,18 @@
             this.btnHuy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnHuy.UseVisualStyleBackColor = true;
             this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // btnUser
+            // 
+            this.btnUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUser.Location = new System.Drawing.Point(973, 19);
+            this.btnUser.Name = "btnUser";
+            this.btnUser.Size = new System.Drawing.Size(175, 56);
+            this.btnUser.TabIndex = 18;
+            this.btnUser.Text = "Quản lý tài khoản đăng nhập";
+            this.btnUser.UseVisualStyleBackColor = true;
+            this.btnUser.Click += new System.EventHandler(this.btnUser_Click_1);
             // 
             // btnThem
             // 
@@ -506,18 +518,6 @@
             this.cboChucVu.Name = "cboChucVu";
             this.cboChucVu.Size = new System.Drawing.Size(150, 24);
             this.cboChucVu.TabIndex = 19;
-            // 
-            // btnUser
-            // 
-            this.btnUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUser.Location = new System.Drawing.Point(973, 19);
-            this.btnUser.Name = "btnUser";
-            this.btnUser.Size = new System.Drawing.Size(175, 56);
-            this.btnUser.TabIndex = 18;
-            this.btnUser.Text = "Quản lý tài khoản đăng nhập";
-            this.btnUser.UseVisualStyleBackColor = true;
-            this.btnUser.Click += new System.EventHandler(this.btnUser_Click_1);
             // 
             // txtDiachi
             // 

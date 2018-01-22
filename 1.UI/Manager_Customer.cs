@@ -92,11 +92,12 @@ namespace MyProject.UI
         }
         #endregion
         #region Event-handler       
+
         private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             clearTextBox();
-            btnSua.Enabled = true ;
-            btnXoa.Enabled = true ;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
             try
             {
                 txtMaKH.Text = dgvKhachHang[0, e.RowIndex].Value.ToString();
@@ -127,6 +128,10 @@ namespace MyProject.UI
             HienChiTiet(true);          
         }
 
+        private void btnDanhsach_Click(object sender, EventArgs e)
+        {
+            View();
+        }
         private void btnHuy_Click(object sender, EventArgs e)
         {
             errProdive.Clear();
@@ -202,27 +207,28 @@ namespace MyProject.UI
             if (Information.Nhanvien.ChucVu != "Giám đốc chi nhánh")
                 Information.frmLogin.Show();
         }
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Seller_UI UI = new Seller_UI();
-            UI.Show();
-            this.Visible = false;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Account_UI UI = new Account_UI();
             UI.ShowDialog();
             Manager_Customer_Load(sender, e);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Seller_UI UI = new Seller_UI();
+            UI.Show();
+            this.Visible = false;
+        }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+       
 
         #endregion
 
+    
     }
 }
